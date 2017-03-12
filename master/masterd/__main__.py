@@ -13,6 +13,3 @@ logger = setup_logging()
 
 # check for updates and update
 updateStatus = update(__version__)
-
-logger.error("warning")
-logger.debug("just debug")
