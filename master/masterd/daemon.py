@@ -15,3 +15,5 @@ from flask import Flask
 
 def start_daemon():
     logger.info("Starting daemon..")
+    output = subprocess.call(["sh /etc/dns-manager/scripts/flask-start.sh"])
+    logger.info("Daemon stoppped..")
