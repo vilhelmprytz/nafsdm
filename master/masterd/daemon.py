@@ -10,9 +10,6 @@ from log import setup_logging
 # setup logging
 logger = setup_logging()
 
-# import
-from flask import Flask
-
 def start_daemon():
     logger.info("Starting daemon..")
     output = subprocess.call(["sh /etc/dns-manager/scripts/flask-manage.sh"])
