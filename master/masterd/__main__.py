@@ -16,4 +16,4 @@ logger = setup_logging()
 updateStatus = update(__version__)
 
 # start daemon in background
-start_daemon())
+start_daemon()
