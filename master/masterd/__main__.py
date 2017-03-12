@@ -4,8 +4,9 @@
 
 # import
 import logging
+import urllib
 from version import __version__
 from update import update
 
 # check for updates and update
-updateStatus = update() 
+updateStatus = update()
