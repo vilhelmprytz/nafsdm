@@ -16,7 +16,7 @@ def update(myVersion):
     if (getVersion == None or getVersion.getcode() != 200):
         logger.warning("No connection to GitHub.")
     else:
-        if (myVersion == getVersion.read()):
+        if (myVersion + "\n" == getVersion.read()):
             logger.debug("You are running the latest version!")
         else:
             logger.debug("Your version is " + myVersion + " but the latest version available is " + getVersion.read())
