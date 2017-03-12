@@ -4,7 +4,6 @@
 
 # import
 import logging
-import urllib
 from version import __version__
 from update import update
 from log import setup_logging
