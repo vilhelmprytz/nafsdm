@@ -4,7 +4,7 @@
 
 def update(myVersion):
     logging.info("Checking for updates.")
-    getVersion = urllib.urlopen("add url soon")
+    getVersion = urllib.urlopen("https://raw.githubusercontent.com/MrKaKisen/dns-manager/master/master-version.info")
     if (getVersion == None or getVersion.getcode() != 200):
         logging.warning("No connection to GitHub.")
     else:
