@@ -7,7 +7,7 @@ import time
 
 def getData(config):
     try:
-        subprocess.check_output(["ssh", "root@dashboard.grid-servers.net"])
+        subprocess.check_output(["ssh", "" + config[1] "@" + config[0]])
     except Exception:
         if sys.exc_info()[0] == "<class 'subprocess.CalledProcessError'>"):
             log("FATAL: Could not connect. Wrong password? Error message: " + sys.exc_info()[0])
