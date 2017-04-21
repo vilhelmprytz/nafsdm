@@ -5,8 +5,14 @@
 from daemonlog import *
 import time
 
-def getData():
-
+def getData(config):
+    try:
+        subprocess.check_output(["ssh", "root@dashboard.grid-servers.net"])
+    except Exception:
+        if sys.exc_info()[0] == "<class 'subprocess.CalledProcessError'>"):
+            log("FATAL: Could not connect. Wrong password? Error message: " + sys.exc_info()[0])
+        else:
+            log("FATAL: An unknown error occured. Error message: " + sys.exc_info()[0])
 
 def writeData(data):
 
@@ -18,7 +24,7 @@ def runDaemon(config):
 
     endlessLoop = False
     while endlessLoop == False:
-        time.sleep(int(config[2]))
+        time.sleep(int(config[3]))
 
-        data = getData():
+        data = getData(config):
         writeData(data):
