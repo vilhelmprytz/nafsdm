@@ -1,7 +1,7 @@
 # dns-manager
-Manages DNS nodes and makes sure domains are saved in the slaves configs. Runs on Python, Django.
+Manages DNS nodes and makes sure domains are saved in the slaves configs. Runs on Python and SSH.
 
-The master will always be running and be ready to accept connections from specified slaves. The slaves are set to fetch information from the master in a certain interval.
+The slaves will always be running but will be set to fetch at a ceratin interval.
 
 # Requirements
 Coming soon.
