@@ -10,9 +10,10 @@ def getConfig():
     parser.read(configDir)
     try:
         config = []
-        config.append(parser.get("monitord", "user")) # 0
-        config.append(parser.get("monitord", "pass")) # 1
-        config.append(parser.get("monitord", "update_interval")) # 2
+        config.append(parser.get("dnsman", "host")) # 0
+        config.append(parser.get("dnsman", "user")) # 1
+        config.append(parser.get("dnsman", "pass")) # 2
+        config.append(parser.get("dnsman", "update_interval")) # 3
 
         return config
     except ConfigParser.MissingSectionHeaderError or ConfigParser.ParsingError:
