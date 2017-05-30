@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage("Deploy") {
+        stage("Testrun") {
             steps {
-                echo 'Deploying....'
+                echo 'Will testrun. Code not done....'
             }
         }
     }
