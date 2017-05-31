@@ -4,27 +4,42 @@
 
 from daemonlog import *
 import time
+import os
 
 def getData(config):
     try:
         subprocess.check_output(['ssh', config[1] + '@' + config[0], '"cat',  '>', '/home/master-masterdnsman/data/domains.txt"', '|', '>', '/home/slave-dnsman/domains.temp'])
     except Exception:
         if sys.exc_info()[0] == "<class 'subprocess.CalledProcessError'>"):
-            log("FATAL: Could not connect. Wrong password? Error message: " + sys.exc_info()[0])
+            log("FATAL: Could not connect. Wrong password/key? Error message: " + sys.exc_info()[0])
         else:
             log("FATAL: An unknown error occured. Error message: " + sys.exc_info()[0])
 
-def writeData(data):
+def writeData():
     f = open("/home/slave-dnsman/domains.temp")
-    domains = f.read()
+    domainsData = f.read()
     f.close()
 
-    try:
-        f = open("BINDPATH")
-        f.write(domains)
-        f.close()
-    except Exception:
-        log("FATAL: Can not write to bind. err: " + sys.exc_info()[0])
+    # remove config temporarily
+    os.remove(config[4])
+
+    for currentLine in domainsData.split("\n"):
+        if not len(currentLine) < 2:
+            f = open(config[4], "a")
+            if config[3] == "debian":
+                f.write("""/* """ + currentLine.split("")[2] + """ */
+zone """"" + currentLine.split("")[0] + """"" IN {
+    type slave;
+    file "db.""" + currentLine.split("")[0] + """";
+    masters { """ + currentLine.split("")[0] + """; };
+}; """)
+                f.close()
+            elif config[3] == "centos":
+                # adding soon
+            else:
+                log("FATAL: Invalid system type. Debian & CentOS only supported (if ubuntu, type debian)")
+                exit(0)
+
 def reloadBind():
 
 

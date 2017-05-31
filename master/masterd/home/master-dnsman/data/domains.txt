@@ -1,2 +1,3 @@
-mrkakisen.se
-mrkakisen.net
+mrkakisen.se 0.0.0.0 OwnDomain
+mrkakisen.net 0.0.0.0 OwnDomain
+luq.nu 0.0.0.0 Cus1
