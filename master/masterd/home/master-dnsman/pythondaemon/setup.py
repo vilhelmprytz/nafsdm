@@ -15,6 +15,11 @@ def generatePassword(length=30):
 def setupSSH():
     generatedPassword = generatePassword()
     try:
-        output = subprocess.check_output(["ssh-keygen ", "-t", "rsa", "-b", "4096", "-C", "'DNS manager'", "-P", "'" + generatedPassword + "'", "-f", "'/home/master-dnsman/dns_manager_rsa'", "-q"])
+        output = subprocess.check_output(["mkdir", "/home/master-dnsman/.ssh"])
+        output = subprocess.check_output(["ssh-keygen ", "-t", "rsa", "-b", "4096", "-C", "'DNS manager'", "-P", "'" + generatedPassword + "'", "-f", "'/home/master-dnsman/.ssh/dns_manager_rsa'", "-q"])
+        output = subprocess.check_output(["cp", "/home/master-dnsman/.ssh/dns_manager_rsa.pub", "/home/master-dnsman/.ssh/authorized_keys"])
     except Exception, e:
-        print("Some error ocurred.")
+        log("FATAL: Some error ocurred during SSH key generation.")
+
+    log("To continue, please copy /home/master-dnsman/dns_manager_rsa to all slaves /home/slave-dnsman/.ssh/master_key")
+    exit(0)
