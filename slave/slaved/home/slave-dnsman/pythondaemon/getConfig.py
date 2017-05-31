@@ -12,8 +12,7 @@ def getConfig():
         config = []
         config.append(parser.get("dnsman", "host")) # 0
         config.append(parser.get("dnsman", "user")) # 1
-        config.append(parser.get("dnsman", "pass")) # 2
-        config.append(parser.get("dnsman", "update_interval")) # 3
+        config.append(parser.get("dnsman", "update_interval")) # 2
 
         return config
     except ConfigParser.MissingSectionHeaderError or ConfigParser.ParsingError:

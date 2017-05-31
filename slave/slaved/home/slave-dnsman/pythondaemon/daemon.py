@@ -33,7 +33,7 @@ def runDaemon(config):
 
     endlessLoop = False
     while endlessLoop == False:
-        time.sleep(int(config[3]))
+        time.sleep(int(config[2]))
 
         getData(config):
         writeData():
