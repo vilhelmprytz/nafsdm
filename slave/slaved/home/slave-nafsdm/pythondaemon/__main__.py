@@ -1,4 +1,4 @@
-# dns-manager
+# nafsdm
 # __main__
 # get's stuff goooing
 
@@ -7,7 +7,7 @@ from daemon import *
 from version import __version__ as version
 from getConfig import getConfig
 
-log("Welcome to Slave DNS-manager version " + version)
+log("Welcome to Slave nafsdm version " + version)
 
 config = getConfig()
 

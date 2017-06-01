@@ -1,4 +1,4 @@
-# dns-manager
+# nafsdm
 # __main__
 # daemon functions
 
@@ -8,7 +8,7 @@ import os
 
 def getData(config):
     try:
-        subprocess.check_output(['ssh', config[1] + '@' + config[0], '"cat',  '>', '/home/master-masterdnsman/data/domains.txt"', '|', '>', '/home/slave-dnsman/domains.temp'])
+        subprocess.check_output(['ssh', config[1] + '@' + config[0], '"cat',  '>', '/home/master-nafsdm/data/domains.txt"', '|', '>', '/home/slave-nafsdm/domains.temp'])
     except Exception:
         if sys.exc_info()[0] == "<class 'subprocess.CalledProcessError'>"):
             log("FATAL: Could not connect. Wrong password/key? Error message: " + sys.exc_info()[0])
@@ -16,7 +16,7 @@ def getData(config):
             log("FATAL: An unknown error occured. Error message: " + sys.exc_info()[0])
 
 def writeData():
-    f = open("/home/slave-dnsman/domains.temp")
+    f = open("/home/slave-nafsdm/domains.temp")
     domainsData = f.read()
     f.close()
 
@@ -25,20 +25,21 @@ def writeData():
 
     for currentLine in domainsData.split("\n"):
         if not len(currentLine) < 2:
-            f = open(config[4], "a")
-            if config[3] == "debian":
-                f.write("""/* """ + currentLine.split("")[2] + """ */
+            if config[5] in currentLine:
+                f = open(config[4], "a")
+                if config[3] == "debian" or config[3] == "ubuntu":
+                    f.write("""/* """ + currentLine.split("")[2] + """ */
 zone """"" + currentLine.split("")[0] + """"" IN {
     type slave;
     file "db.""" + currentLine.split("")[0] + """";
     masters { """ + currentLine.split("")[0] + """; };
 }; """)
-                f.close()
-            elif config[3] == "centos":
-                # adding soon
-            else:
-                log("FATAL: Invalid system type. Debian & CentOS only supported (if ubuntu, type debian)")
-                exit(1)
+                    f.close()
+                elif config[3] == "centos":
+                    # adding soon
+                else:
+                    log("FATAL: Invalid system type. Debian (ubuntu) & CentOS only supported.")
+                    exit(1)
 
 def reloadBind():
 

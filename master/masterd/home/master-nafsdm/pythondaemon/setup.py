@@ -1,4 +1,4 @@
-# dns-manager
+# nafsdm
 # setup
 # masterd setup functions
 
@@ -16,11 +16,11 @@ def generatePassword(length=30):
 def setupSSH():
     #generatedPassword = generatePassword()
     try:
-        output = subprocess.check_output(["mkdir", "/home/master-dnsman/.ssh"])
-        output = subprocess.check_output(["ssh-keygen ", "-t", "rsa", "-b", "4096", "-C", "'DNS manager'", "-P", "-f", "'/home/master-dnsman/.ssh/dns_manager_rsa'", "-q"])
-        output = subprocess.check_output(["cp", "/home/master-dnsman/.ssh/dns_manager_rsa.pub", "/home/master-dnsman/.ssh/authorized_keys"])
+        output = subprocess.check_output(["mkdir", "/home/master-nafsdm/.ssh"])
+        output = subprocess.check_output(["ssh-keygen ", "-t", "rsa", "-b", "4096", "-C", "'DNS manager'", "-N", "''", "-f", "'/home/master-nafsdm/.ssh/nafsdm_rsa'", "-q"])
+        output = subprocess.check_output(["cp", "/home/master-nafsdm/.ssh/dns_manager_rsa.pub", "/home/master-nafsdm/.ssh/authorized_keys"])
     except Exception, e:
         log("FATAL: Some error ocurred during SSH key generation.")
 
-    log("To continue, please copy /home/master-dnsman/dns_manager_rsa to all slaves /home/slave-dnsman/.ssh/master_key")
+    log("To continue, please copy /home/master-nafsdm/nafsdm_rsa to all slaves /home/slave-nafsdm/.ssh/master_key")
     exit(1)

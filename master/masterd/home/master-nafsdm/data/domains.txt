@@ -1,0 +1,3 @@
+mrkakisen.se 0.0.0.0 OwnDomain prometheus.zeus.medusa.nemesis.athena.poseidon.demeter
+mrkakisen.net 0.0.0.0 OwnDomain example.example
+luq.nu 0.0.0.0 Cus1 example.example
