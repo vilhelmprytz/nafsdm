@@ -20,4 +20,4 @@ def getConfig():
         return config
     except ConfigParser.MissingSectionHeaderError or ConfigParser.ParsingError:
         log("FATAL: Could not read config. Please check your config if it's setup properly.")
-        quit(0)
+        quit(1)

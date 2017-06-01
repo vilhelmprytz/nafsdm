@@ -38,7 +38,7 @@ zone """"" + currentLine.split("")[0] + """"" IN {
                 # adding soon
             else:
                 log("FATAL: Invalid system type. Debian & CentOS only supported (if ubuntu, type debian)")
-                exit(0)
+                exit(1)
 
 def reloadBind():
 
