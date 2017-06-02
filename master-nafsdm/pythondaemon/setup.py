@@ -4,6 +4,7 @@
 
 # imports
 import subprocess
+from daemonlog import log
 import os, random, string
 
 # unused function, but will leave in here if it will be needed

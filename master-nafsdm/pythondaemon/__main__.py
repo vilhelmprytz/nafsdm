@@ -7,6 +7,7 @@ import os.path
 from setup import setupSSH
 from daemonlog import log
 from __version__ import version
+from versionCheck import checkUpdate
 
 log("Master nafsdm starting up! Welcome! Running version " + version)
 
@@ -14,5 +15,8 @@ log("Master nafsdm starting up! Welcome! Running version " + version)
 if not os.path.exists("/home/master-nafsdm/.ssh"):
     log("SSH directory not found. Running first time setup!")
     setupSSH()
+
+# check for new update
+checkUpdate()
 
 log("Master DNS daemon ready.")
