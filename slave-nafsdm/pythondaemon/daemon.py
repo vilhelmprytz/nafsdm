@@ -51,5 +51,5 @@ def runDaemon(config):
     while endlessLoop == False:
         time.sleep(int(config[2]))
 
-        getData(config):
-        writeData():
+        getData(config)
+        writeData()
