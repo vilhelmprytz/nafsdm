@@ -4,7 +4,7 @@ Manages DNS nodes and makes sure domains are saved in the slaves configs. Runs o
 *nafsdm stands for "not advanced, fast, simple dns manager"*
 
 # Requirements
-Requires python 2.
+Requires python 2 & 'requests' module.
 
 # How to install!
 To install, you will need at least one slave and at least one master.
