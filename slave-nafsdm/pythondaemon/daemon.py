@@ -28,15 +28,21 @@ def writeData():
             if config[5] in currentLine:
                 f = open(config[4], "a")
                 if config[3] == "debian" or config[3] == "ubuntu":
-                    f.write("""/* """ + currentLine.split("")[2] + """ */
-zone """"" + currentLine.split("")[0] + """"" IN {
+                    f.write("""/* """ + currentLine.split()[2] + """ */
+zone '""" + currentLine.split()[0] + """' IN {
     type slave;
-    file "db.""" + currentLine.split("")[0] + """";
-    masters { """ + currentLine.split("")[0] + """; };
-}; """)
+    file "db.""" + currentLine.split()[0] + """";
+    masters { """ + currentLine.split()[1] + """; };
+}; """ + "\n" + "\n")
                     f.close()
                 elif config[3] == "centos":
-                    # adding soon
+                    f.write("""/* """ + currentLine.split()[2] + """ */
+zone '""" + currentLine.split()[0] + """' IN {
+    type slave;
+    file "slaves/""" + currentLine.split()[0] + """";
+    masters { """ + currentLine.split()[1] + """; };
+}; """ + "\n" + "\n")
+                    f.close()
                 else:
                     log("FATAL: Invalid system type. Debian (ubuntu) & CentOS only supported.")
                     exit(1)
