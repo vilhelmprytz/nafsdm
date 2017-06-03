@@ -1,0 +1,8 @@
+[Unit]
+Description=nafsdm-slave
+
+[Service]
+Type=simple
+User=root
+ExecStart=/home/slave-nafsdm/start.py
+Restart=on-abort
