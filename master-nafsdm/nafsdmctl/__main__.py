@@ -30,7 +30,8 @@ if (sys.argv[1] == "add"):
         print("syntax error: 'nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes' is correct syntax")
         exit(1)
 elif (sys.argv[1] == "remove"):
-    # will add soon
+    # adding soon
+    print("coming soon")
 elif (sys.argv[1] == "list"):
     # read data
     f = open("/home/master-nafsdm/data/domains.txt")
