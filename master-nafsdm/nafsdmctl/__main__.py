@@ -43,7 +43,7 @@ elif (sys.argv[1] == "list"):
     print("domain.tld - masterIP - comment - assignedSlaves")
     print(longLine)
 
-    for currentLine in rawDomains.split("\n")
+    for currentLine in rawDomains.split("\n"):
         allParameters = currentLine.split()
         print(allParameters[0] + " - " + allParameters[1] + " - " + allParameters[2] + " - " + allParameters[3])
 
