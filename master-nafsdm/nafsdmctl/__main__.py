@@ -26,7 +26,6 @@ if (sys.argv[1] == "add"):
         else:
             print("syntax error: invalid domain name?")
             exit(1)
-        else:
     else:
         print("syntax error: 'nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes' is correct syntax")
         exit(1)
