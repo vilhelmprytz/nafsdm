@@ -53,12 +53,13 @@ elif (sys.argv[1] == "list"):
 
     for currentLine in rawDomains.split("\n"):
         allParameters = currentLine.split()
-        print(allParameters[0] + " - " + allParameters[1] + " - " + allParameters[2] + " - " + allParameters[3])
+        if len(allParameters) != 4:
+            print(allParameters[0] + " - " + allParameters[1] + " - " + allParameters[2] + " - " + allParameters[3])
 
     print(longLine)
 else:
     # just prints some of the syntaxes and exists as an error
-    print("syntax error: please use correct argument." + "\n" + 
+    print("syntax error: please use correct argument." + "\n" +
     "\n" + "nafsdmctl 'add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes'" +
     "\n" + "nafsdmctl 'remove domain.tld'" +
     "\n" + "nafsdmctl 'list'")

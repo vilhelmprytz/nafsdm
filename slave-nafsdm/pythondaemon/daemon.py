@@ -24,7 +24,7 @@ def writeData():
     os.remove(config[4])
 
     for currentLine in domainsData.split("\n"):
-        if not len(currentLine) < 2:
+        if len(currentLine.split()) != 4:
             if config[5] in currentLine:
                 f = open(config[4], "a")
                 if config[3] == "debian" or config[3] == "ubuntu":
