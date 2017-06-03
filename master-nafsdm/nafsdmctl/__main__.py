@@ -9,7 +9,8 @@ import sys
 longLine = ("---------------------------------------------------------")
 
 # global check if user hasn't typed any vars
-if len(sys.argv) < 1:
+if len(sys.argv) < 2:
+    # length is two as len doesn't use 0 as first one
     print("syntax error: 'nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes' is correct syntax")
     exit(1)
 
