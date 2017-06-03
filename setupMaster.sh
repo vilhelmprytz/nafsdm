@@ -44,6 +44,7 @@ cd /tmp
 git clone $GITHUB_URL
 
 useradd $USER
+mkdir $HOME_DIR
 cp /tmp/nafsdm/$GITHUB_DIR $HOME_DIR -R
 
 cp /tmp/nafsdm/systemconfigs/nafsdmctl /usr/bin/nafsdmctl
