@@ -11,7 +11,10 @@ longLine = ("---------------------------------------------------------")
 # global check if user hasn't typed any vars
 if len(sys.argv) < 2:
     # length is two as len doesn't use 0 as first one
-    print("syntax error: 'nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes' is correct syntax")
+    print("syntax error: please use correct argument." + "\n" +
+    "\n" + "nafsdmctl 'add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes'" +
+    "\n" + "nafsdmctl 'remove domain.tld'" +
+    "\n" + "nafsdmctl 'list'")
     exit(1)
 
 # check which command user has run
@@ -55,7 +58,7 @@ elif (sys.argv[1] == "list"):
     print(longLine)
 else:
     # just prints some of the syntaxes and exists as an error
-    print("syntax error: please use correct argument." +
+    print("syntax error: please use correct argument." + "\n" + 
     "\n" + "nafsdmctl 'add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes'" +
     "\n" + "nafsdmctl 'remove domain.tld'" +
     "\n" + "nafsdmctl 'list'")
