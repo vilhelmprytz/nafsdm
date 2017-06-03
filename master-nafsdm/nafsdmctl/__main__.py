@@ -8,6 +8,10 @@ import sys
 # global vars
 longLine = ("---------------------------------------------------------")
 
+# global check if user hasn't typed any vars
+if len(sys.argv) < 1:
+    print("syntax error: 'nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes' is correct syntax")
+    exit(1)
 
 # check which command user has run
 if (sys.argv[1] == "add"):
