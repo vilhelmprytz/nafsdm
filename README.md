@@ -51,14 +51,21 @@ Now run the slave installer. The installer will guide you through the steps.
 `./setupSlave.sh`
 
 Once it's finished, you can open up the config with your editor of choice (example below uses nano) to set it up correctly.
+
 `nano /home/slave-nafsdm/config.conf`
 
 Here is an explanation of what every option is.
+
 `host` = hostname / IP for the master node we confgiured earlier
+
 `user` = the username where nafsdm on the master installed. By default, it's master-nafsdm.
+
 `update_interval` = how often the slave will update it's configuration (seconds).
+
 `type` = type of the slave system. Is it ubuntu, debian or centos?
+
 `bindPath` = path of configuration file nafsdm will write to (bind configuration)
+
 `nodeName` = name of this node
 
 Once that's done, you can paste over the SSH key you saved earlier to the slave. Paste it in to the file mentioned below.
