@@ -26,7 +26,8 @@ def writeData(config):
         f.close()
 
         # remove config temporarily
-        os.remove(config[4])
+        if os.path.isfile(config[4]):
+            os.remove(config[4])
 
         for currentLine in domainsData.split("\n"):
             if len(currentLine.split()) == 4:
