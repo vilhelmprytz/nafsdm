@@ -4,6 +4,8 @@
 
 # imports
 import sys
+import os
+import os.path
 
 # global vars
 longLine = ("---------------------------------------------------------")
@@ -38,8 +40,30 @@ if (sys.argv[1] == "add"):
         print("syntax error: 'nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes' is correct syntax")
         exit(1)
 elif (sys.argv[1] == "remove"):
-    # adding soon
-    print("coming soon")
+    if (len(sys.argv) == 3):
+        if "." in sys.argv[2]:
+            f = open("/home/master-nafsdm/data/domains.txt")
+            rawDomains = f.read()
+            f.close()
+
+            # remove config
+            os.remove("/home/master-nafsdm/data/domains.txt")
+
+            wasRemoved = False
+            for currentLine in rawDomains.split("\n"):
+                if len(currentLine.split()) == 4:
+                    print("Length is 4 for " + str(currentLine.split()))
+                    if sys.argv[2] in currentLine:
+                        print("DOMAIN FOUND IN " + currentLine)
+                        wasRemoved = True
+                    else:
+                        f = open("/home/master-nafsdm/data/domains.txt", "a")
+                        f.write(currentLine)
+                        f.close()
+        else:
+            print("syntax error: invalid domain name?")
+    else:
+        print("syntax error: 'nafsdmctl remove domain.tld' is correct syntax")
 elif (sys.argv[1] == "list"):
     # read data
     f = open("/home/master-nafsdm/data/domains.txt")
