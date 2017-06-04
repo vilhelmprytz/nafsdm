@@ -17,9 +17,8 @@ def generatePassword(length=30):
 def setupSSH():
     #generatedPassword = generatePassword()
     try:
-        output = subprocess.check_output(["mkdir", "/home/master-nafsdm/.ssh"])
-        output = subprocess.check_output(["ssh-keygen ", "-t", "rsa", "-b", "4096", "-C", "'DNS manager'", "-N", "''", "-f", "'/home/master-nafsdm/.ssh/nafsdm_rsa'", "-q"])
-        output = subprocess.check_output(["cp", "/home/master-nafsdm/.ssh/dns_manager_rsa.pub", "/home/master-nafsdm/.ssh/authorized_keys"])
+        output = subprocess.check_output(["ssh-keygen", "-b", "4096", "-t", "rsa", "-f", "/home/master-nafsdm/.ssh/nafsdm_rsa", "-q", "-C", "nafsdm_master", "-N", ""])
+        output = subprocess.check_output(["cp", "/home/master-nafsdm/.ssh/nafsdm_rsa.pub", "/home/master-nafsdm/.ssh/authorized_keys"])
     except Exception, e:
         log("FATAL: Some error ocurred during SSH key generation.")
 
