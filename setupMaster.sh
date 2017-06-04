@@ -16,7 +16,7 @@ USER="master-nafsdm"
 echo "###################################################################"
 echo "THIS SCRIPT WILL NOT WORK FOR UPDATING YOUR INSTALLATION"
 echo "Welcome to nafsdm master install! Please enter your package manager (apt or yum only supported)."
-echo -n "Package manager > "
+echo -n "Package manager: "
 read PACKAGEMAN
 
 if [ "$PACKAGEMAN" == "yum" ]; then
