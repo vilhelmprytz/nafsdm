@@ -52,9 +52,7 @@ elif (sys.argv[1] == "list"):
     print(longLine)
 
     for currentLine in rawDomains.split("\n"):
-        allParameters = currentLine.split()
-        if len(allParameters) != 4:
-            print(allParameters[0] + " - " + allParameters[1] + " - " + allParameters[2] + " - " + allParameters[3])
+        print(currentLine)
 
     print(longLine)
 else:
