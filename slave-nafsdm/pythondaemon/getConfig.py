@@ -4,6 +4,7 @@
 
 from daemonlog import *
 from configDir import __configDir__ as configDir
+import ConfigParser
 
 def getConfig():
     parser = ConfigParser.ConfigParser()

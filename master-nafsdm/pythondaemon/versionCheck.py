@@ -2,7 +2,7 @@
 # versionCheck
 # checks if a new version is available
 
-from __version__ import version
+from version import version
 from daemonlog import log
 import requests
 

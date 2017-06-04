@@ -5,15 +5,16 @@
 from daemonlog import *
 import time
 import os
+import sys
 
 def getData(config):
     try:
-        subprocess.check_output(['ssh', config[1] + '@' + config[0], '"cat',  '>', '/home/master-nafsdm/data/domains.txt"', '|', '>', '/home/slave-nafsdm/domains.temp'])
+        subprocess.check_output(['ssh', '-i', "/home/slave-nafsdm/.ssh/master_key", config[1] + '@' + config[0], '"cat',  '>', '/home/master-nafsdm/data/domains.txt"', '|', '>', '/home/slave-nafsdm/domains.temp'])
     except Exception:
-        if sys.exc_info()[0] == "<class 'subprocess.CalledProcessError'>"):
-            log("FATAL: Could not connect. Wrong password/key? Error message: " + sys.exc_info()[0])
+        if (sys.exc_info()[0] == "<class 'subprocess.CalledProcessError'>"):
+            log("FATAL: Could not connect. Wrong password/key? Error message: " + str(sys.exc_info()[0]))
         else:
-            log("FATAL: An unknown error occured. Error message: " + sys.exc_info()[0])
+            log("FATAL: An unknown error occured. Error message: " + str(sys.exc_info()[0]))
 
 def writeData():
     f = open("/home/slave-nafsdm/domains.temp")
@@ -48,7 +49,7 @@ zone '""" + currentLine.split()[0] + """' IN {
                     exit(1)
 
 def reloadBind():
-
+    print("coming soon")
 
 def runDaemon(config):
     log("Starting daemon.")

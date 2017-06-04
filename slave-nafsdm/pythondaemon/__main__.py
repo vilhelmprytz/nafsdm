@@ -4,7 +4,7 @@
 
 from daemonlog import *
 from daemon import *
-from version import __version__ as version
+from version import version
 from getConfig import getConfig
 from versionCheck import checkUpdate
 

@@ -6,7 +6,7 @@
 import os.path
 from setup import setupSSH
 from daemonlog import log
-from __version__ import version
+from version import version
 from versionCheck import checkUpdate
 
 log("Master nafsdm starting up! Welcome! Running version " + version)
