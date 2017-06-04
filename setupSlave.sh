@@ -47,7 +47,7 @@ useradd $USER
 mkdir $HOME_DIR
 mkdir $HOME_DIR/.ssh
 chown -R slave-nafsdm:slave-nafsdm $HOME_DIR/.ssh
-cp /tmp/nafsdm/$GITHUB_DIR/ $HOME_DIR -R
+cp /tmp/nafsdm/$GITHUB_DIR /home -R
 cp /tmp/nafsdm/LICENSE $HOME_DIR/LICENSE
 
 cp /tmp/nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
