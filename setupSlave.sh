@@ -6,3 +6,55 @@ GITHUB_URL="https://github.com/MrKaKisen/nafsdm.git"
 GITHUB_DIR="slave-nafsdm"
 HOME_DIR="/home/slave-nafsdm"
 USER="slave-nafsdm"
+
+echo "###################################################################"
+echo "THIS SCRIPT WILL NOT WORK FOR UPDATING YOUR INSTALLATION"
+echo "Welcome to nafsdm slave install! Please enter your package manager (apt or yum only supported)."
+echo -n "Package manager: "
+read PACKAGEMAN
+
+if [ "$PACKAGEMAN" == "yum" ]; then
+  echo "Installing packages.. (NOTE: ROOT PASSW)"
+  yum update -y
+  yum install python python-pip git -y
+
+  pip install requests
+elif [ "$PACKAGEMAN" == "apt" ]; then
+  echo "Installing packages.."
+  apt-get update -y
+  apt-get install python python-pip git -y
+
+  pip install requests
+else
+  echo "Invalid package manager. Only apt and yum supported."
+  exit 1
+fi
+
+echo "Required packages installed!"
+echo "Downloading nafsdm & installing.."
+
+# download in temp dir
+cd /tmp
+git clone $GITHUB_URL
+
+useradd $USER
+mkdir $HOME_DIR
+mkdir $HOME_DIR/.ssh
+chown -R slave-nafsdm:slave-nafsdm $HOME_DIR/.ssh
+cp /tmp/nafsdm/$GITHUB_DIR/ $HOME_DIR -R
+cp /tmp/nafsdm/LICENSE $HOME_DIR/LICENSE
+
+cp /tmp/nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
+
+chmod +x /home/slave-nafsdm/start.py
+
+echo "Installed. Cleanup.."
+
+rm /tmp/nafsdm -rf
+
+echo "###################################################################"
+echo "Installation finished. To continue, please edit your configuration file in"
+echo "/home/slave-nafsdm/config.conf aswell as copy over your SSH keys from the master."
+echo ""
+echo "Thank you."
+echo "###################################################################"
