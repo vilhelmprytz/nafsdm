@@ -1,5 +1,5 @@
 # nafsdm
-** Current status: UNSTABLE (nafsdm is not yet finished) **
+**Current status: UNSTABLE (nafsdm is not yet finished)**
 Manages DNS nodes and makes sure domains are saved in the slaves configs. Runs on Python and SSH.
 
 *nafsdm stands for "not advanced, fast, simple dns manager"*
