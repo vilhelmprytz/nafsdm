@@ -2,6 +2,12 @@
 # help script for setting up nafsdm on all slaves
 # Copyright Vilhelm Prytz 2017
 
+# check if user is root or not
+if [[ $EUID -ne 0 ]]; then
+  echo "This script must be run with root privileges (sudo)." 1>&2
+  exit 1
+fi
+
 GITHUB_URL="https://github.com/MrKaKisen/nafsdm.git"
 GITHUB_DIR="slave-nafsdm"
 HOME_DIR="/home/slave-nafsdm"
