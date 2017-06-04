@@ -26,7 +26,7 @@ Now run the installer. The installer will guide you through the steps.
 
 `./setupMaster.sh`
 
-Once it's finished, run the master daemon once to it generates keys (as the installer says).
+Once it's finished, run the master daemon once, as it will generate keys (as the installer says).
 
 `nafsdm-master`
 
