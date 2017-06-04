@@ -54,6 +54,7 @@ Once it's finished, you can open up the config with your editor of choice (examp
 
 `nano /home/slave-nafsdm/config.conf`
 
+
 Here is an explanation of what every option is.
 
 `host` = hostname / IP for the master node we confgiured earlier
@@ -70,6 +71,7 @@ Here is an explanation of what every option is.
 
 Once that's done, you can paste over the SSH key you saved earlier to the slave. Paste it in to the file mentioned below.
 `nano /home/slave-nafsdm/.ssh/master_key`
+
 
 You're done! You should now be able to start the slave (if everything is correctly configured).
 `service nafsdm-slave start`
