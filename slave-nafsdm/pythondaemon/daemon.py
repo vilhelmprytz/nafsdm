@@ -6,9 +6,9 @@ from daemonlog import *
 import time
 import os
 import sys
+import subprocess
 
 def getData(config):
-    import subprocess
     try:
         output = subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config[1] + "@" + config[0] + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"])
     except Exception:
@@ -56,7 +56,25 @@ zone '""" + currentLine.split()[0] + """' IN {
         log("FATAL: Couldn't read from domains file! Connection error?")
 
 def reloadBind():
-    print("coming soon")
+    f = open("/home/slave-nafsdm/domains.before")
+    domainsBefore = f.read()
+    f.close()
+
+    f = open("/home/slave-nafsdm/domains.temp")
+    domainsNew = f.read()
+    f.close()
+
+    if domainsBefore != domainsNew:
+        log("Change detected! Reloading bind..")
+
+        # if it fails, it will be printed in log
+        log(subprocess.check_output(["rndc", "reconfig"]))
+
+        # update the before file so reload doesn't occur again
+        f = open("/home/slave-nafsdm/domains.before", "w")
+        f.write(domainsNew)
+        f.close()
+
 
 def runDaemon(config):
     log("Daemon started!")
@@ -67,3 +85,4 @@ def runDaemon(config):
 
         getData(config)
         writeData(config)
+        reloadBind()
