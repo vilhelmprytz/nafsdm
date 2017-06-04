@@ -26,7 +26,7 @@ if (sys.argv[1] == "add"):
             # check if there is four dots in the IP
             if (len(sys.argv[3].split(".")) == 4):
                 f = open("/home/master-nafsdm/data/domains.txt", "a")
-                f.write(sys.argv[2] + " " + sys.argv[3] + "" + sys.argv[4] + "" + sys.argv[5])
+                f.write(sys.argv[2] + " " + sys.argv[3] + "" + sys.argv[4] + "" + sys.argv[5] + "\n")
                 f.close()
             else:
                 print("syntax error: invalid master IP?")

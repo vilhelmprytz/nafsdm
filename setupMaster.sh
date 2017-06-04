@@ -48,6 +48,7 @@ mkdir $HOME_DIR
 mkdir $HOME_DIR/.ssh
 chown -R master-nafsdm:master-nafsdm $HOME_DIR/.ssh
 cp /tmp/nafsdm/$GITHUB_DIR/ $HOME_DIR -R
+cp /tmp/nafsdm/LICENSE $HOME_DIR/LICENSE
 
 cp /tmp/nafsdm/systemconfigs/nafsdmctl /usr/bin/nafsdmctl
 cp /tmp/nafsdm/systemconfigs/nafsdm-master /usr/bin/nafsdm-master
