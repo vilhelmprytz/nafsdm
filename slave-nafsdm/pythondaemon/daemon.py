@@ -9,7 +9,7 @@ import sys
 
 def getData(config):
     try:
-        subprocess.check_output(['ssh', '-i', "/home/slave-nafsdm/.ssh/master_key", config[1] + '@' + config[0], '"cat',  '>', '/home/master-nafsdm/data/domains.txt"', '|', '>', '/home/slave-nafsdm/domains.temp'])
+        subprocess.check_output(['ssh', '-i', '/home/slave-nafsdm/.ssh/master_key', config[1] + '@' + config[0], '"cat',  '>', '/home/master-nafsdm/data/domains.txt"', '|', '>', '/home/slave-nafsdm/domains.temp'])
     except Exception:
         if (sys.exc_info()[0] == "<class 'subprocess.CalledProcessError'>"):
             log("FATAL: Could not connect. Wrong password/key? Error message: " + str(sys.exc_info()[0]))
@@ -17,36 +17,39 @@ def getData(config):
             log("FATAL: An unknown error occured. Error message: " + str(sys.exc_info()[0]))
 
 def writeData():
-    f = open("/home/slave-nafsdm/domains.temp")
-    domainsData = f.read()
-    f.close()
+    if os.path.isfile("/home/slave-nafsdm/domains.temp") == True:
+        f = open("/home/slave-nafsdm/domains.temp")
+        domainsData = f.read()
+        f.close()
 
-    # remove config temporarily
-    os.remove(config[4])
+        # remove config temporarily
+        os.remove(config[4])
 
-    for currentLine in domainsData.split("\n"):
-        if len(currentLine.split()) != 4:
-            if config[5] in currentLine:
-                f = open(config[4], "a")
-                if config[3] == "debian" or config[3] == "ubuntu":
-                    f.write("""/* """ + currentLine.split()[2] + """ */
+        for currentLine in domainsData.split("\n"):
+            if len(currentLine.split()) != 4:
+                if config[5] in currentLine:
+                    f = open(config[4], "a")
+                    if config[3] == "debian" or config[3] == "ubuntu":
+                        f.write("""/* """ + currentLine.split()[2] + """ */
 zone '""" + currentLine.split()[0] + """' IN {
     type slave;
     file "db.""" + currentLine.split()[0] + """";
     masters { """ + currentLine.split()[1] + """; };
 }; """ + "\n" + "\n")
-                    f.close()
-                elif config[3] == "centos":
-                    f.write("""/* """ + currentLine.split()[2] + """ */
+                        f.close()
+                    elif config[3] == "centos":
+                        f.write("""/* """ + currentLine.split()[2] + """ */
 zone '""" + currentLine.split()[0] + """' IN {
     type slave;
     file "slaves/""" + currentLine.split()[0] + """";
     masters { """ + currentLine.split()[1] + """; };
 }; """ + "\n" + "\n")
-                    f.close()
-                else:
-                    log("FATAL: Invalid system type. Debian (ubuntu) & CentOS only supported.")
-                    exit(1)
+                        f.close()
+                    else:
+                        log("FATAL: Invalid system type. Debian (ubuntu) & CentOS only supported.")
+                        exit(1)
+    else:
+        log("FATAL: Couldn't read from domains file! Connection error?")
 
 def reloadBind():
     print("coming soon")
