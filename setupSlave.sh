@@ -50,7 +50,7 @@ git clone $GITHUB_URL
 
 useradd $USER
 # debian and ubuntu doesn't create its home dir automatically, unlike centos
-if [ "$OPERATINGSYS" == "debian" ] || ["$OPERATINGSYS" == "ubuntu"]; then
+if [ "$OPERATINGSYS" == "debian" ] || [ "$OPERATINGSYS" == "ubuntu" ]; then
   mkdir $HOME_DIR
 fi
 mkdir $HOME_DIR/.ssh
