@@ -52,14 +52,17 @@ elif (sys.argv[1] == "remove"):
             wasRemoved = False
             for currentLine in rawDomains.split("\n"):
                 if len(currentLine.split()) == 4:
-                    print("Length is 4 for " + str(currentLine.split()))
                     if sys.argv[2] in currentLine:
-                        print("DOMAIN FOUND IN " + currentLine)
                         wasRemoved = True
                     else:
                         f = open("/home/master-nafsdm/data/domains.txt", "a")
-                        f.write(currentLine)
+                        f.write(currentLine + "\n")
                         f.close()
+
+            if wasRemoved == True:
+                print("nafsdmctl: remove succesful")
+            if wasRemoved == False:
+                print("nafsdmctl: remove failed - invalid domain name?")
         else:
             print("syntax error: invalid domain name?")
     else:
