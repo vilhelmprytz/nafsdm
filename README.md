@@ -15,7 +15,7 @@ nafsdm is tested to work with the following operating systems:
 * CentOS 7
 
 # Installation
-To install, you will need at least one slave and one master. All slaves will connect to the master under a certain interval.
+To install, you will need at least one slave and one master. All slaves will connect to the master at a certain interval.
 
 nafsdm now has install scripts for both master and slaves.
 
@@ -24,7 +24,7 @@ Connect to your master server, and download the installation script.
 
 `wget https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/setupMaster.sh`
 
-It also needs to be executable.
+The file also needs to be executable.
 
 `chmod +x setupMaster.sh`
 
