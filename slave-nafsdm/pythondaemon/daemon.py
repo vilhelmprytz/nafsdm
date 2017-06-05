@@ -10,8 +10,10 @@ import subprocess
 
 def getData(config):
     try:
-         log(subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config[1] + "@" + config[0] + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"]))
+         outputNull = subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config[1] + "@" + config[0] + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"])
     except Exception:
+        log("FATAL: An error occured during SCP connection. Running command again as output will be printed below: ")
+        log(subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config[1] + "@" + config[0] + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"]))
         if (sys.exc_info()[0] == "<class 'subprocess.CalledProcessError'>"):
             log("FATAL: Errors where encountered when trying to get domains data.")
             log("FATAL: Could not connect. Wrong password/key? Error message: " + str(sys.exc_info()[0]))
