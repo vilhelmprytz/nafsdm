@@ -56,29 +56,56 @@ zone '""" + currentLine.split()[0] + """' IN {
         log("FATAL: An error occured while reading data that was recently downloaded. This usually means the file never was downloaded and therefore doesn't exist.")
         log("FATAL: Couldn't read from domains file! Connection error?")
 
+def commandReload(domainsNew):
+    # just to split things up
+
+    # if it fails, it will be printed in log
+    log(subprocess.check_output(["rndc", "reconfig"]))
+
+    # update the before file so reload doesn't occur again
+    f = open("/home/slave-nafsdm/domains.before", "w")
+    f.write(domainsNew)
+    f.close()
+
 def reloadBind():
-    f = open("/home/slave-nafsdm/domains.before")
-    domainsBefore = f.read()
-    f.close()
-
-    f = open("/home/slave-nafsdm/domains.temp")
-    domainsNew = f.read()
-    f.close()
-
-    if domainsBefore != domainsNew:
-        log("Change detected! Reloading bind..")
-
-        # if it fails, it will be printed in log
-        log(subprocess.check_output(["rndc", "reconfig"]))
-
-        # update the before file so reload doesn't occur again
-        f = open("/home/slave-nafsdm/domains.before", "w")
-        f.write(domainsNew)
+    continueReload = True
+    beforeExists = True
+    if os.path.isfile("/home/slave-nafsdm/domains.before"):
+        f = open("/home/slave-nafsdm/domains.before")
+        domainsBefore = f.read()
         f.close()
+    else:
+        log("WARNING: Couldn't read from before domains temp file. Is this the first time running maybe?")
+        continueReload = True
+        beforeExists = False
+
+    if os.path.isfile("/home/slave-nafsdm/domains.temp"):
+        f = open("/home/slave-nafsdm/domains.temp")
+        domainsNew = f.read()
+        f.close()
+    else:
+        log("WARNING: Couldn't read from domains temp file. Is this the first time running maybe?")
+        continueReload = False
+
+    if (continueReload == True):
+        if (beforeExists == True):
+            if domainsBefore != domainsNew:
+                log("Change detected! Reloading bind..")
+                commandReload(domainsNew)
+        else:
+            log("No before file. Reloading bind..")
+            commandReload(domainsNew)
+    else:
+        log("FATAL: Bind reload aborted due to earlier errors.")
 
 
 def runDaemon(config):
     log("Daemon started!")
+
+    # run everything once as we get immediate output if everything is OK
+    getData(config)
+    writeData(config)
+    reloadBind()
 
     endlessLoop = False
     while endlessLoop == False:
