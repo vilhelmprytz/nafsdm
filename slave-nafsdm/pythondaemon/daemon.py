@@ -10,7 +10,7 @@ import subprocess
 
 def getData(config):
     try:
-        output = subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config[1] + "@" + config[0] + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"])
+         log(subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config[1] + "@" + config[0] + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"]))
     except Exception:
         if (sys.exc_info()[0] == "<class 'subprocess.CalledProcessError'>"):
             log("FATAL: Errors where encountered when trying to get domains data.")
