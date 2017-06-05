@@ -70,8 +70,12 @@ Here is an explanation of what every option is.
 `nodeName` = name of this node
 
 Once that's done, you can paste over the SSH key you saved earlier to the slave. Paste it in to the file mentioned below.
+
 `nano /home/slave-nafsdm/.ssh/master_key`
 
+The key also needs to have correct permissions.
+
+`chmod 600 /home/slave-nafsdm/.ssh/master_key` (nafsdm will NOT work if the correct permissions are not used)
 
 You're done! You should now be able to start the slave (if everything is correctly configured).
 `service nafsdm-slave start`
