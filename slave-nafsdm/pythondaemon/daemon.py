@@ -62,12 +62,19 @@ def commandReload(domainsNew):
     # just to split things up
 
     # if it fails, it will be printed in log
-    log(subprocess.check_output(["rndc", "reconfig"]))
+    reloadSucceeded = True
+    try:
+        log(subprocess.check_output(["rndc", "reconfig"]))
+    except Exception:
+        log("FATAL: An error occured during bind reload. Run 'rndc reconfig' yourself to see why.")
+        log("FATAL: Due to the error, we will conrinue to try to reload bind.")
+        reloadSucceeded = False
 
-    # update the before file so reload doesn't occur again
-    f = open("/home/slave-nafsdm/domains.before", "w")
-    f.write(domainsNew)
-    f.close()
+    if reloadSucceeded == True:
+        # update the before file so reload doesn't occur again
+        f = open("/home/slave-nafsdm/domains.before", "w")
+        f.write(domainsNew)
+        f.close()
 
 def reloadBind():
     continueReload = True

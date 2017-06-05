@@ -1,5 +1,5 @@
 # nafsdm
-**Current status: UNSTABLE (nafsdm is not yet finished)**
+**Current status: STABLE, version 1.0**
 
 Manages DNS nodes and makes sure domains are saved in the slaves configs. Runs on Python and SSH.
 
@@ -11,7 +11,7 @@ Before installing nafsdm, make sure you have at least one master and one slave. 
 nafsdm is tested to work with the following operating systems:
 
 * Debian 8 (7 should work fine)
-* Ubuntu 14.04 (newer versions should also work fine)
+* Ubuntu 16.04.2 (old versions like 14.04 should also work fine)
 * CentOS 7
 
 # Installation
