@@ -104,7 +104,9 @@ And run the slave in debug mode, which will let you accept the fingerprint.
 When it asks you, just type "yes" and hit enter. When it's done, hit Control+C to stop the daemon and then boot the daemon back up again using service (as usual). It should look something like this:
 
 `The authenticity of host 'example.example (0.0.0.0)' can't be established.
+
 ECDSA key fingerprint is SHA256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.
+
 Are you sure you want to continue connecting (yes/no)?`
 
 # Author
