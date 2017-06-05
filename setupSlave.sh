@@ -30,7 +30,7 @@ if [ "$OPERATINGSYS" == "centos" ]; then
   rm get-pip.py -rf
 
   pip install requests
-elif [ "$OPERATINGSYS" == "debian" ] || ["$OPERATINGSYS" == "ubuntu"] ; then
+elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
   echo "Installing packages.."
   apt-get update -y
   apt-get install python python-pip git -y
@@ -50,7 +50,7 @@ git clone $GITHUB_URL
 
 useradd $USER
 # debian and ubuntu doesn't create its home dir automatically, unlike centos
-if [ "$OPERATINGSYS" == "debian" ] || [ "$OPERATINGSYS" == "ubuntu" ] ; then
+if [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
   mkdir $HOME_DIR
 fi
 mkdir $HOME_DIR/.ssh
