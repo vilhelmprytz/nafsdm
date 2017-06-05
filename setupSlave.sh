@@ -30,7 +30,7 @@ if [ "$OPERATINGSYS" == "centos" ]; then
   rm get-pip.py -rf
 
   pip install requests
-elif [ "$OPERATINGSYS" == "debian" ] || ["$OPERATINGSYS" == "ubuntu"]; then
+elif [ "$OPERATINGSYS" == "debian" ] || ["$OPERATINGSYS" == "ubuntu"] ; then
   echo "Installing packages.."
   apt-get update -y
   apt-get install python python-pip git -y
