@@ -15,24 +15,29 @@ USER="slave-nafsdm"
 
 echo "###################################################################"
 echo "THIS SCRIPT WILL NOT WORK FOR UPDATING YOUR INSTALLATION"
-echo "Welcome to nafsdm slave install! Please enter your package manager (apt or yum only supported)."
-echo -n "Package manager: "
-read PACKAGEMAN
+echo "Welcome to nafsdm slave install! Please enter your operating system name ('debian', 'ubuntu' and 'centos' only supported)"
+echo -n "Operating system: "
+read OPERATINGSYS
 
-if [ "$PACKAGEMAN" == "yum" ]; then
-  echo "Installing packages.. (NOTE: ROOT PASSW)"
+if [ "$OPERATINGSYS" == "centos" ]; then
+  echo "Installing packages.."
   yum update -y
-  yum install python python-pip git -y
+  yum install python git -y
+
+  # centos does not have pip in it's repos
+  curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+  python get-pip.py
+  rm get-pip.py -rf
 
   pip install requests
-elif [ "$PACKAGEMAN" == "apt" ]; then
+elif [ "$OPERATINGSYS" == "debian" ] || ["$OPERATINGSYS" == "ubuntu"]; then
   echo "Installing packages.."
   apt-get update -y
   apt-get install python python-pip git -y
 
   pip install requests
 else
-  echo "Invalid package manager. Only apt and yum supported."
+  echo "Invalid operating system. Only 'debian', 'ubuntu' and 'centos' supported."
   exit 1
 fi
 
@@ -44,7 +49,10 @@ cd /tmp
 git clone $GITHUB_URL
 
 useradd $USER
-mkdir $HOME_DIR
+# debian and ubuntu doesn't create its home dir automatically, unlike centos
+if [ "$OPERATINGSYS" == "debian" ] || ["$OPERATINGSYS" == "ubuntu"]; then
+  mkdir $HOME_DIR
+fi
 mkdir $HOME_DIR/.ssh
 chown -R slave-nafsdm:slave-nafsdm $HOME_DIR/.ssh
 cp /tmp/nafsdm/$GITHUB_DIR /home -R
