@@ -21,6 +21,19 @@ def getData(config):
             log("FATAL: Errors where encountered when trying to get domains data.")
             log("FATAL: An unknown error occured. Error message: " + str(sys.exc_info()[0]))
 
+# find slave function
+def find_slave(currentLine, myhostname):
+    if not len(currentLine.split()) < 2:
+        # split it by space
+        split1 = currentLine.split()
+
+        wasFound = False
+        for currentSlave in split1[3].split("."):
+            if currentSlave == myhostname:
+                wasFound = True
+
+        return wasFound
+
 def writeData(config):
     if os.path.isfile("/home/slave-nafsdm/domains.temp") == True:
         f = open("/home/slave-nafsdm/domains.temp")
@@ -33,23 +46,24 @@ def writeData(config):
 
         for currentLine in domainsData.split("\n"):
             if len(currentLine.split()) == 4:
-                if config[5] in currentLine:
+                wasFound = find_slave(currentLine, config[5])
+                if (wasFound == True):
                     f = open(config[4], "a")
                     if config[3] == "debian" or config[3] == "ubuntu":
-                        f.write("""/* """ + currentLine.split()[2] + """ */
-zone '""" + currentLine.split()[0] + """' IN {
+                        f.write('''/* ''' + currentLine.split()[2] + ''' */
+zone "''' + currentLine.split()[0] + '''" IN {
     type slave;
-    file "db.""" + currentLine.split()[0] + """";
-    masters { """ + currentLine.split()[1] + """; };
-}; """ + "\n" + "\n")
+    file "db.''' + currentLine.split()[0] + '''";
+    masters { ''' + currentLine.split()[1] + '''; };
+}; ''' + "\n" + "\n")
                         f.close()
                     elif config[3] == "centos":
-                        f.write("""/* """ + currentLine.split()[2] + """ */
-zone '""" + currentLine.split()[0] + """' IN {
+                        f.write('''/* ''' + currentLine.split()[2] + ''' */
+zone "''' + currentLine.split()[0] + '''" IN {
     type slave;
-    file "slaves/""" + currentLine.split()[0] + """";
-    masters { """ + currentLine.split()[1] + """; };
-}; """ + "\n" + "\n")
+    file "slaves/''' + currentLine.split()[0] + '''";
+    masters { ''' + currentLine.split()[1] + '''; };
+}; ''' + "\n" + "\n")
                         f.close()
                     else:
                         log("FATAL: Invalid system type. Debian (ubuntu) & CentOS only supported.")
