@@ -8,7 +8,7 @@ import requests
 
 def checkUpdate():
     log("Checking if a new version is available..")
-    r = requests.get("https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/slaveVersion.txt")
+    r = requests.get("https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/version.txt")
 
     # check if we got a good code, requests has builtin codes which are OK
     if (r.status_code == requests.codes.ok):
