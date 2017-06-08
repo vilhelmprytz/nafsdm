@@ -22,33 +22,23 @@ nafsdm now has install scripts for both master and slaves.
 ## Master installation
 Connect to your master server, and download the installation script.
 
-```
-wget https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/setupMaster.sh
-```
+`wget https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/setupMaster.sh`
 
 The file also needs to be executable.
 
-```
-chmod +x setupMaster.sh
-```
+`chmod +x setupMaster.sh`
 
 Now run the installer. The installer will guide you through the steps.
 
-```
-./setupMaster.sh
-```
+`./setupMaster.sh`
 
 Once it's finished, run the master daemon once, as it will generate keys (as the installer says).
 
-```
-nafsdm-master
-```
+`nafsdm-master`
 
 Now, copy the SSH key contents somewhere to your computer as it will be needed on the slaves later on (as the output says).
 
-```
-cat /home/master-nafsdm/.ssh/nafsdm_rsa
-``` (this will print the key)
+`cat /home/master-nafsdm/.ssh/nafsdm_rsa` (this will print the key)
 
 The master installation is now finished and should be ready to use. You can use `nafsdmctl` to add/remove domains.
 
@@ -56,27 +46,19 @@ The master installation is now finished and should be ready to use. You can use 
 You will have to perform these steps on every slave you would like to install this on.
 Connect to your slave and download the installation script.
 
-```
-wget https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/setupSlave.sh
-```
+`wget https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/setupSlave.sh`
 
 The file also need to be executable.
 
-```
-chmod +x setupSlave.sh
-```
+`chmod +x setupSlave.sh`
 
 Now run the slave installer. The installer will guide you through the steps.
 
-```
-./setupSlave.sh
-```
+`./setupSlave.sh`
 
 Once it's finished, you can open up the config with your editor of choice (example below uses nano) to set it up correctly.
 
-```
-nano /home/slave-nafsdm/config.conf
-```
+`nano /home/slave-nafsdm/config.conf`
 
 
 Here is an explanation of what every option is.
@@ -95,35 +77,29 @@ Here is an explanation of what every option is.
 
 Once that's done, you can paste over the SSH key you saved earlier to the slave. Paste it in to the file mentioned below.
 
-```
-nano /home/slave-nafsdm/.ssh/master_key
-```
+`nano /home/slave-nafsdm/.ssh/master_key`
 
 The key also needs to have correct permissions.
 
-```
-chmod 600 /home/slave-nafsdm/.ssh/master_key
-``` (nafsdm will NOT work if the correct permissions are not used)
+`chmod 600 /home/slave-nafsdm/.ssh/master_key` (nafsdm will NOT work if the correct permissions are not used)
 
 You're done! You should now be able to start the slave (if everything is correctly configured).
 
-```
-service nafsdm-slave start
-```
+`service nafsdm-slave start`
 
 Replace start with stop or restart if you would like to do that later on (or status to check if it's running)
 
+If anything fails, you can check the log.
+
+`cat /home/slave-nafsdm/log.log`
+
 When running the slave the first time, you will probably have to accept the "fingerprint". To accept it, stop the daemon.
 
-```
-service nafsdm-slave stop
-```
+`service nafsdm-slave stop`
 
 And run the slave in debug mode, which will let you accept the fingerprint.
 
-```
-python /home/slave-nafsdm/pythondaemon/__main__.py
-```
+`python /home/slave-nafsdm/pythondaemon/__main__.py`
 
 When it asks you, just type "yes" and hit enter. When it's done, hit Control+C to stop the daemon and then boot the daemon back up again using service (as usual). It should look something like this:
 
@@ -132,12 +108,6 @@ When it asks you, just type "yes" and hit enter. When it's done, hit Control+C t
 `ECDSA key fingerprint is SHA256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.`
 
 `Are you sure you want to continue connecting (yes/no)?`
-
-If anything fails, you can check the log.
-
-```
-cat /home/slave-nafsdm/log.log
-```
 
 # Author
 Email: contact@mrkakisen.net
