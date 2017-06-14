@@ -9,6 +9,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 GITHUB_URL="https://github.com/MrKaKisen/nafsdm.git"
+GITHUB_BRANCH="master"
 GITHUB_DIR="slave-nafsdm"
 HOME_DIR="/home/slave-nafsdm"
 USER="slave-nafsdm"
@@ -46,7 +47,7 @@ echo "Downloading nafsdm & installing.."
 
 # download in temp dir
 cd /tmp
-git clone $GITHUB_URL
+git clone -b $GITHUB_BRANCH $GITHUB_URL
 
 useradd $USER
 # debian and ubuntu doesn't create its home dir automatically, unlike centos
