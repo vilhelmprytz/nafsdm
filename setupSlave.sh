@@ -10,13 +10,9 @@ fi
 
 #  DL_VERSION will be changed at the time of update
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
-DL_VERSION="1.0.1-stable"
 GITHUB_DIR="slave-nafsdm"
 HOME_DIR="/home/slave-nafsdm"
 USER="slave-nafsdm"
-
-echo "Fetching information about latest version.."
-LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/version.txt)
 
 echo "###################################################################"
 echo "THIS SCRIPT WILL NOT WORK FOR UPDATING YOUR INSTALLATION"
@@ -24,34 +20,10 @@ echo "Welcome to nafsdm slave install! Please enter your operating system name (
 echo -n "Operating system: "
 read OPERATINGSYS
 
-# select version
-echo "Please select your version. Type in the version number or type 'latest' for latest version."
-echo -n "Version: "
-read VERSION_USER
-
-if [ "$VERSION_USER" == "latest "]; then
-  echo -n "Confirm? (y/n): "
-  read CONFIRM
-  if [ "$CONFIRM" == "y" ]; then
-    DL_VERSION="$LATEST_VERSION"
-  else
-    echo "Aborting.."
-    exit(0)
-  fi
-else
-  echo -n "Confirm? If version doesn't exist, script will fail. (y/n): "
-  read CONFIRM
-  if [ "$CONFIRM" == "y" ]; then
-    DL_VERSION = "$VERSION_USER"
-  else
-    echo "Aborting.."
-    exit(0)
-fi
-
 if [ "$OPERATINGSYS" == "centos" ]; then
   echo "Installing packages.."
   yum update -y
-  yum install python git -y
+  yum install python curl wget -y
 
   # centos does not have pip in it's repos
   curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
@@ -62,12 +34,41 @@ if [ "$OPERATINGSYS" == "centos" ]; then
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
   echo "Installing packages.."
   apt-get update -y
-  apt-get install python python-pip git -y
+  apt-get install python python-pip curl wget -y
 
   pip install requests
 else
   echo "Invalid operating system. Only 'debian', 'ubuntu' and 'centos' supported."
   exit 1
+fi
+
+# get which version is the latest
+echo "Fetching information about latest version.."
+LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/version.txt)
+
+# select version
+echo "Please select your version. Type in the version number or type 'latest' for latest version."
+echo -n "Version: "
+read VERSION_USER
+
+if [ "$VERSION_USER" == "latest" ]; then
+  echo -n "Confirm? (y/n): "
+  read CONFIRM
+  if [ "$CONFIRM" == "y" ]; then
+    DL_VERSION="$LATEST_VERSION"
+  else
+    echo "Aborting.."
+    exit 1
+  fi
+else
+  echo -n "Confirm? If version doesn't exist, script will fail. (y/n): "
+  read CONFIRM
+  if [ "$CONFIRM" == "y" ]; then
+    DL_VERSION = "$VERSION_USER"
+  else
+    echo "Aborting.."
+    exit 1
+  fi
 fi
 
 echo "Required packages installed!"
@@ -77,7 +78,7 @@ echo "Downloading nafsdm & installing.."
 cd /tmp
 wget $DL_URL$DL_VERSION.tar.gz -O nafsdm.tar.gz
 tar -zxvf nafsdm.tar.gz
-mv nafdm-* nafsdm
+mv nafsdm-* nafsdm
 
 useradd $USER
 # debian and ubuntu doesn't create its home dir automatically, unlike centos
