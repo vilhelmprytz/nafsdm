@@ -10,10 +10,10 @@ import subprocess
 
 def getData(config):
     try:
-         outputNull = subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config[1] + "@" + config[0] + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"])
+         outputNull = subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"])
     except Exception:
         log("FATAL: An error occured during SCP connection. Running command again as output will be printed below: ")
-        log(subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config[1] + "@" + config[0] + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"]))
+        log(subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"]))
         if (sys.exc_info()[0] == "<class 'subprocess.CalledProcessError'>"):
             log("FATAL: Errors where encountered when trying to get domains data.")
             log("FATAL: Could not connect. Wrong password/key? Error message: " + str(sys.exc_info()[0]))
@@ -41,15 +41,15 @@ def writeData(config):
         f.close()
 
         # remove config temporarily
-        if os.path.isfile(config[4]):
-            os.remove(config[4])
+        if os.path.isfile(config.bindPath):
+            os.remove(config.bindPath)
 
         for currentLine in domainsData.split("\n"):
             if len(currentLine.split()) == 4:
-                wasFound = find_slave(currentLine, config[5])
+                wasFound = find_slave(currentLine, config.nodeName)
                 if (wasFound == True):
-                    f = open(config[4], "a")
-                    if config[3] == "debian" or config[3] == "ubuntu":
+                    f = open(config.bindPath, "a")
+                    if config.type == "debian" or config.type == "ubuntu":
                         f.write('''/* ''' + currentLine.split()[2] + ''' */
 zone "''' + currentLine.split()[0] + '''" IN {
     type slave;
@@ -57,7 +57,7 @@ zone "''' + currentLine.split()[0] + '''" IN {
     masters { ''' + currentLine.split()[1] + '''; };
 }; ''' + "\n" + "\n")
                         f.close()
-                    elif config[3] == "centos":
+                    elif config.type == "centos":
                         f.write('''/* ''' + currentLine.split()[2] + ''' */
 zone "''' + currentLine.split()[0] + '''" IN {
     type slave;
@@ -132,7 +132,7 @@ def runDaemon(config):
 
     endlessLoop = False
     while endlessLoop == False:
-        time.sleep(int(config[2]))
+        time.sleep(int(config.update_interval))
 
         getData(config)
         writeData(config)
