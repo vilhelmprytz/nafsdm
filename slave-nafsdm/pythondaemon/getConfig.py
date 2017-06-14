@@ -6,19 +6,27 @@ from daemonlog import *
 from configDir import __configDir__ as configDir
 import ConfigParser
 
-def getConfig():
-    parser = ConfigParser.ConfigParser()
-    parser.read(configDir)
-    try:
-        config = []
-        config.append(parser.get("dnsman", "host")) # 0
-        config.append(parser.get("dnsman", "user")) # 1
-        config.append(parser.get("dnsman", "update_interval")) # 2
-        config.append(parser.get("dnsman", "type")) # 3
-        config.append(parser.get("dnsman", "bindPath")) # 4
-        config.append(parser.get("dnsman", "nodeName")) # 5
+class Config(object):
+    import ConfigParser
 
-        return config
-    except ConfigParser.MissingSectionHeaderError or ConfigParser.ParsingError:
-        log("FATAL: Could not read config. Please check your config if it's setup properly.")
-        quit(1)
+    def __init__(self, configFile):
+        parser = ConfigParser.ConfigParser()
+        parser.read(configFile)
+
+        try:
+            self.host = parser.get("nafsdm", "host")
+            self.user = parser.get("nafsdm", "user")
+            self.update_interval = parser.get("nafsdm", "update_interval")
+            self.type = parser.get("nafsdm", "type")
+            self.bindPath = parser.get("nafsdm", "bindPath")
+            self.nodeName = parser.get("nafsdm", "nodeName")
+
+        except ConfigParser.MissingSectionHeaderError or ConfigParser.ParsingError:
+            log("FATAL: Could not read config. Please check your config if it's setup properly.")
+            quit(1)
+
+
+def getConfig():
+    config = Config(configDir)
+
+    return config
