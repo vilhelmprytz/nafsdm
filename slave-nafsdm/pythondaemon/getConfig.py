@@ -14,12 +14,12 @@ class Config(object):
         parser.read(configFile)
 
         try:
-            self.host = parser.get("dnsman", "host")
-            self.user = parser.get("dnsman", "user")
-            self.update_interval = parser.get("dnsman", "update_interval")
-            self.type = parser.get("dnsman", "type")
-            self.bindPath = parser.get("dnsman", "bindPath")
-            self.nodeName = parser.get("dnsman", "nodeName")
+            self.host = parser.get("nafsdm", "host")
+            self.user = parser.get("nafsdm", "user")
+            self.update_interval = parser.get("nafsdm", "update_interval")
+            self.type = parser.get("nafsdm", "type")
+            self.bindPath = parser.get("nafsdm", "bindPath")
+            self.nodeName = parser.get("nafsdm", "nodeName")
 
         except ConfigParser.MissingSectionHeaderError or ConfigParser.ParsingError:
             log("FATAL: Could not read config. Please check your config if it's setup properly.")
