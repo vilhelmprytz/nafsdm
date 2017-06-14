@@ -1,5 +1,5 @@
 # nafsdm
-**Current status: STABLE, version 1.1-stable**
+**Current status: STABLE, version 1.1-stable** [![Build Status](https://travis-ci.org/MrKaKisen/nafsdm.svg?branch=master)](https://travis-ci.org/MrKaKisen/nafsdm)
 
 Manages DNS nodes and makes sure domains are saved in the slaves configs. Runs on Python and SSH.
 
