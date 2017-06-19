@@ -21,15 +21,21 @@ if len(sys.argv) < 2:
 
 # check which command user has run
 if (sys.argv[1] == "add"):
-    # syntax: nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes
-    if len(sys.argv) >= 6:
+    # syntax: nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes dnssec.[yes/no]
+    if len(sys.argv) >= 7:
         # see if a there is a dot in first arg
         if ("." in sys.argv[2]):
             # check if there is four dots in the IP
             if (len(sys.argv[3].split(".")) == 4):
-                f = open("/home/master-nafsdm/data/domains.txt", "a")
-                f.write(sys.argv[2] + " " + sys.argv[3] + " " + sys.argv[4] + " " + sys.argv[5] + "\n")
-                f.close()
+                if "." in sys.argv[6]:
+                    if "yes" in sys.agrv[6] or "no" in sys.argv[6]:
+                        f = open("/home/master-nafsdm/data/domains.txt", "a")
+                        f.write(sys.argv[2] + " " + sys.argv[3] + " " + sys.argv[4] + " " + sys.argv[5] + " " + sys.argv[6] + "\n")
+                        f.close()
+                    else:
+                        print("syntax error: use dnssec.yes or dnssec.no only.")
+                else:
+                    print("syntax error: invalid dnssec option?")
             else:
                 print("syntax error: invalid master IP?")
                 exit(1)
@@ -37,7 +43,7 @@ if (sys.argv[1] == "add"):
             print("syntax error: invalid domain name?")
             exit(1)
     else:
-        print("syntax error: 'nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes' is correct syntax")
+        print("syntax error: 'nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes dnssec.[yes/no]' is correct syntax")
         exit(1)
 elif (sys.argv[1] == "remove"):
     if (len(sys.argv) == 3):
@@ -85,7 +91,7 @@ elif (sys.argv[1] == "list"):
 else:
     # just prints some of the syntaxes and exists as an error
     print("syntax error: please use correct argument." + "\n" +
-    "\n" + "nafsdmctl 'add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes'" +
+    "\n" + "nafsdmctl 'nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes dnssec.[yes/no]'" +
     "\n" + "nafsdmctl 'remove domain.tld'" +
     "\n" + "nafsdmctl 'list'")
     exit(1)

@@ -45,26 +45,46 @@ def writeData(config):
             os.remove(config.bindPath)
 
         for currentLine in domainsData.split("\n"):
-            if len(currentLine.split()) == 4:
+            if len(currentLine.split()) == 5:
                 wasFound = find_slave(currentLine, config.nodeName)
                 if (wasFound == True):
-                    f = open(config.bindPath, "a")
-                    if config.type == "debian" or config.type == "ubuntu":
-                        f.write('''/* ''' + currentLine.split()[2] + ''' */
+                    if len(currentLine.split()[4]) != 2:
+                        if currentLine.split()[4].split(".")[1] == "yes":
+                            f = open(config.bindPath, "a")
+                            if config.type == "debian" or config.type == "ubuntu":
+                                f.write('''/* ''' + currentLine.split()[2] + ''' */
+zone "''' + currentLine.split()[0] + '''" IN {
+    type slave;
+    file "db.''' + currentLine.split()[0] + '''.signed";
+    masters { ''' + currentLine.split()[1] + '''; };
+}; ''' + "\n" + "\n")
+                                f.close()
+                            elif config.type == "centos":
+                                f.write('''/* ''' + currentLine.split()[2] + ''' */
+zone "''' + currentLine.split()[0] + '''" IN {
+    type slave;
+    file "slaves/''' + currentLine.split()[0] + '''.signed";
+    masters { ''' + currentLine.split()[1] + '''; };
+}; ''' + "\n" + "\n")
+                                f.close()
+                        elif currentLine.split()[4].split(".")[1] == "no":
+                            f = open(config.bindPath, "a")
+                            if config.type == "debian" or config.type == "ubuntu":
+                                f.write('''/* ''' + currentLine.split()[2] + ''' */
 zone "''' + currentLine.split()[0] + '''" IN {
     type slave;
     file "db.''' + currentLine.split()[0] + '''";
     masters { ''' + currentLine.split()[1] + '''; };
 }; ''' + "\n" + "\n")
-                        f.close()
-                    elif config.type == "centos":
-                        f.write('''/* ''' + currentLine.split()[2] + ''' */
+                                f.close()
+                            elif config.type == "centos":
+                                f.write('''/* ''' + currentLine.split()[2] + ''' */
 zone "''' + currentLine.split()[0] + '''" IN {
     type slave;
     file "slaves/''' + currentLine.split()[0] + '''";
     masters { ''' + currentLine.split()[1] + '''; };
 }; ''' + "\n" + "\n")
-                        f.close()
+                                f.close()
                     else:
                         log("FATAL: Invalid system type. Debian (ubuntu) & CentOS only supported.")
                         exit(1)

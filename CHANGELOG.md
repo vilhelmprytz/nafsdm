@@ -1,3 +1,9 @@
+Version 1.2 (Stauts: DEVELOPMENT)
+* Added DNSSEC support.
+* Planned: Added upgrade scripts.
+* Planned: Added support for automatic upgrades (1.12 and forwards)
+* Planned: New edit function for nafsdmctl (master).
+
 Version 1.1 (Status: RELEASED)
 * New version files.
 * New config parsing.
