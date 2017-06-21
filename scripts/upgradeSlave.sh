@@ -60,12 +60,14 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   echo "* Upgrade completed."
   echo "* Before you start, re-enter your configuration in /home/slave-nafsdm/config.conf as that has changed in version 1.2."
   echo "* Your old config is also saved as /home/slave-nafsdm/config-legacy.conf"
+  echo "* NAFSDM WILL NOT START IF THIS SCRIPT EXISTS. DELETE IT BEFORE START."
 elif [ "$MY_VERSION" == "1.1-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/slave-nafsdm/pythondaemon
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
+  echo "* NAFSDM WILL NOT START IF THIS SCRIPT EXISTS. DELETE IT BEFORE START."
 else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1

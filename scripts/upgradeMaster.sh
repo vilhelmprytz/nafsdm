@@ -52,6 +52,7 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
 
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
+  echo "* NAFSDM WILL NOT START IF THIS SCRIPT EXISTS. DELETE IT BEFORE START."
 elif [ "$MY_VERSION" == "1.1-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
@@ -59,6 +60,7 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
 
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
+  echo "* NAFSDM WILL NOT START IF THIS SCRIPT EXISTS. DELETE IT BEFORE START."
 else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1

@@ -16,6 +16,20 @@ def checkUpdate():
             log("You're running the latest version, " + version + "!")
         else:
             log("NOTICE: There is a new version available! New version: " + r.text.split("\n")[0])
+            # url must change from development to master before release!!
+            url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/development/scripts/upgradeMaster.sh")
+            r = requests.get(url)
+            if (r.status_code == requests.codes.ok):
+                f = open("/home/master-nafsdm/temp_upgrade.sh")
+                f.write(r.content)
+                f.close()
+                import subprocess
+                outputNull = subprocess.check_output(["chmod", "+x", "/home/master-nafsdm/temp_upgrade.sh"])
+
+                log("NOTICE: Please run /home/master-nafsdm/temp_upgrade.sh to upgrade!")
+            else:
+                log("FATAL: Couldn't connect to GitHub! Quitting..")
+                exit(1)
     else:
         log("FATAL: Couldn't receive latest version (on GitHub). Quitting.")
         exit(1)

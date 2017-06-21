@@ -16,6 +16,10 @@ if not os.path.isfile("/home/master-nafsdm/.ssh/nafsdm_rsa"):
     log("SSH directory not found. Running first time setup!")
     setupSSH()
 
+if os.path.isfile("/home/slave-nafsdm/temp_upgrade.sh"):
+    log("Upgrade script found. Please run the upgrade script before runing nafsdm-slave!")
+    exit(1)
+
 # check for new update
 checkUpdate()
 

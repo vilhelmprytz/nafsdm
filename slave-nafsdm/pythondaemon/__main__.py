@@ -10,6 +10,10 @@ from versionCheck import checkUpdate
 
 log("Welcome to Slave nafsdm version " + version)
 
+if os.path.isfile("/home/slave-nafsdm/temp_upgrade.sh"):
+    log("Upgrade script found. Please run the upgrade script before runing nafsdm-slave!")
+    exit(1)
+
 # check for new update
 checkUpdate()
 
