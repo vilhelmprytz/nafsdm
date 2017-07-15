@@ -15,8 +15,8 @@ if os.path.isfile("/home/slave-nafsdm/temp_upgrade.sh"):
     exit(1)
 
 # check for new update
-checkUpdate()
-
 config = getConfig()
+
+checkUpdate(config)
 
 runDaemon(config)

@@ -2,10 +2,6 @@
 # upgrade script for nafsdm slave
 # Copyright Vilhelm Prytz 2017
 
-# nafsdm
-# upgrade script for nafsdm master
-# Copyright Vilhelm Prytz 2017
-
 # check if user is root or not
 if [[ $EUID -ne 0 ]]; then
   echo "* This script must be run with root privileges (sudo)." 1>&2
@@ -15,7 +11,7 @@ fi
 echo "* Welcome to nafsdm slave upgrade script!"
 
 echo -n "* Enter operating system (debian/ubuntu/centos): "
-read OPERATINGSYS
+OPERATINGSYS="$1"
 
 if [ "$OPERATINGSYS" == "centos" ]; then
   yum install curl wget -y
@@ -67,7 +63,7 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
-  echo "* NAFSDM WILL NOT START IF THIS SCRIPT EXISTS. DELETE IT BEFORE START."
+  rm -rf /home/slave-nafsdm/temp_upgrade.sh
 else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1
