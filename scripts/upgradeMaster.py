@@ -9,7 +9,7 @@ import subprocess
 
 def initUpgrade():
     try:
-        output = subprocess.check_output(["/bin/sh", "/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh"])
+        output = subprocess.check_output(["/bin/bash", "/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh"])
     except Exception:
         # no point of logging anyways
         return "exception"
