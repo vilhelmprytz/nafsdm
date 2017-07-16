@@ -1,4 +1,4 @@
-Version 1.2 (Stauts: TESTING, 1.2-dev1 released and in testing now.)
+Version 1.2 (Stauts: TESTING, 1.2-dev2 released and in testing now.)
 * Added DNSSEC support.
 * Added upgrade scripts.
 * Added support for automatic upgrades (1.2 and forwards)
