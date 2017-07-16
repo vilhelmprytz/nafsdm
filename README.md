@@ -1,5 +1,5 @@
 # nafsdm
-**Current status: STABLE, version 1.1-stable** [![Build Status](https://ci.mrkakisen.net/job/MrKaKisen/job/nafsdm/job/master/badge/icon)](https://ci.mrkakisen.net/job/MrKaKisen/job/nafsdm/job/master/)
+**Current status: STABLE, version 1.2-stable** [![Build Status](https://ci.mrkakisen.net/job/MrKaKisen/job/nafsdm/job/master/badge/icon)](https://ci.mrkakisen.net/job/MrKaKisen/job/nafsdm/job/master/)
 
 Manages DNS nodes and makes sure domains are saved in the slaves configs. Runs on Python and SSH.
 
@@ -108,6 +108,10 @@ When it asks you, just type "yes" and hit enter. When it's done, hit Control+C t
 `ECDSA key fingerprint is SHA256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.`
 
 `Are you sure you want to continue connecting (yes/no)?`
+
+# Upgrading
+
+To upgrade, please refer to the following wiki page: <https://github.com/MrKaKisen/nafsdm/wiki/Upgrading>
 
 # Author
 Email: contact@mrkakisen.net
