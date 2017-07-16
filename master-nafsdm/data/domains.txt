@@ -1,0 +1,1 @@
+domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes dnssec.no
