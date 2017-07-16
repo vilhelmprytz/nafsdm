@@ -30,7 +30,7 @@ def checkUpdate():
             url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/development/scripts/upgradeMaster.sh")
             r = requests.get(url)
             if (r.status_code == requests.codes.ok):
-                f = open("/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh")
+                f = open("/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh", "w")
                 f.write(r.content)
                 f.close()
                 import subprocess
@@ -39,7 +39,7 @@ def checkUpdate():
                 url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/development/scripts/upgradeMaster.py")
                 r = requests.get(url)
                 if (r.status_code == requests.codes.ok):
-                    f = open("/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py")
+                    f = open("/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py", "w")
                     f.write(r.content)
                     f.close()
                     import subprocess
@@ -51,7 +51,7 @@ def checkUpdate():
                         log("FATAL: An error occured during upgrade. Either you use a unsupported version or the script failed mid-through (that would break your installation). Please retry or run the script manually.")
                         exit(1)
                     else:
-                        f = open("/home/master-master/upgradeLog.log")
+                        f = open("/home/master-nafsdm/upgradeLog.log", "w")
                         f.write(upgradeStatus)
                         f.close()
                         log("INFO: Upgrade completed. Please update your configuration as the upgradeLog.log says.")
