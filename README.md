@@ -113,6 +113,9 @@ When it asks you, just type "yes" and hit enter. When it's done, hit Control+C t
 
 To upgrade, please refer to the following wiki page: <https://github.com/MrKaKisen/nafsdm/wiki/Upgrading>
 
+# Contributing
+I gladly accept any pull requests that looks good! Just make sure you're working in the "development" branch and that you state in the request what you've modified and why. And don't create any new bugs :).
+
 # Author
 Email: contact@mrkakisen.net
 
