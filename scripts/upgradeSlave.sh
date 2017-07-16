@@ -63,7 +63,7 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
-  rm -rf /home/slave-nafsdm/temp_upgrade.sh
+  rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1
