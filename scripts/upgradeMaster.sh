@@ -20,7 +20,8 @@ if [ "$OPERATINGSYS" == "centos" ]; then
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
   apt-get install curl wget -y
 else
-
+  echo "* Invalid OS. Quit."
+  exit 1
 fi
 
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
