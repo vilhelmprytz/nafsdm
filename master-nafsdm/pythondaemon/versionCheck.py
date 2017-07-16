@@ -16,17 +16,39 @@ def checkUpdate():
             log("You're running the latest version, " + version + "!")
         else:
             log("NOTICE: There is a new version available! New version: " + r.text.split("\n")[0])
+            os.makedirs("/home/master-nafsdm/pythondaemon/tempUpgrade")
             # url must change from development to master before release!!
             url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/development/scripts/upgradeMaster.sh")
             r = requests.get(url)
             if (r.status_code == requests.codes.ok):
-                f = open("/home/master-nafsdm/temp_upgrade.sh")
+                f = open("/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh")
                 f.write(r.content)
                 f.close()
                 import subprocess
-                outputNull = subprocess.check_output(["chmod", "+x", "/home/master-nafsdm/temp_upgrade.sh"])
+                outputNull = subprocess.check_output(["chmod", "+x", "/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh"])
 
-                log("NOTICE: Please run /home/master-nafsdm/temp_upgrade.sh to upgrade!")
+                url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/development/scripts/upgradeMaster.py")
+                r = requests.get(url)
+                if (r.status_code == requests.codes.ok):
+                    f = open("/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py")
+                    f.write(r.content)
+                    f.close()
+                    import subprocess
+                    outputNull = subprocess.check_output(["chmod", "+x", "/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py"])
+
+                    from tempUpgrade.temp_upgrade import initUpgrade
+                    upgradeStatus = initUpgrade()
+                    if upgradeStatus == "exception":
+                        log("FATAL: An error occured during upgrade. Either you use a unsupported version or the script failed mid-through (that would break your installation). Please retry or run the script manually.")
+                        exit(1)
+                    else:
+                        f = open("/home/slave-master/upgradeLog.log")
+                        f.write(upgradeStatus)
+                        f.close()
+                        log("INFO: Upgrade completed. Please update your configuration as the upgradeLog.log says.")
+                else:
+                    log("FATAL: Couldn't connect to GitHub! Quitting...")
+                    exit(1)
             else:
                 log("FATAL: Couldn't connect to GitHub! Quitting..")
                 exit(1)
