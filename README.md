@@ -10,8 +10,8 @@ Before installing nafsdm, make sure you have at least one master and one slave. 
 
 nafsdm is tested to work with the following operating systems:
 
-* Debian 8 (7 should work fine)
-* Ubuntu 16.04.2 (old versions like 14.04 should also work fine)
+* Debian 8, 9 (7 should work fine)
+* Ubuntu 16.04.2 (old versions like 14.04 should also work fine, but may lack systemd)
 * CentOS 7
 
 # Installation
