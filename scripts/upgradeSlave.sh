@@ -68,3 +68,4 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
 else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1
+fi
