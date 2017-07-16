@@ -1,8 +1,10 @@
-Version 1.2 (Stauts: TESTING, 1.2-dev2 released and in testing now.)
+Version 1.2 (Stauts: TESTING, 1.2-dev3 released and in testing now.)
 * Added DNSSEC support.
 * Added upgrade scripts.
 * Added support for automatic upgrades (1.2 and forwards)
 * New edit function for nafsdmctl (master).
+(from 1.2-dev3):
+* Tons of bugfixes from 1.2-dev2. See release notes.
 
 Version 1.1 (Status: RELEASED)
 * New version files.

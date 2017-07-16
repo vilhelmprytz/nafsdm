@@ -16,6 +16,7 @@ if len(sys.argv) < 2:
     print("syntax error: please use correct argument." + "\n" +
     "\n" + "nafsdmctl 'add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes'" +
     "\n" + "nafsdmctl 'remove domain.tld'" +
+    "\n" + "nafsdmctl 'edit domain.tld'"+
     "\n" + "nafsdmctl 'list'")
     exit(1)
 
@@ -28,7 +29,7 @@ if (sys.argv[1] == "add"):
             # check if there is four dots in the IP
             if (len(sys.argv[3].split(".")) == 4):
                 if "." in sys.argv[6]:
-                    if "yes" in sys.agrv[6] or "no" in sys.argv[6]:
+                    if "yes" in sys.argv[6] or "no" in sys.argv[6]:
                         f = open("/home/master-nafsdm/data/domains.txt", "a")
                         f.write(sys.argv[2] + " " + sys.argv[3] + " " + sys.argv[4] + " " + sys.argv[5] + " " + sys.argv[6] + "\n")
                         f.close()

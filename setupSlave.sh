@@ -64,7 +64,7 @@ else
   echo -n "Confirm? If version doesn't exist, script will fail. (y/n): "
   read CONFIRM
   if [ "$CONFIRM" == "y" ]; then
-    DL_VERSION = "$VERSION_USER"
+    DL_VERSION="$VERSION_USER"
   else
     echo "Aborting.."
     exit 1
