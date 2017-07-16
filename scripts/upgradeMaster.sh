@@ -12,6 +12,7 @@ echo "* Welcome to nafsdm master upgrade script!"
 
 # as nafsdm-master doesn't know if it's centos or debian, this command should generally work.
 python -mplatform | grep -qi Ubuntu && echo "debian" > /home/master-nafsdm/system-type.txt || echo "centos" > /home/master-nafsdm/system-type.txt
+python -mplatform | grep -qi debian && echo "debian" > /home/master-nafsdm/system-type.txt || echo "centos" > /home/master-nafsdm/system-type.txt
 
 OPERATINGSYS="`cat /home/master-nafsdm/system-type.txt`"
 
