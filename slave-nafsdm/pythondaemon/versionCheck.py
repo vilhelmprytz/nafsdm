@@ -27,7 +27,7 @@ def checkUpdate(config):
                 f.close()
 
             # url must change from development to master before release!!
-            url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/development/scripts/upgradeSlave.sh")
+            url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/scripts/upgradeSlave.sh")
             r = requests.get(url)
             if (r.status_code == requests.codes.ok):
                 f = open("/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh", "w")
@@ -36,7 +36,7 @@ def checkUpdate(config):
                 import subprocess
                 outputNull = subprocess.check_output(["chmod", "+x", "/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh"])
 
-                url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/development/scripts/upgradeSlave.py")
+                url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/scripts/upgradeSlave.py")
                 r = requests.get(url)
                 if (r.status_code == requests.codes.ok):
                     f = open("/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py", "w")

@@ -1,3 +1,1 @@
-domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes dnssec.yes
-domain2.tld 0.0.0.0 OwnComment nodes.nodes.nodes dnssec.no
-domain3.tld 0.0.0.0 OwnComment nodes.nodes.nodes dnssec.no
+domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes dnssec.no
