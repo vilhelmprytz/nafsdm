@@ -2,7 +2,7 @@
 (remove completely from list when finished/solved)
 
 ## High Priority
-* (bug): Solve issue https://github.com/MrKaKisen/nafsdm/issues/11 - slaves crashing if editor is open on master
+NONE
 
 ## Lower Priority
 * (bug): Solve issue https://github.com/MrKaKisen/nafsdm/issues/12 - domain is removed if CTRL+C while editor is open (master)

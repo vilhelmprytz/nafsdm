@@ -1,3 +1,7 @@
+Version ?.? (Status: DEVELOPMENT, Branch: development)
+* Issue #11 fixed.
+
+
 Version 1.2 (Status: RELEASED)
 * Added DNSSEC support.
 * Added upgrade scripts.
