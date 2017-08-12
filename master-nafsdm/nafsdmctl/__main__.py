@@ -99,44 +99,77 @@ elif (sys.argv[1] == "edit"):
             # remove config
             os.remove("/home/master-nafsdm/data/domains.txt")
 
+            # fixing issue #11 by first checking if domain is there then editing
+            wasFound = False
+            for currentLine in rawDomains.split("\n"):
+                if len(currentLine.split()) == 5:
+                    if sys.argv[2] in currentLine:
+                        f = open("/home/master-nafsdm/data/domains.txt", "a")
+                        f.write(currentLine + "\n")
+                        f.close()
+
+                        wasFound = True
+                    else:
+                        f = open("/home/master-nafsdm/data/domains.txt", "a")
+                        f.write(currentLine + "\n")
+                        f.close()
+
+            if wasFound == True:
+                # domain name
+                domain_name = raw_input("Enter new domain name (blank for no change): ")
+                if domain_name == "":
+                    domain_name = False
+
+                # master IP
+                master_ip = raw_input("Enter new master IP (blank for no change): ")
+                if master_ip == "":
+                    master_ip = False
+
+                # comment
+                comment = raw_input("Enter new comment (blank for no change): ")
+                if comment == "":
+                    comment = False
+
+                # slaves
+                slaves = raw_input("Enter new slaves (seperated with '.') (blank for no change): ")
+                if "." in slaves:
+                    if slaves == "":
+                        slaves = False
+                else:
+                    print("syntax error: invalid slaves. Continuing anyways (set to same as before)")
+                    slaves = False
+
+                # DNSSEC
+                dnssec = raw_input("Edit DNSSEC status (only type yes or no) (blank for no change): ")
+                if dnssec == "yes":
+                    dnssec = "dnssec.yes"
+                elif dnssec == "no":
+                    dnssec = "dnssec.no"
+                else:
+                    dnssec = False
+                    print("syntax error: only yes or no supported. Value set to same as before.")
+            else:
+                print("nafsdmctl: edit failed - domain name not found?")
+                exit(1)
+
+            # remove config
+            os.remove("/home/master-nafsdm/data/domains.txt")
+
             wasEdited = False
             for currentLine in rawDomains.split("\n"):
                 if len(currentLine.split()) == 5:
                     if sys.argv[2] in currentLine:
 
-                        # domain name
-                        domain_name = raw_input("Enter new domain name (blank for no change): ")
-                        if domain_name == "":
+                        if domain_name == False:
                             domain_name = currentLine.split()[0]
-
-                        # master IP
-                        master_ip = raw_input("Enter new master IP (blank for no change): ")
-                        if master_ip == "":
+                        if master_ip == False:
                             master_ip = currentLine.split()[1]
-
-                        # comment
-                        comment = raw_input("Enter new comment (blank for no change): ")
-                        if comment == "":
+                        if comment == False:
                             comment = currentLine.split()[2]
-
-                        # slaves
-                        slaves = raw_input("Enter new slaves (seperated with '.') (blank for no change): ")
-                        if "." in slaves:
-                            if slaves == "":
-                                slaves = currentLine.split()[3]
-                        else:
-                            print("syntax error: invalid slaves. Continuing anyways (set to same as before)")
+                        if slaves == False:
                             slaves = currentLine.split()[3]
-
-                        # DNSSEC
-                        dnssec = raw_input("Edit DNSSEC status (only type yes or no) (blank for no change): ")
-                        if dnssec == "yes":
-                            dnssec = "dnssec.yes"
-                        elif dnssec == "no":
-                            dnssec = "dnssec.no"
-                        else:
+                        if dnssec == False:
                             dnssec = currentLine.split()[4]
-                            print("syntax error: only yes or no supported. Value set to same as before.")
 
                         writeLine = domain_name + " " + master_ip + " " + comment + " " + slaves + " " + dnssec + "\n"
                         f = open("/home/master-nafsdm/data/domains.txt", "a")
@@ -152,7 +185,7 @@ elif (sys.argv[1] == "edit"):
             if wasEdited == True:
                 print("nafsdmctl: edit succesful")
             if wasEdited == False:
-                print("nafsdmctl: edit failed - invalid domain name?")
+                print("nafsdmctl: edit failed - this has probably destroyed your config!")
         else:
             print("syntax error: invalid domain name?")
     else:
