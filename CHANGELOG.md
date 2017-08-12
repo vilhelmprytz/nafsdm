@@ -1,5 +1,6 @@
 Version ?.? (Status: DEVELOPMENT, Branch: development)
-* Issue #11 fixed.
+* Issue #11 fixed (nafsdmctl editor open causing slaves to crash).
+* Issue #12 fixed (CTRL+C in nafsdmctl edit).
 
 
 Version 1.2 (Status: RELEASED)

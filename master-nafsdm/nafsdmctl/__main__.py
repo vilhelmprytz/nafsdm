@@ -7,8 +7,16 @@ import sys
 import os
 import os.path
 
+# catching ctrl+c
+import signal
+import sys
+
 # global vars
 longLine = ("---------------------------------------------------------")
+
+# functions
+def signal_handler(signal, frame):
+    print("CTRL+C - quitting.")
 
 # global check if user hasn't typed any vars
 if len(sys.argv) < 2:
@@ -113,6 +121,9 @@ elif (sys.argv[1] == "edit"):
                         f = open("/home/master-nafsdm/data/domains.txt", "a")
                         f.write(currentLine + "\n")
                         f.close()
+
+            # issue 12 fixes
+            signal.signal(signal.SIGINT, signal_handler)
 
             if wasFound == True:
                 # domain name
