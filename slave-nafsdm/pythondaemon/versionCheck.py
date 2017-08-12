@@ -6,10 +6,22 @@ from version import version
 from daemonlog import log
 import os
 import requests
+import os.path
+
+github_branch = "master"
+
+# dev function for specifing branch
+if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_github_branch.txt"):
+    f = open("/home/slave-nafsdm/pythondaemon/dev_github_branch.txt")
+    branchRaw = f.read()
+    f.close()
+
+    if "development" in branchRaw:
+        github_branch = "development"
 
 def checkUpdate(config):
     log("Checking if a new version is available..")
-    r = requests.get("https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/version.txt")
+    r = requests.get("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/version.txt")
 
     # check if we got a good code, requests has builtin codes which are OK
     if (r.status_code == requests.codes.ok):
@@ -27,7 +39,7 @@ def checkUpdate(config):
                 f.close()
 
             # url must change from development to master before release!!
-            url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/scripts/upgradeSlave.sh")
+            url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/scripts/upgradeSlave.sh")
             r = requests.get(url)
             if (r.status_code == requests.codes.ok):
                 f = open("/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh", "w")
@@ -36,7 +48,7 @@ def checkUpdate(config):
                 import subprocess
                 outputNull = subprocess.check_output(["chmod", "+x", "/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh"])
 
-                url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/scripts/upgradeSlave.py")
+                url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/scripts/upgradeSlave.py")
                 r = requests.get(url)
                 if (r.status_code == requests.codes.ok):
                     f = open("/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py", "w")
