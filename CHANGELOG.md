@@ -1,4 +1,5 @@
-Version ?.? (Status: DEVELOPMENT, Branch: development)
+Version 1.2.1 (Status: DEVELOPMENT, Branch: development)
+* Development feature: specifiy GitHub branch to use
 * Issue #11 fixed (nafsdmctl editor open causing slaves to crash).
 * Issue #12 fixed (CTRL+C in nafsdmctl edit).
 
