@@ -3,7 +3,9 @@ Version 1.2.1 (Status: DEVELOPMENT, Branch: development)
 * Issue #8 fixed (nafsdm-slave not start on boot)
 * Issue #11 fixed (nafsdmctl editor open causing slaves to crash).
 * Issue #12 fixed (CTRL+C in nafsdmctl edit).
-
+(from dev2)
+* Remove non-working fix for issue #8.
+* New fix for issue #8.
 
 Version 1.2 (Status: RELEASED)
 * Added DNSSEC support.

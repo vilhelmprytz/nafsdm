@@ -82,8 +82,8 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   rm -rf /home/slave-nafsdm/pythondaemon
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
-  # 1.2 > forward (init.d file)
-  cp nafsdm/systemconfigs/init.d/nafsdm-slave /etc/init.d/nafsdm-slave
+  # 1.2 > forward (enable on boot file)
+  /usr/bin/env systemctl enable nafsdm-slave
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
