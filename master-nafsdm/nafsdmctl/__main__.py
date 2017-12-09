@@ -17,6 +17,7 @@ longLine = ("---------------------------------------------------------")
 # functions
 def signal_handler(signal, frame):
     print("CTRL+C - quitting.")
+    exit(0)
 
 # global check if user hasn't typed any vars
 if len(sys.argv) < 2:

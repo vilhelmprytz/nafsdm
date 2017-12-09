@@ -1,4 +1,4 @@
-Version 1.2.1 (Status: DEVELOPMENT, Branch: development)
+Version 1.2.1 (Status: RELEASED)
 * Development feature: specifiy GitHub branch to use
 * Issue #8 fixed (nafsdm-slave not start on boot)
 * Issue #11 fixed (nafsdmctl editor open causing slaves to crash).
@@ -6,6 +6,9 @@ Version 1.2.1 (Status: DEVELOPMENT, Branch: development)
 (from dev2)
 * Remove non-working fix for issue #8.
 * New fix for issue #8.
+(from dev3, not released we just go straight to stable)
+* New fix for issue #8
+* Issue #11 silly fix
 
 Version 1.2 (Status: RELEASED)
 * Added DNSSEC support.
