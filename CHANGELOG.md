@@ -1,4 +1,4 @@
-Version 1.2.2 (Status: DEVELOPMENT, dev1 released)
+Version 1.2.2 (Status: RELEASED)
 * Reworked logger function completely (now catches exceptions, new logging levels, stdout and filehandler)
 * Small changes
 

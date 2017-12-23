@@ -96,7 +96,7 @@ def commandReload(domainsNew):
         logging.info("Reload output (should be empty if ok): " + subprocess.check_output(["rndc", "reconfig"]))
     except Exception:
         logging.exception("An error occured during bind reload.")
-        logging.error("Due to the recent error, we will conrinue to try to reload bind.")
+        logging.error("Due to the recent error, we will continue to try to reload bind.")
         reloadSucceeded = False
 
     if reloadSucceeded == True:

@@ -1,5 +1,5 @@
 # nafsdm
-**Current status: STABLE, version 1.2.1-stable** [![Build Status](https://ci.mrkakisen.net/job/MrKaKisen/job/nafsdm/job/master/badge/icon)](https://ci.mrkakisen.net/job/MrKaKisen/job/nafsdm/job/master/)
+**Current status: STABLE, version 1.2.2-stable**
 
 Manages DNS nodes and makes sure domains are saved in the slaves configs. Runs on Python and SSH.
 
