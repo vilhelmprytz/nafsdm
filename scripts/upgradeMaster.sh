@@ -1,6 +1,6 @@
 # nafsdm
 # upgrade script for nafsdm master
-# Copyright Vilhelm Prytz 2017
+# (c) Vilhelm Prytz 2017
 
 # check if user is root or not
 if [[ $EUID -ne 0 ]]; then

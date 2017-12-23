@@ -1,4 +1,5 @@
 # nafsdm
+# (c) Vilhelm Prytz 2017
 # __main__
 # get's stuff goooing
 

@@ -1,3 +1,6 @@
+Version 1.2.2 (Status: DEVELOPMENT)
+* New logger (catches exceptions)
+
 Version 1.2.1 (Status: RELEASED)
 * Development feature: specifiy GitHub branch to use
 * Issue #8 fixed (nafsdm-slave not start on boot)

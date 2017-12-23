@@ -1,4 +1,5 @@
 # nafsdm
+# (c) Vilhelm Prytz 2017
 # getConfig
 # parses the config and returns in var
 
