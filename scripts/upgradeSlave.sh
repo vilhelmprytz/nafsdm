@@ -36,6 +36,9 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.1-stable"' ]; then
 elif [ "$MY_VERSION_RAW" == 'version = "1.2-stable"' ]; then
   echo "* Detected version 1.2-stable - supported by this upgrade script."
   MY_VERSION="1.2-stable"
+elif [ "$MY_VERSION_RAW" == 'version = "1.2.1-stable"' ]; then
+  echo "* Detected version 1.2.1-stable - supported by this upgrade script."
+  MY_VERSION="1.2.1-stable"
 else
   echo "* Your version is not supported (dev versions and 1.0 is not supported)."
   exit 1
@@ -93,7 +96,14 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
+elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/slave-nafsdm/pythondaemon
+  cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
+  echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
+  rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
+  
 else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1

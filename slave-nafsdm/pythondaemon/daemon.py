@@ -3,7 +3,7 @@
 # __main__
 # daemon functions
 
-from daemonlog import *
+import logging
 import time
 import os
 import sys
@@ -13,14 +13,8 @@ def getData(config):
     try:
          outputNull = subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"])
     except Exception:
-        log("FATAL: An error occured during SCP connection. Running command again as output will be printed below: ")
-        log(subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"]))
-        if (sys.exc_info()[0] == "<class 'subprocess.CalledProcessError'>"):
-            log("FATAL: Errors where encountered when trying to get domains data.")
-            log("FATAL: Could not connect. Wrong password/key? Error message: " + str(sys.exc_info()[0]))
-        else:
-            log("FATAL: Errors where encountered when trying to get domains data.")
-            log("FATAL: An unknown error occured. Error message: " + str(sys.exc_info()[0]))
+        logging.exception("An error occured during SCP connection.")
+        logging.error("Please check if the master is up and working.")
 
 # find slave function
 def find_slave(currentLine, myhostname):
@@ -87,11 +81,11 @@ zone "''' + currentLine.split()[0] + '''" IN {
 }; ''' + "\n" + "\n")
                                 f.close()
                     else:
-                        log("FATAL: Invalid system type. Debian (ubuntu) & CentOS only supported.")
+                        logging.critical("Invalid system type. Debian (ubuntu) & CentOS only supported.")
                         exit(1)
     else:
-        log("FATAL: An error occured while reading data that was recently downloaded. This usually means the file never was downloaded and therefore doesn't exist.")
-        log("FATAL: Couldn't read from domains file! Connection error?")
+        logging.error("An error occured while reading data that was recently downloaded. This usually means the file never was downloaded and therefore doesn't exist.")
+        logging.error("Couldn't read from domains file! Connection error?")
 
 def commandReload(domainsNew):
     # just to split things up
@@ -99,10 +93,10 @@ def commandReload(domainsNew):
     # if it fails, it will be printed in log
     reloadSucceeded = True
     try:
-        log(subprocess.check_output(["rndc", "reconfig"]))
+        logging.info("Reload output (should be empty if ok): " + subprocess.check_output(["rndc", "reconfig"]))
     except Exception:
-        log("FATAL: An error occured during bind reload. Run 'rndc reconfig' yourself to see why.")
-        log("FATAL: Due to the error, we will conrinue to try to reload bind.")
+        logging.exception("An error occured during bind reload.")
+        logging.error("Due to the recent error, we will conrinue to try to reload bind.")
         reloadSucceeded = False
 
     if reloadSucceeded == True:
@@ -119,7 +113,7 @@ def reloadBind():
         domainsBefore = f.read()
         f.close()
     else:
-        log("WARNING: Couldn't read from before domains temp file. Is this the first time running maybe?")
+        logging.warning("Couldn't read from before domains temp file. Is this the first time running maybe?")
         continueReload = True
         beforeExists = False
 
@@ -128,23 +122,23 @@ def reloadBind():
         domainsNew = f.read()
         f.close()
     else:
-        log("WARNING: Couldn't read from domains temp file. Is this the first time running maybe?")
+        logging.warning("Couldn't read from domains temp file. Is this the first time running maybe?")
         continueReload = False
 
     if (continueReload == True):
         if (beforeExists == True):
             if domainsBefore != domainsNew:
-                log("Change detected! Reloading bind..")
+                logging.info("Change detected! Reloading bind..")
                 commandReload(domainsNew)
         else:
-            log("No before file. Reloading bind..")
+            logging.info("No before file. Reloading bind..")
             commandReload(domainsNew)
     else:
-        log("FATAL: Bind reload aborted due to earlier errors.")
+        logging.error("Bind reload aborted due to earlier errors.")
 
 
 def runDaemon(config):
-    log("Daemon started!")
+    logging.info("Daemon started!")
 
     # run everything once as we get immediate output if everything is OK
     getData(config)
