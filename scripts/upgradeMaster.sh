@@ -1,6 +1,6 @@
 # nafsdm
 # upgrade script for nafsdm master
-# Copyright Vilhelm Prytz 2017
+# (c) Vilhelm Prytz 2017
 
 # check if user is root or not
 if [[ $EUID -ne 0 ]]; then
@@ -39,6 +39,9 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.1-stable"' ]; then
 elif [ "$MY_VERSION_RAW" == 'version = "1.2-stable"' ]; then
   echo "* Detected version 1.2-stable - supported by this upgrade script."
   MY_VERSION="1.2-stable"
+elif [ "$MY_VERSION_RAW" == 'version = "1.2.1-stable"' ]; then
+  echo "* Detected version 1.2-stable - supported by this upgrade script."
+  MY_VERSION="1.2.1-stable"
 else
   echo "* Your version is not supported (dev versions and 1.0 is not supported)."
   exit 1
@@ -73,6 +76,14 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
   echo "* NAFSDM WILL NOT START IF THIS SCRIPT EXISTS. DELETE IT BEFORE START."
 elif [ "$MY_VERSION" == "1.2-stable" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/master-nafsdm/pythondaemon
+  rm -rf /home/master-nafsdm/nafsdmctl
+  cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
+  cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
+
+  echo "* Update completed. Nothing to do or change!"
+elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
   rm -rf /home/master-nafsdm/nafsdmctl

@@ -1,3 +1,5 @@
 #!/usr/bin/env python
 
-from pythondaemon import __main__
+from pythondaemon.__main__ import main
+
+main()

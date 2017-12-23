@@ -1,6 +1,6 @@
 # nafsdm
 # upgrade script for nafsdm slave
-# Copyright Vilhelm Prytz 2017
+# (c) Vilhelm Prytz 2017
 
 # check if user is root or not
 if [[ $EUID -ne 0 ]]; then
@@ -36,6 +36,9 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.1-stable"' ]; then
 elif [ "$MY_VERSION_RAW" == 'version = "1.2-stable"' ]; then
   echo "* Detected version 1.2-stable - supported by this upgrade script."
   MY_VERSION="1.2-stable"
+elif [ "$MY_VERSION_RAW" == 'version = "1.2.1-stable"' ]; then
+  echo "* Detected version 1.2.1-stable - supported by this upgrade script."
+  MY_VERSION="1.2.1-stable"
 else
   echo "* Your version is not supported (dev versions and 1.0 is not supported)."
   exit 1
@@ -67,6 +70,10 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   /usr/bin/env systemctl enable nafsdm-slave
 
+  # 1.2.2 > forward (replace start)
+  rm -rf /home/slave-nafsdm/start.py
+  cp nafsdm/slave-nafsdm/start.py /home/slave-nafsdm/start.py -R
+
   echo "* Upgrade completed."
   echo "* Script has automatically modified your config to match with the new standards."
 elif [ "$MY_VERSION" == "1.1-stable" ]; then
@@ -79,6 +86,10 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   /usr/bin/env systemctl enable nafsdm-slave
 
+  # 1.2.2 > forward (replace start)
+  rm -rf /home/slave-nafsdm/start.py
+  cp nafsdm/slave-nafsdm/start.py /home/slave-nafsdm/start.py -R
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 elif [ "$MY_VERSION" == "1.2-stable" ]; then
@@ -90,6 +101,21 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   /usr/bin/env systemctl enable nafsdm-slave
+
+  # 1.2.2 > forward (replace start)
+  rm -rf /home/slave-nafsdm/start.py
+  cp nafsdm/slave-nafsdm/start.py /home/slave-nafsdm/start.py -R
+
+  echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
+  rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
+elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/slave-nafsdm/pythondaemon
+  cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
+
+  # 1.2.2 > forward (replace start)
+  rm -rf /home/slave-nafsdm/start.py
+  cp nafsdm/slave-nafsdm/start.py /home/slave-nafsdm/start.py -R
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh

@@ -1,8 +1,9 @@
 # nafsdm
+# (c) Vilhelm Prytz 2017
 # getConfig
 # parses the config and returns in var
 
-from daemonlog import *
+import logging
 from configDir import __configDir__ as configDir
 import ConfigParser
 
@@ -21,8 +22,9 @@ class Config(object):
             self.bindPath = parser.get("nafsdm", "bindPath")
             self.nodeName = parser.get("nafsdm", "nodeName")
 
-        except ConfigParser.MissingSectionHeaderError or ConfigParser.ParsingError:
-            log("FATAL: Could not read config. Please check your config if it's setup properly.")
+        except Exception:
+            logging.exception("Could not read config. Please check your config if it's setup properly.")
+            logging.critical("Exiting application due to recent error.")
             quit(1)
 
 
