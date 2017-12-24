@@ -73,6 +73,7 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   # 1.2.2 > forward (replace start)
   rm -rf /home/slave-nafsdm/start.py
   cp nafsdm/slave-nafsdm/start.py /home/slave-nafsdm/start.py -R
+  chmod +x /home/slave-nafsdm/start.py
 
   echo "* Upgrade completed."
   echo "* Script has automatically modified your config to match with the new standards."
@@ -89,6 +90,7 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   # 1.2.2 > forward (replace start)
   rm -rf /home/slave-nafsdm/start.py
   cp nafsdm/slave-nafsdm/start.py /home/slave-nafsdm/start.py -R
+  chmod +x /home/slave-nafsdm/start.py
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -105,6 +107,7 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   # 1.2.2 > forward (replace start)
   rm -rf /home/slave-nafsdm/start.py
   cp nafsdm/slave-nafsdm/start.py /home/slave-nafsdm/start.py -R
+  chmod +x /home/slave-nafsdm/start.py
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -116,6 +119,7 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   # 1.2.2 > forward (replace start)
   rm -rf /home/slave-nafsdm/start.py
   cp nafsdm/slave-nafsdm/start.py /home/slave-nafsdm/start.py -R
+  chmod +x /home/slave-nafsdm/start.py
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
