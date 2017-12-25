@@ -68,7 +68,7 @@ def checkUpdate(config):
                         f.write(upgradeStatus)
                         f.close()
                         logging.info("Upgrade completed. Please update your configuration as the upgradeLog.log says.")
-                        logging.info("nafsdm will continue to boot but into the old version (libs already loaded :P)")
+                        exit(0)
                 else:
                     logging.critical("Couldn't connect to GitHub! Quitting...")
                     exit(1)

@@ -66,6 +66,7 @@ def checkUpdate():
                         f.write(upgradeStatus)
                         f.close()
                         log("INFO: Upgrade completed. Please update your configuration as the upgradeLog.log says.")
+                        exit(0)
                 else:
                     log("FATAL: Couldn't connect to GitHub! Quitting...")
                     exit(1)

@@ -1,3 +1,6 @@
+Version 1.2.3 (Status: DEVELOPMENT)
+* nafsdm-master now uses SQL to save domains in
+
 Version 1.2.2 (Status: RELEASED)
 * Reworked logger function completely (now catches exceptions, new logging levels, stdout and filehandler)
 * Small changes
