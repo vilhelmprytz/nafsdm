@@ -8,81 +8,69 @@ import time
 import os
 import sys
 import subprocess
+import db
+from shutil import copyfile
 
 def getData(config):
     try:
-         outputNull = subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host + ":/home/master-nafsdm/data/domains.txt", "/home/slave-nafsdm/domains.temp"])
+         outputNull = subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host + ":/home/master-nafsdm/data/domains.sql", "/home/slave-nafsdm/temp/domains_temp.sql"])
     except Exception:
         logging.exception("An error occured during SCP connection.")
         logging.error("Please check if the master is up and working.")
 
-# find slave function
-def find_slave(currentLine, myhostname):
-    if not len(currentLine.split()) < 2:
-        # split it by space
-        split1 = currentLine.split()
-
-        wasFound = False
-        for currentSlave in split1[3].split("."):
-            if currentSlave == myhostname:
-                wasFound = True
-
-        return wasFound
-
 def writeData(config):
-    if os.path.isfile("/home/slave-nafsdm/domains.temp") == True:
-        f = open("/home/slave-nafsdm/domains.temp")
-        domainsData = f.read()
-        f.close()
+    if os.path.isfile("/home/slave-nafsdm/temp/domains_temp.sql") == True:
+        domainsToWrite = parseDbData(config)
+        if domainsToWrite != False:
 
-        # remove config temporarily
-        if os.path.isfile(config.bindPath):
-            os.remove(config.bindPath)
+            # remove config temporarily
+            if os.path.isfile(config.bindPath):
+                os.remove(config.bindPath)
 
-        for currentLine in domainsData.split("\n"):
-            if len(currentLine.split()) == 5:
-                wasFound = find_slave(currentLine, config.nodeName)
-                if (wasFound == True):
-                    if len(currentLine.split()[4]) != 2:
-                        if currentLine.split()[4].split(".")[1] == "yes":
-                            f = open(config.bindPath, "a")
-                            if config.type == "debian" or config.type == "ubuntu":
-                                f.write('''/* ''' + currentLine.split()[2] + ''' */
-zone "''' + currentLine.split()[0] + '''" IN {
+            for r in domainsToWrite:
+                if r[5] == "y":
+                    f = open(config.bindPath, "a")
+                    if config.type == "debian" or config.type == "ubuntu":
+                        f.write('''/* ''' + currentLine.split()[2] + ''' */
+zone "''' + r[1] + '''" IN {
     type slave;
-    file "db.''' + currentLine.split()[0] + '''.signed";
-    masters { ''' + currentLine.split()[1] + '''; };
+    file "db.''' + r[1] + '''.signed";
+    masters { ''' + r[2] + '''; };
 }; ''' + "\n" + "\n")
-                                f.close()
-                            elif config.type == "centos":
-                                f.write('''/* ''' + currentLine.split()[2] + ''' */
-zone "''' + currentLine.split()[0] + '''" IN {
+                        f.close()
+                    elif config.type == "centos":
+                        f.write('''/* ''' + currentLine.split()[2] + ''' */
+zone "''' + r[1] + '''" IN {
     type slave;
-    file "slaves/''' + currentLine.split()[0] + '''.signed";
-    masters { ''' + currentLine.split()[1] + '''; };
+    file "slaves/''' + r[1] + '''.signed";
+    masters { ''' + r[2] + '''; };
 }; ''' + "\n" + "\n")
-                                f.close()
-                        elif currentLine.split()[4].split(".")[1] == "no":
-                            f = open(config.bindPath, "a")
-                            if config.type == "debian" or config.type == "ubuntu":
-                                f.write('''/* ''' + currentLine.split()[2] + ''' */
-zone "''' + currentLine.split()[0] + '''" IN {
-    type slave;
-    file "db.''' + currentLine.split()[0] + '''";
-    masters { ''' + currentLine.split()[1] + '''; };
-}; ''' + "\n" + "\n")
-                                f.close()
-                            elif config.type == "centos":
-                                f.write('''/* ''' + currentLine.split()[2] + ''' */
-zone "''' + currentLine.split()[0] + '''" IN {
-    type slave;
-    file "slaves/''' + currentLine.split()[0] + '''";
-    masters { ''' + currentLine.split()[1] + '''; };
-}; ''' + "\n" + "\n")
-                                f.close()
+                        f.close()
                     else:
-                        logging.critical("Invalid system type. Debian (ubuntu) & CentOS only supported.")
-                        exit(1)
+                        invalidSystemType = True
+                elif r[5] == "n":
+                    f = open(config.bindPath, "a")
+                    if config.type == "debian" or config.type == "ubuntu":
+                        f.write('''/* ''' + currentLine.split()[2] + ''' */
+zone "''' + r[1] + '''" IN {
+    type slave;
+    file "db.''' + r[1] + '''";
+    masters { ''' + r[2] + '''; };
+}; ''' + "\n" + "\n")
+                        f.close()
+                    elif config.type == "centos":
+                        f.write('''/* ''' + currentLine.split()[2] + ''' */
+zone "''' + r[1] + '''" IN {
+    type slave;
+    file "slaves/''' + r[1] + '''";
+    masters { ''' + r[2] + '''; };
+}; ''' + "\n" + "\n")
+                        f.close()
+                    else:
+                        invalidSystemType = True
+            if invalidSystemType == True:
+                logging.critical("Invalid system type! Please check your config!")
+                exit(1)
     else:
         logging.error("An error occured while reading data that was recently downloaded. This usually means the file never was downloaded and therefore doesn't exist.")
         logging.error("Couldn't read from domains file! Connection error?")
@@ -101,15 +89,17 @@ def commandReload(domainsNew):
 
     if reloadSucceeded == True:
         # update the before file so reload doesn't occur again
-        f = open("/home/slave-nafsdm/domains.before", "w")
-        f.write(domainsNew)
-        f.close()
+        try:
+            copyfile("/home/slave-nafsdm/temp/domains_temp.sql", "/home/slave-nafsdm/temp/domains_before.sql")
+        except Exception:
+            logging.exception("Error occured during file replacement domains_temp to domains_before.")
+            logging.error("Do we have permissions to that folder?")
 
 def reloadBind():
     continueReload = True
     beforeExists = True
-    if os.path.isfile("/home/slave-nafsdm/domains.before"):
-        f = open("/home/slave-nafsdm/domains.before")
+    if os.path.isfile("/home/slave-nafsdm/temp/domains_before.sql"):
+        f = open("/home/slave-nafsdm/temp/domains_before.sql")
         domainsBefore = f.read()
         f.close()
     else:
@@ -117,8 +107,8 @@ def reloadBind():
         continueReload = True
         beforeExists = False
 
-    if os.path.isfile("/home/slave-nafsdm/domains.temp"):
-        f = open("/home/slave-nafsdm/domains.temp")
+    if os.path.isfile("/home/slave-nafsdm/temp/domains_temp.sql"):
+        f = open("/home/slave-nafsdm/temp/domains_temp.sql")
         domainsNew = f.read()
         f.close()
     else:
