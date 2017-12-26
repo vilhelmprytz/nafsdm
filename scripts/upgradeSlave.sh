@@ -22,9 +22,10 @@ else
   exit 1
 fi
 
+BRANCH="development"
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
 MY_VERSION_RAW="`cat /home/slave-nafsdm/pythondaemon/version.py`"
-LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/version.txt)
+LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/$BRANCH/version.txt)
 
 # determine supported versions
 if [ "$MY_VERSION_RAW" == 'version = "1.0.1-stable"' ]; then
