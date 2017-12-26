@@ -6,7 +6,7 @@
 import sys
 import os
 import os.path
-import db
+from db import *
 
 # catching ctrl+c
 import signal
@@ -99,6 +99,9 @@ elif (sys.argv[1] == "edit"):
             else:
                 dnssec = None
                 print("syntax error: only yes or no supported. Value set to same as before.")
+
+            # set the domain
+            domain = sys.argv[2]
 
             if editDomain(domain, master_ip, comment, slaves, dnssec) == True:
                 print("nafsdmctl: edit succesful")

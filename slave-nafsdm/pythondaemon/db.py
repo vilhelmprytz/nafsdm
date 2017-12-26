@@ -4,6 +4,7 @@
 # database SQL communication
 
 import logging
+import sqlite3
 
 # vars
 domains_beforePath = "/home/slave-nafsdm/temp/domain_before.sql"
@@ -32,7 +33,7 @@ def parseDbData(config):
     else:
         # get all the nodes where we have our hostname in the assignedNodes
         cursor.execute('''SELECT * FROM domain
-WHERE assignedNodes "%''' + config.nodeName +  '''%";''')
+WHERE assignedNodes "''' + config.nodeName +  '''";''')
 
         result = cursor.fetchall()
 

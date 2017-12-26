@@ -68,9 +68,11 @@ def migrateData():
         if len(domain.split()) == 5:
             domainVars = domain.split()
             if domainVars[4] == "dnssec.yes":
-                domainsTable.append(domainVars[0], domainVars[1], domainVars[2], domainVars[3], "y")
+                domainsList = [domainVars[0], domainVars[1], domainVars[2], domainVars[3], "y"]
+                domainsTable.append(domainsList)
             elif domainVars[4] == "dnssec.no":
-                domainsTable.append(domainVars[0], domainVars[1], domainVars[2], domainVars[3], "n")
+                domainsList = [domainVars[0], domainVars[1], domainVars[2], domainVars[3], "n"]
+                domainsTable.append(domainsList)
 
     # open up sql connection
     connection = sqlite3.connect("/home/master-nafsdm/data/domains.sql")

@@ -8,7 +8,7 @@ import time
 import os
 import sys
 import subprocess
-import db
+from db import parseDbData
 from shutil import copyfile
 
 def getData(config):

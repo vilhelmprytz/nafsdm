@@ -4,7 +4,7 @@
 
 # imports
 import os.path
-from setup import setupSSH
+from setup import setupSSH, migrateData
 from daemonlog import log
 from version import version
 from versionCheck import checkUpdate
@@ -29,7 +29,7 @@ if os.path.isfile("/home/master-nafsdm/data/domains.txt"):
 
         # let the user choose to migrate old data to new SQL format
         confirmLoop = False
-        while confirmLoop is False
+        while confirmLoop is False:
             confirm = raw_input("Confirm? (y/n): ")
             if confirm == "y" or confirm == "Y" or confirm == "yes":
                 log("Confirmed. Migrating data...")
