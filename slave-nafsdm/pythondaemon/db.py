@@ -33,11 +33,11 @@ def parseDbData(config):
     else:
         # get all the nodes where we have our hostname in the assignedNodes
         cursor.execute('''SELECT * FROM domain
-WHERE assignedNodes "''' + config.nodeName +  '''";''')
+WHERE assignedNodes LIKE "%''' + config.nodeName +  '''%"''')
 
         result = cursor.fetchall()
 
-        if len(cursor.fetchall()) == 0:
+        if len(result) == 0:
             return False
 
         return result

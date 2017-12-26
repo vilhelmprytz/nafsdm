@@ -48,8 +48,7 @@ def main():
 
     # check if the temp folder exists
     if os.path.isdir("/home/slave-nafsdm/temp"):
-        shutil.rmtree("/home/slave-nafsdm/temp")
-        os.makedirs("/home/slave-nafsdm/temp")
+        logging.debug("Temp folder already exists.")
     else:
         if os.path.isfile("/home/slave-nafsdm/temp"):
             os.remove("/home/slave-nafsdm/temp")

@@ -11,6 +11,39 @@ import subprocess
 from db import parseDbData
 from shutil import copyfile
 
+def changeDetected():
+    changeDetected = None
+    beforeExists = None
+    tempExists = None
+
+    if os.path.isfile("/home/slave-nafsdm/temp/domains_before.sql"):
+        f = open("/home/slave-nafsdm/temp/domains_before.sql")
+        domainsBefore = f.read()
+        f.close()
+        beforeExists = True
+    else:
+        logging.warning("Couldn't read from before domains temp file. Is this the first time running maybe?")
+        beforeExists = False
+
+    if os.path.isfile("/home/slave-nafsdm/temp/domains_temp.sql"):
+        f = open("/home/slave-nafsdm/temp/domains_temp.sql")
+        domainsNew = f.read()
+        f.close()
+        tempExists = True
+    else:
+        logging.warning("Couldn't read from domains temp file. Is this the first time running maybe?")
+        tempExists = False
+
+    if tempExists == True and beforeExists == True:
+        if domainsBefore != domainsNew:
+            changeDetected = True
+        else:
+            changeDetected = False
+    else:
+        changeDetected = False
+
+    return changeDetected
+
 def getData(config):
     try:
          outputNull = subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host + ":/home/master-nafsdm/data/domains.sql", "/home/slave-nafsdm/temp/domains_temp.sql"])
@@ -25,13 +58,15 @@ def writeData(config):
 
             # remove config temporarily
             if os.path.isfile(config.bindPath):
+                logging.debug("Removing config temporarily")
                 os.remove(config.bindPath)
 
+            invalidSystemType = False
             for r in domainsToWrite:
                 if r[5] == "y":
                     f = open(config.bindPath, "a")
                     if config.type == "debian" or config.type == "ubuntu":
-                        f.write('''/* ''' + currentLine.split()[2] + ''' */
+                        f.write('''/* ''' + r[3] + ''' */
 zone "''' + r[1] + '''" IN {
     type slave;
     file "db.''' + r[1] + '''.signed";
@@ -39,7 +74,7 @@ zone "''' + r[1] + '''" IN {
 }; ''' + "\n" + "\n")
                         f.close()
                     elif config.type == "centos":
-                        f.write('''/* ''' + currentLine.split()[2] + ''' */
+                        f.write('''/* ''' + r[3] + ''' */
 zone "''' + r[1] + '''" IN {
     type slave;
     file "slaves/''' + r[1] + '''.signed";
@@ -51,7 +86,7 @@ zone "''' + r[1] + '''" IN {
                 elif r[5] == "n":
                     f = open(config.bindPath, "a")
                     if config.type == "debian" or config.type == "ubuntu":
-                        f.write('''/* ''' + currentLine.split()[2] + ''' */
+                        f.write('''/* ''' + r[3] + ''' */
 zone "''' + r[1] + '''" IN {
     type slave;
     file "db.''' + r[1] + '''";
@@ -59,7 +94,7 @@ zone "''' + r[1] + '''" IN {
 }; ''' + "\n" + "\n")
                         f.close()
                     elif config.type == "centos":
-                        f.write('''/* ''' + currentLine.split()[2] + ''' */
+                        f.write('''/* ''' + r[3] + ''' */
 zone "''' + r[1] + '''" IN {
     type slave;
     file "slaves/''' + r[1] + '''";
@@ -71,13 +106,12 @@ zone "''' + r[1] + '''" IN {
             if invalidSystemType == True:
                 logging.critical("Invalid system type! Please check your config!")
                 exit(1)
+            logging.debug("New config has been written.")
     else:
         logging.error("An error occured while reading data that was recently downloaded. This usually means the file never was downloaded and therefore doesn't exist.")
         logging.error("Couldn't read from domains file! Connection error?")
 
-def commandReload(domainsNew):
-    # just to split things up
-
+def reloadBind():
     # if it fails, it will be printed in log
     reloadSucceeded = True
     try:
@@ -95,37 +129,6 @@ def commandReload(domainsNew):
             logging.exception("Error occured during file replacement domains_temp to domains_before.")
             logging.error("Do we have permissions to that folder?")
 
-def reloadBind():
-    continueReload = True
-    beforeExists = True
-    if os.path.isfile("/home/slave-nafsdm/temp/domains_before.sql"):
-        f = open("/home/slave-nafsdm/temp/domains_before.sql")
-        domainsBefore = f.read()
-        f.close()
-    else:
-        logging.warning("Couldn't read from before domains temp file. Is this the first time running maybe?")
-        continueReload = True
-        beforeExists = False
-
-    if os.path.isfile("/home/slave-nafsdm/temp/domains_temp.sql"):
-        f = open("/home/slave-nafsdm/temp/domains_temp.sql")
-        domainsNew = f.read()
-        f.close()
-    else:
-        logging.warning("Couldn't read from domains temp file. Is this the first time running maybe?")
-        continueReload = False
-
-    if (continueReload == True):
-        if (beforeExists == True):
-            if domainsBefore != domainsNew:
-                logging.info("Change detected! Reloading bind..")
-                commandReload(domainsNew)
-        else:
-            logging.info("No before file. Reloading bind..")
-            commandReload(domainsNew)
-    else:
-        logging.error("Bind reload aborted due to earlier errors.")
-
 
 def runDaemon(config):
     logging.info("Daemon started!")
@@ -140,5 +143,8 @@ def runDaemon(config):
         time.sleep(int(config.update_interval))
 
         getData(config)
-        writeData(config)
-        reloadBind()
+        changeStatus = changeDetected()
+        if changeStatus == True:
+            logging.info("Change detected! Writing configuration & reloading bind")
+            writeData(config)
+            reloadBind()
