@@ -67,7 +67,26 @@ elif (sys.argv[1] == "remove"):
     else:
         print("syntax error: 'nafsdmctl remove domain.tld' is correct syntax")
 elif (sys.argv[1] == "list"):
-    listDomains()
+    # get domains
+    domainsRaw = listDomains()
+
+    # print format to user
+    print(longLine)
+    print("id - domain - masterIP - comment - slaves - dnssec")
+    print(longLine)
+
+    for row in domainsRaw:
+        if row != None:
+            if row[5] == "y":
+                print(str(row[0]) + " - " + row[1] + " - "+ row[2] + " - " + row[3] + " - " + row[4] + " - yes")
+            elif row[5] == "n":
+                print(str(row[0]) + " - " + row[1] + " - "+ row[2] + " - " + row[3] + " - " + row[4] + " - no")
+            else:
+                print(str(row[0]) + " - " + row[1] + " - "+ row[2] + " - " + row[3] + " - " + row[4] + " - " + row[5])
+
+    print(longLine)
+
+
 elif (sys.argv[1] == "edit"):
     if (len(sys.argv) == 3):
         if "." in sys.argv[2]:

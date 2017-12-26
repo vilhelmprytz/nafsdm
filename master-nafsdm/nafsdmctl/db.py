@@ -64,9 +64,8 @@ def listDomains():
 
     cursor.execute("SELECT * FROM domain")
     result = cursor.fetchall()
-    for r in result:
-        print(r)
-    print("\n")
+
+    return result
 
 def editDomain(domain, masterIP, comment, assignedNodes, dnssec):
     connection, cursor = dbConnection()
