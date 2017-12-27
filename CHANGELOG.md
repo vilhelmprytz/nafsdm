@@ -1,3 +1,6 @@
+Version 1.2.4 (Status: DEVELOPMENT) (might be rebranded to version 1.3 depending on how large update)
+* Slaves now check if their version matches with the one the master is running
+
 Version 1.2.3 (Status: RELEASED)
 * nafsdm-master now uses SQL to save domains (updated nafsdmctl and slave with the new save format)
 * nafsdmctl list now prints in a nicer format
