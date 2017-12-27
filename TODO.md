@@ -2,7 +2,7 @@
 (remove completely from list when finished/solved)
 
 ## High Priority
-NONE
+* Simple web interface for the master
 
 ## Lower Priority
 * rework the master

@@ -25,9 +25,10 @@ else
   exit 1
 fi
 
+BRANCH="master"
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
 MY_VERSION_RAW="`cat /home/master-nafsdm/pythondaemon/version.py`"
-LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/version.txt)
+LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/$BRANCH/version.txt)
 
 # determine supported versions
 if [ "$MY_VERSION_RAW" == 'version = "1.0.1-stable"' ]; then
@@ -40,8 +41,11 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.2-stable"' ]; then
   echo "* Detected version 1.2-stable - supported by this upgrade script."
   MY_VERSION="1.2-stable"
 elif [ "$MY_VERSION_RAW" == 'version = "1.2.1-stable"' ]; then
-  echo "* Detected version 1.2-stable - supported by this upgrade script."
+  echo "* Detected version 1.2.1-stable - supported by this upgrade script."
   MY_VERSION="1.2.1-stable"
+elif [ "$MY_VERSION_RAW" == 'version = "1.2.2-stable"' ]; then
+  echo "* Detected version 1.2.2-stable - supported by this upgrade script."
+  MY_VERSION="1.2.2-stable"
 else
   echo "* Your version is not supported (dev versions and 1.0 is not supported)."
   exit 1
@@ -84,6 +88,14 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
 
   echo "* Update completed. Nothing to do or change!"
 elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/master-nafsdm/pythondaemon
+  rm -rf /home/master-nafsdm/nafsdmctl
+  cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
+  cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
+
+  echo "* Update completed. Nothing to do or change!"
+elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
   rm -rf /home/master-nafsdm/nafsdmctl

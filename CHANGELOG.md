@@ -1,3 +1,9 @@
+Version 1.2.3 (Status: RELEASED)
+* nafsdm-master now uses SQL to save domains (updated nafsdmctl and slave with the new save format)
+* nafsdmctl list now prints in a nicer format
+(from dev2)
+* Bugfixes for dev1 issues (which need to be retested, therefore new dev release)
+
 Version 1.2.2 (Status: RELEASED)
 * Reworked logger function completely (now catches exceptions, new logging levels, stdout and filehandler)
 * Small changes
