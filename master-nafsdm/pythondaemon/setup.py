@@ -24,7 +24,6 @@ def setupSSH():
         log("FATAL: Some error ocurred during SSH key generation.")
 
     log("To continue, please copy /home/master-nafsdm/.ssh/nafsdm_rsa to all slaves /home/slave-nafsdm/.ssh/master_key")
-    exit(1)
 
 # SQL prepare
 def setupDatabase():

@@ -61,6 +61,15 @@ def writeData(config):
                 logging.debug("Removing config temporarily")
                 os.remove(config.bindPath)
 
+            # test if there is a folder available
+            try:
+                ftest = open(config.bindPath, "w")
+            except Exception:
+                logging.exception("Couldn't write to bind file.")
+                logging.error("Please check if the folder exists.")
+
+                return False
+
             invalidSystemType = False
             for r in domainsToWrite:
                 if r[5] == "y":
