@@ -31,12 +31,16 @@ if [ "$OPERATINGSYS" == "centos" ]; then
   rm get-pip.py -rf
 
   pip install requests
+  pip install flask
+  pip install gunicorn
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
   echo "Installing packages.."
   apt-get update -y
   apt-get install python python-pip curl wget -y
 
   pip install requests
+  pip install flask
+  pip install gunicorn
 else
   echo "Invalid operating system. Only 'debian', 'ubuntu' and 'centos' supported."
   exit 1

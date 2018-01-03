@@ -46,6 +46,9 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.2.1-stable"' ]; then
 elif [ "$MY_VERSION_RAW" == 'version = "1.2.2-stable"' ]; then
   echo "* Detected version 1.2.2-stable - supported by this upgrade script."
   MY_VERSION="1.2.2-stable"
+elif [ "$MY_VERSION_RAW" == 'version = "1.2.3-stable"' ]; then
+  echo "* Detected version 1.2.3-stable - supported by this upgrade script."
+  MY_VERSION="1.2.3-stable"
 else
   echo "* Your version is not supported (dev versions and 1.0 is not supported)."
   exit 1
@@ -66,6 +69,10 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
+  # newer than version 1.3
+  pip install flask
+  pip install gunicorn
+
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
   echo "* NAFSDM WILL NOT START IF THIS SCRIPT EXISTS. DELETE IT BEFORE START."
@@ -75,6 +82,10 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
+
+  # newer than version 1.3
+  pip install flask
+  pip install gunicorn
 
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
@@ -86,6 +97,10 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
+  # newer than version 1.3
+  pip install flask
+  pip install gunicorn
+
   echo "* Update completed. Nothing to do or change!"
 elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   echo "* Replacing python files.."
@@ -94,6 +109,10 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
+  # newer than version 1.3
+  pip install flask
+  pip install gunicorn
+
   echo "* Update completed. Nothing to do or change!"
 elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   echo "* Replacing python files.."
@@ -101,6 +120,22 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
+
+  # newer than version 1.3
+  pip install flask
+  pip install gunicorn
+
+  echo "* Update completed. Nothing to do or change!"
+elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/master-nafsdm/pythondaemon
+  rm -rf /home/master-nafsdm/nafsdmctl
+  cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
+  cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
+
+  # newer than version 1.3
+  pip install flask
+  pip install gunicorn
 
   echo "* Update completed. Nothing to do or change!"
 else
