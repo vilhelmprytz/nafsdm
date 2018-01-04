@@ -4,9 +4,73 @@
 </head>
 <body>
   <h1>nafsdm webinterface</h1>
-  <p>List of all domains</p>
+  <p>List of all domains</p> <a href="/?add=yes"><button>Add new domain</button></a>
 
-  <table>
+  {% if addSuccess %}
+  <font color="green"><p>Successfully added domain!</p></font>
+  {% endif %}
+  {% if removeSuccess %}
+  <font color="green"><p>Successfully removed domain!</p></font>
+  {% endif %}
+  {% if editSuccess %}
+  <font color="green"><p>Successfully edited domain!</p></font>
+  {% endif %}
+
+  {% if fail %}
+  <font color="red"><p>Failure during add process or domain removal process!</p></font>
+  {% endif %}
+
+  {% if add %}
+  <form action="/api/newDomain" method="POST">
+    <table>
+
+      <tr>
+        <td>Domain name:</td>
+        <td><input type="text" placeholder="Domain" name="domain"><br></td>
+      </tr>
+
+      <tr>
+        <td>Master IP:</td>
+        <td><input type="text" placeholder="0.0.0.0" name="masterIP"><br></td>
+      </tr>
+
+      <tr>
+        <td>Comment:</td>
+        <td><input type="text" placeholder="BestDomain" name="comment"><br></td>
+      </tr>
+
+      <tr>
+        <td>Assigned Nodes (dot seperated):</td>
+        <td><input type="text" placeholder="dns1.dns2" name="assignedNodes"><br></td>
+      </tr>
+
+      <tr>
+        <td>DNSSEC status (yes/no):</td>
+        <td><input type="text" placeholder="yes" name="dnssec"><br></td>
+      </tr>
+
+      <tr>
+        <td><input type="submit" value="Submit"></td>
+      </tr>
+    </table>
+  </form>
+  {% endif %}
+  {% if remove %}
+  <form action="/api/removeDomain" method="POST">
+    <table>
+
+      <tr>
+        <td>Domain name:</td>
+        <td><input type="text" placeholder="Domain" name="domain"><br></td>
+      </tr>
+
+      <tr>
+        <td><input type="submit" value="Submit"></td>
+      </tr>
+    </table>
+  </form>
+  {% endif %}
+  <table border="1">
     <tr>
       <td>ID</td>
       <td>Domain</td>
@@ -14,8 +78,22 @@
       <td>Comment</td>
       <td>Assigned Nodes</td>
       <td>DNSSEC status</td>
+      <td>Domain Action</td>
     </tr>
-  {% for domain in allDomains %}
+  {% for domain in domains %}
+    {% if edit is eq(domain[0]) %}
+    <tr>
+      <form action="/api/editDomain" method="POST">
+        <td>{{ domain[0] }}</td><!-- id -->
+        <td>{{ domain[1] }}</td><!-- domain --> <input type="hidden" name="domain" value="{{ domain[1] }}">
+        <td><input type="text" value="{{ domain[2] }}" name="masterIP"><br></td>
+        <td><input type="text" value="{{ domain[3] }}" name="comment"><br></td>
+        <td><input type="text" value="{{ domain[4] }}" name="assignedNodes"><br></td>
+        <td><input type="text" value="{{ domain[6] }}" name="dnssec"><br></td>
+        <td><input type="submit" value="Submit"></td>
+      </form>
+    </tr>
+    {% else %}
     <tr>
       <td>{{ domain[0] }}</td><!-- id -->
       <td>{{ domain[1] }}</td><!-- domain -->
@@ -23,7 +101,9 @@
       <td>{{ domain[3] }}</td><!-- comment -->
       <td>{{ domain[4] }}</td><!-- assignedNodes -->
       <td>{{ domain[5] }}</td><!-- DNSSEC status -->
+      <td><a href="/?edit={{ domain[0] }}"><button>Edit</button></a><a href="/api/removeDomain?domain={{ domain[1] }}"><button>Remove</button></a></td>
     </tr>
+    {% endif %}
   {% endfor %}
   </table>
 </body>

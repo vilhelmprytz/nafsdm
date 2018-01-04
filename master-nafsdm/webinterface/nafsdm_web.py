@@ -81,18 +81,72 @@ def error_500(e):
 @app.route("/")
 @requires_auth
 def index():
+    # get args
+    remove = request.args.get("remove")
+    add = request.args.get("add")
+    addSuccess = request.args.get("addSuccess")
+    removeSuccess = request.args.get("removeSuccess")
+    fail = request.args.get("fail")
+    editRaw = request.args.get("edit")
+    editSuccess = request.args.get("editSuccess")
+
+    try:
+        edit = int(editRaw.split()[0])
+    except Exception:
+        edit = None
+
     domains = []
     domainsRaw = listDomains()
     for domain in domainsRaw:
         if domain[5] == "y":
-            domain[5] == "Enabled"
+            oneDomain = [domain[0], domain[1], domain[2], domain[3], domain[4], "Enabled", "y"]
         elif domain[5] == "n":
-            domain[5] == "Disabled"
-
-        oneDomain = [domain[0], domain[1], domain[2], domain[3], domain[4], domain[5]]
+            oneDomain = [domain[0], domain[1], domain[2], domain[3], domain[4], "Disabled", "n"]
+        else:
+            oneDomain = [domain[0], domain[1], domain[2], domain[3], domain[4], domain[5], domain[5]]
         domains.append(oneDomain)
-    return render_template("index.html", domains=domains)
+    return render_template("index.html", domains=domains, add=add, remove=remove, edit=edit, addSuccess=addSuccess, removeSuccess=removeSuccess, editSuccess=editSuccess, fail=fail)
 
 ################
 ## API ROUTES ##
 ################
+@app.route("/api/newDomain", methods=["POST"])
+@requires_auth
+def api_newDomain():
+    domain = request.form["domain"]
+    masterIP = request.form["masterIP"]
+    comment = request.form["comment"]
+    assignedNodes = request.form["assignedNodes"]
+    dnssec = request.form["dnssec"]
+
+    addDomain(domain, masterIP, comment, assignedNodes, dnssec)
+
+    return redirect("/?addSuccess=true")
+
+@app.route("/api/removeDomain")
+@requires_auth
+def api_removeDomain():
+    domain = request.args.get("domain")
+
+    status = removeDomain(domain)
+
+    if status == True:
+        return redirect("/?removeSuccess=true")
+    else:
+        return redirect("/?fail=true")
+
+@app.route("/api/editDomain", methods=["POST"])
+@requires_auth
+def api_editDomain():
+    domain = request.form["domain"]
+    masterIP = request.form["masterIP"]
+    comment = request.form["comment"]
+    assignedNodes = request.form["assignedNodes"]
+    dnssec = request.form["dnssec"]
+
+    status = editDomain(domain, masterIP, comment, assignedNodes, dnssec)
+
+    if status == True:
+        return redirect("/?editSuccess=true")
+    else:
+        return redirect("/?fail=true")

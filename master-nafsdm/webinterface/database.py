@@ -16,21 +16,21 @@ def dbConnection():
     cursor = connection.cursor()
     return connection, cursor
 
-def addDomain(sysArg):
+def addDomain(domain, masterIP, comment, assignedNodes, dnssec):
     connection, cursor = dbConnection()
 
     format_str = """
 INSERT INTO domain (id, domain, masterIP, comment, assignedNodes, dnssec)
 VALUES (NULL, "{domain}", "{masterIP}", "{comment}", "{assignedNodes}", "{dnssec}");"""
 
-    if sysArg[6] == "dnssec.no":
-        dnssec = "n"
-    elif sysArg[6] == "dnssec.yes":
-        dnssec = "y"
+    if dnssec == "no":
+        dnssecAdd = "n"
+    elif dnssec == "yes":
+        dnssecAdd = "y"
     else:
         print("syntax error: invalid dnssec")
 
-    sql_command = format_str.format(domain=sysArg[2], masterIP=sysArg[3], comment=sysArg[4], assignedNodes = sysArg[5], dnssec = dnssec)
+    sql_command = format_str.format(domain=domain, masterIP=masterIP, comment=comment, assignedNodes=assignedNodes, dnssec=dnssecAdd)
     cursor.execute(sql_command)
 
     # close connection
