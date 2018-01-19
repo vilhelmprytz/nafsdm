@@ -1,3 +1,4 @@
+#!/bin/bash
 # nafsdm
 # extra script: checks if the nafsdm slave is running or not
 # (c) Vilhelm Prytz 2018
