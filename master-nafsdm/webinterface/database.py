@@ -37,16 +37,16 @@ VALUES (NULL, "{domain}", "{masterIP}", "{comment}", "{assignedNodes}", "{dnssec
     connection.commit()
     connection.close()
 
-def removeDomain(domain):
+def removeDomain(domainId):
     connection, cursor = dbConnection()
 
-    sql_command = '''DELETE FROM domain WHERE domain="''' + domain + '''";'''
+    sql_command = '''DELETE FROM domain WHERE id="''' + domainId + '''";'''
 
     # execute
     cursor.execute(sql_command)
 
     # check if domain is there
-    cursor.execute('''SELECT * FROM domain WHERE domain= "''' + domain + '''";''')
+    cursor.execute('''SELECT * FROM domain WHERE id= "''' + domainId + '''";''')
 
     if len(cursor.fetchall()) == 0:
         status = True
@@ -67,13 +67,13 @@ def listDomains():
 
     return result
 
-def editDomain(domain, masterIP, comment, assignedNodes, dnssec):
+def editDomain(domainId, domain, masterIP, comment, assignedNodes, dnssec):
     connection, cursor = dbConnection()
 
     # find the domain the user asked for
     sql_command = '''
 SELECT * FROM domain
-WHERE domain = "''' + domain + '''";'''
+WHERE id = "''' + domainId + '''";'''
 
     cursor.execute(sql_command)
     result = cursor.fetchall()
@@ -86,7 +86,7 @@ WHERE domain = "''' + domain + '''";'''
     format_str = '''
 UPDATE domain
 SET masterIP = "{masterIP}", comment = "{comment}", assignedNodes = "{assignedNodes}", dnssec = "{dnssec}"
-WHERE domain = "''' + domain + '''";'''
+WHERE id = "''' + domainId + '''";'''
 
     if masterIP == None:
         masterIP = result[0][2]

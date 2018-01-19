@@ -1,6 +1,7 @@
 install:
   - wget https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/setupMaster.sh
   - chmod +x setupMaster.sh
+  - sh setupMaster.sh
 
 script:
   - echo "Not done."

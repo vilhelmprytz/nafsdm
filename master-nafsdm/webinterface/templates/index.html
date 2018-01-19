@@ -82,9 +82,9 @@
     </tr>
   {% for domain in domains %}
     {% if edit is eq(domain[0]) %}
-    <tr>
+    <tr id="{{ domain[0] }}">
       <form action="/api/editDomain" method="POST">
-        <td>{{ domain[0] }}</td><!-- id -->
+        <td>{{ domain[0] }}</td><!-- id --> <input type="hidden" name="id" value="{{ domain[0] }}">
         <td>{{ domain[1] }}</td><!-- domain --> <input type="hidden" name="domain" value="{{ domain[1] }}">
         <td><input type="text" value="{{ domain[2] }}" name="masterIP"><br></td>
         <td><input type="text" value="{{ domain[3] }}" name="comment"><br></td>
@@ -94,14 +94,14 @@
       </form>
     </tr>
     {% else %}
-    <tr>
+    <tr id="{{ domain[0] }}">
       <td>{{ domain[0] }}</td><!-- id -->
       <td>{{ domain[1] }}</td><!-- domain -->
       <td>{{ domain[2] }}</td><!-- masterIP -->
       <td>{{ domain[3] }}</td><!-- comment -->
       <td>{{ domain[4] }}</td><!-- assignedNodes -->
       <td>{{ domain[5] }}</td><!-- DNSSEC status -->
-      <td><a href="/?edit={{ domain[0] }}"><button>Edit</button></a><a href="/api/removeDomain?domain={{ domain[1] }}"><button>Remove</button></a></td>
+      <td><a href="/?edit={{ domain[0] }}#{{ domain[0] }}"><button>Edit</button></a><a href="/api/removeDomain?id={{ domain[0] }}"><button>Remove</button></a></td>
     </tr>
     {% endif %}
   {% endfor %}

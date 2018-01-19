@@ -126,9 +126,9 @@ def api_newDomain():
 @app.route("/api/removeDomain")
 @requires_auth
 def api_removeDomain():
-    domain = request.args.get("domain")
+    domainId = request.args.get("id")
 
-    status = removeDomain(domain)
+    status = removeDomain(domainId)
 
     if status == True:
         return redirect("/?removeSuccess=true")
@@ -138,13 +138,14 @@ def api_removeDomain():
 @app.route("/api/editDomain", methods=["POST"])
 @requires_auth
 def api_editDomain():
+    domainId = request.form["id"]
     domain = request.form["domain"]
     masterIP = request.form["masterIP"]
     comment = request.form["comment"]
     assignedNodes = request.form["assignedNodes"]
     dnssec = request.form["dnssec"]
 
-    status = editDomain(domain, masterIP, comment, assignedNodes, dnssec)
+    status = editDomain(domainId, domain, masterIP, comment, assignedNodes, dnssec)
 
     if status == True:
         return redirect("/?editSuccess=true")
