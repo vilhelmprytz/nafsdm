@@ -70,6 +70,10 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   # newer than version 1.3
+  cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
+
+  # newer than version 1.3
   pip install flask
   pip install gunicorn
 
@@ -82,6 +86,10 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
+
+  # newer than version 1.3
+  cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
 
   # newer than version 1.3
   pip install flask
@@ -98,6 +106,10 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   # newer than version 1.3
+  cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
+
+  # newer than version 1.3
   pip install flask
   pip install gunicorn
 
@@ -108,6 +120,10 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
+
+  # newer than version 1.3
+  cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
 
   # newer than version 1.3
   pip install flask
@@ -122,6 +138,10 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   # newer than version 1.3
+  cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
+
+  # newer than version 1.3
   pip install flask
   pip install gunicorn
 
@@ -132,6 +152,10 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
+
+  # newer than version 1.3
+  cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
 
   # newer than version 1.3
   pip install flask
