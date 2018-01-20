@@ -15,13 +15,15 @@ HOME_DIR="/home/master-nafsdm"
 USER="master-nafsdm"
 
 echo "###################################################################"
-echo "THIS SCRIPT WILL NOT WORK FOR UPDATING YOUR INSTALLATION"
-echo "Welcome to nafsdm master install! Please enter your operating system name ('debian', 'ubuntu' and 'centos' only supported)"
-echo -n "Operating system: "
+echo "* nafsdm-master installation script"
+echo "* note: this installer will not upgrade your installation"
+echo "###################################################################"
+echo "* Please enter your operating system name ('debian', 'ubuntu' and 'centos' only supported)"
+echo -n "* Operating system: "
 read OPERATINGSYS
 
 if [ "$OPERATINGSYS" == "centos" ]; then
-  echo "Installing packages.."
+  echo "* Installing packages.."
   yum update -y
   yum install python curl wget -y
 
@@ -34,7 +36,7 @@ if [ "$OPERATINGSYS" == "centos" ]; then
   pip install flask
   pip install gunicorn
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
-  echo "Installing packages.."
+  echo "* Installing packages.."
   apt-get update -y
   apt-get install python python-pip curl wget -y
 
@@ -47,36 +49,36 @@ else
 fi
 
 # get which version is the latest
-echo "Fetching information about latest version.."
+echo "* Fetching information about latest version.."
 LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/version.txt)
 
 # select version
-echo "Please select your version. Type in the version number or type 'latest' for latest version."
-echo -n "Version: "
+echo "* Please select your version. Type in the version number or type 'latest' for latest version."
+echo -n "* Version: "
 read VERSION_USER
 
 if [ "$VERSION_USER" == "latest" ]; then
-  echo -n "Confirm? (y/n): "
+  echo -n "* Confirm? (y/n): "
   read CONFIRM
   if [ "$CONFIRM" == "y" ]; then
     DL_VERSION="$LATEST_VERSION"
   else
-    echo "Aborting.."
+    echo "* Aborting.."
     exit 1
   fi
 else
-  echo -n "Confirm? If version doesn't exist, script will fail. (y/n): "
+  echo -n "* Confirm? If version doesn't exist, script will fail. (y/n): "
   read CONFIRM
   if [ "$CONFIRM" == "y" ]; then
     DL_VERSION="$VERSION_USER"
   else
-    echo "Aborting.."
+    echo "* Aborting.."
     exit 1
   fi
 fi
 
-echo "Required packages installed!"
-echo "Downloading nafsdm & installing.."
+echo "* Required packages installed!"
+echo "* Downloading nafsdm & installing.."
 
 # download in temp dir
 cd /tmp
@@ -100,8 +102,11 @@ cp /tmp/nafsdm/systemconfigs/nafsdm-master /usr/bin/nafsdm-master
 chmod +x /usr/bin/nafsdmctl
 chmod +x /usr/bin/nafsdm-master
 
-echo "Installed. Cleanup.."
+echo "* Installed. Cleanup.."
 
 rm /tmp/nafsdm -rf
-
-echo "To continue, please run 'nafsdm-master' for first time setup."
+echo "###################################################################"
+echo "* nafsdm-master installation complete"
+echo "* To continue, please run 'nafsdm-master' for first time setup."
+echo "* Thank you for using nafsdm!"
+echo "###################################################################"

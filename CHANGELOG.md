@@ -4,6 +4,7 @@ Version 1.2.4 (Status: DEVELOPMENT) (might be rebranded to version 1.3 depending
 Smaller changes/bugfixes:
 * Remove double import of sys in nafsdmctl
 * Added extra script to check if nafsdm is running (should work with monitoring software like nagios)
+* Nicer looking setup scripts
 
 Version 1.2.3 (Status: RELEASED)
 * nafsdm-master now uses SQL to save domains (updated nafsdmctl and slave with the new save format)
