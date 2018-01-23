@@ -1,6 +1,7 @@
 install:
   - wget https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/setupMaster.sh
   - chmod +x setupMaster.sh
+  - python slave-nafsdm/start.py
   - sh setupMaster.sh
 
 script:
