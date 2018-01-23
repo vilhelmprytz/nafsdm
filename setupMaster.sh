@@ -10,6 +10,7 @@ fi
 
 #  DL_VERSION will be changed at the time of update
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
+REQ_URL="https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/scripts/requirements_master.txt"
 GITHUB_DIR="master-nafsdm"
 HOME_DIR="/home/master-nafsdm"
 USER="master-nafsdm"
@@ -32,17 +33,21 @@ if [ "$OPERATINGSYS" == "centos" ]; then
   python get-pip.py
   rm get-pip.py -rf
 
-  pip install requests
-  pip install flask
-  pip install gunicorn
+  cd /tmp
+  wget -O requirements.txt $REQ_URL
+
+  pip install -r requirements.txt
+  rm -rf requirements.txt
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
   echo "* Installing packages.."
   apt-get update -y
   apt-get install python python-pip curl wget -y
 
-  pip install requests
-  pip install flask
-  pip install gunicorn
+  cd /tmp
+  wget -O requirements.txt $REQ_URL
+
+  pip install -r requirements.txt
+  rm -rf requirements.txt
 else
   echo "Invalid operating system. Only 'debian', 'ubuntu' and 'centos' supported."
   exit 1
@@ -98,6 +103,10 @@ cp /tmp/nafsdm/LICENSE $HOME_DIR/LICENSE
 
 cp /tmp/nafsdm/systemconfigs/nafsdmctl /usr/bin/nafsdmctl
 cp /tmp/nafsdm/systemconfigs/nafsdm-master /usr/bin/nafsdm-master
+
+# nafsdm webinterface
+cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
+cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
 
 chmod +x /usr/bin/nafsdmctl
 chmod +x /usr/bin/nafsdm-master

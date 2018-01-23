@@ -5,7 +5,11 @@ echo -n "* Confirm (y/n): "
 read CONFIRM
 
 if [ "$CONFIRM" == "y" ]; then
-  
+  cp /home/master-nafsdm/webinterface/nafsdm-webinterface.service /etc/systemd/system/nafsdm-webinterface.service
+
+  echo "* Enabled!"
+  echo "* Please read the README.md before using."
+  echo "* Start the webinterface with 'systemctl start nafsdm-webinterface'."
 else
   echo "* Aborting.."
   exit 1
