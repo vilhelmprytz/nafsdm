@@ -1,4 +1,4 @@
-Version 1.3 (Status: DEVELOPMENT)
+Version 1.2.4 (Status: DEVELOPMENT)
 * experimental: webinterface for the master, allowing control from a browser
 * Slaves now check if their version matches with the one the master is running
 Smaller changes/bugfixes:

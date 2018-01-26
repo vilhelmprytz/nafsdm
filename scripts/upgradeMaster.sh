@@ -73,11 +73,11 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  # newer than version 1.3
+  # newer than version 1.2.4
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
 
-  # newer than version 1.3
+  # newer than version 1.2.4
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -91,11 +91,11 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  # newer than version 1.3
+  # newer than version 1.2.4
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
 
-  # newer than version 1.3
+  # newer than version 1.2.4
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -109,11 +109,11 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  # newer than version 1.3
+  # newer than version 1.2.4
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
 
-  # newer than version 1.3
+  # newer than version 1.2.4
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -125,11 +125,11 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  # newer than version 1.3
+  # newer than version 1.2.4
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
 
-  # newer than version 1.3
+  # newer than version 1.2.4
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -141,11 +141,11 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  # newer than version 1.3
+  # newer than version 1.2.4
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
 
-  # newer than version 1.3
+  # newer than version 1.2.4
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -157,11 +157,11 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  # newer than version 1.3
+  # newer than version 1.2.4
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
 
-  # newer than version 1.3
+  # newer than version 1.2.4
   pip install -r requirements.txt
   rm -rf requirements.txt
 
