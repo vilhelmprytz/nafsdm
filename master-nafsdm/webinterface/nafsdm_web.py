@@ -11,22 +11,35 @@ import logging
 import sys
 from logPath import logPath
 from database import *
+from time import gmtime, strftime
 
 # flask setup
 from flask import Flask
 from flask import render_template, url_for, make_response, redirect, request, Response, flash
 from functools import wraps
 
+# import master version
+import sys
+sys.path.insert(0, "/home/master-nafsdm/pythondaemon")
+from version import version as masterVersion
+
 
 app = Flask(__name__)
 
 # functions
 def check_auth(username, password):
-    #f = open("/var/www/portal/portalpassword.config")
-    #passwordRaw = f.read()
-    #f.close()
+    f = open("interfacePassword.txt")
+    passwordRaw = f.read()
+    f.close()
 
-    return username == "admin" and password == "test"
+    if len(passwordRaw.split("\r")) == 2:
+        passReturn = passwordRaw.split("\r")[0]
+    elif len(passwordRaw.split("\r")) == 1:
+        passReturn = passwordRaw.split("\r")[0]
+    else:
+        return "Invalid password in configuration", 500
+
+    return username == "admin" and password == passReturn
 
 def authenticate():
     return Response(
@@ -105,7 +118,9 @@ def index():
         else:
             oneDomain = [domain[0], domain[1], domain[2], domain[3], domain[4], domain[5], domain[5]]
         domains.append(oneDomain)
-    return render_template("index.html", domains=domains, add=add, remove=remove, edit=edit, addSuccess=addSuccess, removeSuccess=removeSuccess, editSuccess=editSuccess, fail=fail)
+
+    date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    return render_template("index.html", domains=domains, add=add, remove=remove, edit=edit, addSuccess=addSuccess, removeSuccess=removeSuccess, editSuccess=editSuccess, fail=fail, version=masterVersion, date=date)
 
 ################
 ## API ROUTES ##

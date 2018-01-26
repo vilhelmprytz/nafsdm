@@ -1,19 +1,19 @@
 <html>
 <head>
-  <title>nafsdm webinterface - index</title>
+  <title>nafsdm webinterface</title>
 </head>
 <body>
-  <h1>nafsdm webinterface</h1>
+  <h1>nafsdm webinterface - version {{ version }}</h1>
   <p>List of all domains</p> <a href="/?add=yes"><button>Add new domain</button></a>
 
   {% if addSuccess %}
-  <font color="green"><p>Successfully added domain!</p></font>
+  <p><font color="green">Successfully added domain!</font> <a href="/"><button>Dismiss</button></a></p>
   {% endif %}
   {% if removeSuccess %}
-  <font color="green"><p>Successfully removed domain!</p></font>
+  <p><font color="green">Successfully removed domain!</font> <a href="/"><button>Dismiss</button></a></p>
   {% endif %}
   {% if editSuccess %}
-  <font color="green"><p>Successfully edited domain!</p></font>
+  <p><font color="green">Successfully edited domain!</font> <a href="/"><button>Dismiss</button></a></p>
   {% endif %}
 
   {% if fail %}
@@ -50,10 +50,11 @@
       </tr>
 
       <tr>
-        <td><input type="submit" value="Submit"></td>
+        <td><input type="submit" value="Submit"></input></td>
       </tr>
-    </table>
+  </table>
   </form>
+  <p><a href="/"><button>Close</button></a></p>
   {% endif %}
   {% if remove %}
   <form action="/api/removeDomain" method="POST">
@@ -106,5 +107,7 @@
     {% endif %}
   {% endfor %}
   </table>
+
+  <p>Powered by Python and Flask - running version {{ version }}. Page generated at {{ date }}.</p>
 </body>
 </html>
