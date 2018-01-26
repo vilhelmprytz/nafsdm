@@ -28,7 +28,7 @@ app = Flask(__name__)
 
 # functions
 def check_auth(username, password):
-    f = open("interfacePassword.txt")
+    f = open("/home/master-nafsdm/webinterface/interfacePassword.txt")
     passwordRaw = f.read()
     f.close()
 

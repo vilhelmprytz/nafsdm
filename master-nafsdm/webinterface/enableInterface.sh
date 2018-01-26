@@ -6,6 +6,7 @@ read CONFIRM
 
 if [ "$CONFIRM" == "y" ]; then
   cp /home/master-nafsdm/webinterface/nafsdm-webinterface.service /etc/systemd/system/nafsdm-webinterface.service
+  /usr/bin/env systemctl enable nafsdm-webinterface
 
   echo "* Enabled!"
   echo "* Please read the README.md before using."
