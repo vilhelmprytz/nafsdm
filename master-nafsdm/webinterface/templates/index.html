@@ -1,0 +1,113 @@
+<html>
+<head>
+  <title>nafsdm webinterface</title>
+</head>
+<body>
+  <h1>nafsdm webinterface - version {{ version }}</h1>
+  <p>List of all domains</p> <a href="/?add=yes"><button>Add new domain</button></a>
+
+  {% if addSuccess %}
+  <p><font color="green">Successfully added domain!</font> <a href="/"><button>Dismiss</button></a></p>
+  {% endif %}
+  {% if removeSuccess %}
+  <p><font color="green">Successfully removed domain!</font> <a href="/"><button>Dismiss</button></a></p>
+  {% endif %}
+  {% if editSuccess %}
+  <p><font color="green">Successfully edited domain!</font> <a href="/"><button>Dismiss</button></a></p>
+  {% endif %}
+
+  {% if fail %}
+  <font color="red"><p>Failure during add process or domain removal process!</p></font>
+  {% endif %}
+
+  {% if add %}
+  <form action="/api/newDomain" method="POST">
+    <table>
+
+      <tr>
+        <td>Domain name:</td>
+        <td><input type="text" placeholder="Domain" name="domain"><br></td>
+      </tr>
+
+      <tr>
+        <td>Master IP:</td>
+        <td><input type="text" placeholder="0.0.0.0" name="masterIP"><br></td>
+      </tr>
+
+      <tr>
+        <td>Comment:</td>
+        <td><input type="text" placeholder="BestDomain" name="comment"><br></td>
+      </tr>
+
+      <tr>
+        <td>Assigned Nodes (dot seperated):</td>
+        <td><input type="text" placeholder="dns1.dns2" name="assignedNodes"><br></td>
+      </tr>
+
+      <tr>
+        <td>DNSSEC status (yes/no):</td>
+        <td><input type="text" placeholder="yes" name="dnssec"><br></td>
+      </tr>
+
+      <tr>
+        <td><input type="submit" value="Submit"></input></td>
+      </tr>
+  </table>
+  </form>
+  <p><a href="/"><button>Close</button></a></p>
+  {% endif %}
+  {% if remove %}
+  <form action="/api/removeDomain" method="POST">
+    <table>
+
+      <tr>
+        <td>Domain name:</td>
+        <td><input type="text" placeholder="Domain" name="domain"><br></td>
+      </tr>
+
+      <tr>
+        <td><input type="submit" value="Submit"></td>
+      </tr>
+    </table>
+  </form>
+  {% endif %}
+  <table border="1">
+    <tr>
+      <td>ID</td>
+      <td>Domain</td>
+      <td>Master IP</td>
+      <td>Comment</td>
+      <td>Assigned Nodes</td>
+      <td>DNSSEC status</td>
+      <td>Domain Action</td>
+    </tr>
+  {% for domain in domains %}
+    {% if edit is eq(domain[0]) %}
+    <tr id="{{ domain[0] }}">
+      <form action="/api/editDomain" method="POST">
+        <td>{{ domain[0] }}</td><!-- id --> <input type="hidden" name="id" value="{{ domain[0] }}">
+        <td>{{ domain[1] }}</td><!-- domain --> <input type="hidden" name="domain" value="{{ domain[1] }}">
+        <td><input type="text" value="{{ domain[2] }}" name="masterIP"><br></td>
+        <td><input type="text" value="{{ domain[3] }}" name="comment"><br></td>
+        <td><input type="text" value="{{ domain[4] }}" name="assignedNodes"><br></td>
+        <td><input type="text" value="{{ domain[6] }}" name="dnssec"><br></td>
+        <td><input type="submit" value="Submit"></td>
+      </form>
+    </tr>
+    {% else %}
+    <tr id="{{ domain[0] }}">
+      <td>{{ domain[0] }}</td><!-- id -->
+      <td>{{ domain[1] }}</td><!-- domain -->
+      <td>{{ domain[2] }}</td><!-- masterIP -->
+      <td>{{ domain[3] }}</td><!-- comment -->
+      <td>{{ domain[4] }}</td><!-- assignedNodes -->
+      <td>{{ domain[5] }}</td><!-- DNSSEC status -->
+      <td><a href="/?edit={{ domain[0] }}#{{ domain[0] }}"><button>Edit</button></a><a href="/api/removeDomain?id={{ domain[0] }}"><button>Remove</button></a></td>
+    </tr>
+    {% endif %}
+  {% endfor %}
+  </table>
+
+  <p>Powered by Python and Flask - running version {{ version }}. Page generated at {{ date }}.</p>
+</body>
+</html>

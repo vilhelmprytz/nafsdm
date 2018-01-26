@@ -1,3 +1,12 @@
+Version 1.2.4 (Status: RELEASED)
+* experimental: webinterface for the master, allowing control from a browser
+* Slaves now check if their version matches with the one the master is running
+Smaller changes/bugfixes:
+* Remove double import of sys in nafsdmctl
+* Added extra script to check if nafsdm is running (should work with monitoring software like nagios)
+* Nicer looking setup scripts
+* Installer now installs pip libs using a requirements.txt file (and updater).
+
 Version 1.2.3 (Status: RELEASED)
 * nafsdm-master now uses SQL to save domains (updated nafsdmctl and slave with the new save format)
 * nafsdmctl list now prints in a nicer format

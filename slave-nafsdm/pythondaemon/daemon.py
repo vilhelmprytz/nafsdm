@@ -10,6 +10,7 @@ import sys
 import subprocess
 from db import parseDbData
 from shutil import copyfile
+from version import version
 
 def changeDetected():
     changeDetected = None
@@ -43,6 +44,35 @@ def changeDetected():
         changeDetected = False
 
     return changeDetected
+
+# gets the version of the master and checks if it matches up with ours
+def checkMasterVersion(config):
+    logging.info("Fetching master's version..")
+    try:
+        output = subprocess.check_output(["ssh", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host, "/usr/bin/env", "cat", "/home/master-nafsdm/pythondaemon/version.py"])
+    except Exception:
+        logging.exception("An error occured during SSH connection.")
+        logging.error("Please check if the master is currently reachable.")
+
+        return False
+
+    try:
+        masterVersion = output.split("\n")[0].split()[2].split('"')[1]
+    except Exception:
+        logging.exception("Invalid version response from master.")
+        logging.error("Response from master: " + str(output))
+
+        return False
+
+    if version == masterVersion:
+        logging.info("We're running the same version as the master!")
+
+        return True
+    else:
+        logging.critical("We're NOT running the same version as the master! (my version: " + str(version) + " - Master version: " + masterVersion + ")")
+        logging.critical("nafsdm will not be able to start.")
+        exit(1)
+
 
 def getData(config):
     try:
@@ -143,6 +173,9 @@ def runDaemon(config):
     logging.info("Daemon started!")
 
     # run everything once as we get immediate output if everything is OK
+    versionCheck = checkMasterVersion(config)
+    if versionCheck == False:
+        logging.warning("Skipping master version check step..")
     getData(config)
     writeData(config)
     reloadBind()

@@ -15,13 +15,15 @@ HOME_DIR="/home/slave-nafsdm"
 USER="slave-nafsdm"
 
 echo "###################################################################"
-echo "THIS SCRIPT WILL NOT WORK FOR UPDATING YOUR INSTALLATION"
-echo "Welcome to nafsdm slave install! Please enter your operating system name ('debian', 'ubuntu' and 'centos' only supported)"
-echo -n "Operating system: "
+echo "* nafsdm-slave installation script"
+echo "* note: this installer will not upgrade your installation"
+echo "###################################################################"
+echo "* Please enter your operating system name ('debian', 'ubuntu' and 'centos' only supported)"
+echo -n "* Operating system: "
 read OPERATINGSYS
 
 if [ "$OPERATINGSYS" == "centos" ]; then
-  echo "Installing packages.."
+  echo "* Installing packages.."
   yum update -y
   yum install python curl wget -y
 
@@ -32,47 +34,47 @@ if [ "$OPERATINGSYS" == "centos" ]; then
 
   pip install requests
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
-  echo "Installing packages.."
+  echo "* Installing packages.."
   apt-get update -y
   apt-get install python python-pip curl wget -y
 
   pip install requests
 else
-  echo "Invalid operating system. Only 'debian', 'ubuntu' and 'centos' supported."
+  echo "* Invalid operating system. Only 'debian', 'ubuntu' and 'centos' supported."
   exit 1
 fi
 
 # get which version is the latest
-echo "Fetching information about latest version.."
+echo "* Fetching information about latest version.."
 LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/version.txt)
 
 # select version
-echo "Please select your version. Type in the version number or type 'latest' for latest version."
-echo -n "Version: "
+echo "* Please select your version. Type in the version number or type 'latest' for latest version."
+echo -n "* Version: "
 read VERSION_USER
 
 if [ "$VERSION_USER" == "latest" ]; then
-  echo -n "Confirm? (y/n): "
+  echo -n "* Confirm? (y/n): "
   read CONFIRM
   if [ "$CONFIRM" == "y" ]; then
     DL_VERSION="$LATEST_VERSION"
   else
-    echo "Aborting.."
+    echo "* Aborting.."
     exit 1
   fi
 else
-  echo -n "Confirm? If version doesn't exist, script will fail. (y/n): "
+  echo -n "* Confirm? If version doesn't exist, script will fail. (y/n): "
   read CONFIRM
   if [ "$CONFIRM" == "y" ]; then
     DL_VERSION="$VERSION_USER"
   else
-    echo "Aborting.."
+    echo "* Aborting.."
     exit 1
   fi
 fi
 
-echo "Required packages installed!"
-echo "Downloading nafsdm & installing.."
+echo "* Required packages installed!"
+echo "* Downloading nafsdm & installing.."
 
 # download in temp dir
 cd /tmp
@@ -97,13 +99,13 @@ cp /tmp/nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-sla
 
 chmod +x /home/slave-nafsdm/start.py
 
-echo "Installed. Cleanup.."
+echo "* Installed. Cleanup.."
 
 rm /tmp/nafsdm -rf
 
 echo "###################################################################"
-echo "Installation finished. To continue, please edit your configuration file in"
-echo "/home/slave-nafsdm/config.conf aswell as copy over your SSH keys from the master."
+echo "* Installation finished. To continue, please edit your configuration file in"
+echo "* /home/slave-nafsdm/config.conf aswell as copy over your SSH keys from the master."
 echo ""
-echo "Thank you."
+echo "* Thank you for using nafsdm!"
 echo "###################################################################"

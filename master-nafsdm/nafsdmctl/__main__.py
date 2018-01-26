@@ -10,7 +10,6 @@ from db import *
 
 # catching ctrl+c
 import signal
-import sys
 
 # global vars
 longLine = ("---------------------------------------------------------")

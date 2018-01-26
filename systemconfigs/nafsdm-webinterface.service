@@ -1,0 +1,11 @@
+[Unit]
+Description=nafsdm-webinterface
+
+[Service]
+Type=simple
+User=root
+ExecStart=/home/master-nafsdm/webinterface/start.sh
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
