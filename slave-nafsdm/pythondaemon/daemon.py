@@ -46,10 +46,10 @@ def changeDetected():
     return changeDetected
 
 # gets the version of the master and checks if it matches up with ours
-def checkMasterVersion():
+def checkMasterVersion(config):
     logging.info("Fetching master's version..")
     try:
-        output = subprocess.check_output(["ssh", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host + "/usr/bin/env", "cat", "/home/master-nafsdm/pythondaemon/version.py"])
+        output = subprocess.check_output(["ssh", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host, "/usr/bin/env", "cat", "/home/master-nafsdm/pythondaemon/version.py"])
     except Exception:
         logging.exception("An error occured during SSH connection.")
         logging.error("Please check if the master is currently reachable.")
@@ -173,7 +173,7 @@ def runDaemon(config):
     logging.info("Daemon started!")
 
     # run everything once as we get immediate output if everything is OK
-    versionCheck = checkMasterVersion()
+    versionCheck = checkMasterVersion(config)
     if versionCheck == False:
         logging.warning("Skipping master version check step..")
     getData(config)

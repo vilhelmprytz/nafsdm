@@ -105,8 +105,9 @@ cp /tmp/nafsdm/systemconfigs/nafsdmctl /usr/bin/nafsdmctl
 cp /tmp/nafsdm/systemconfigs/nafsdm-master /usr/bin/nafsdm-master
 
 # nafsdm webinterface
-cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
-cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
+cp /tmp/nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
+chmod +x /home/master-nafsdm/webinterface/start.sh
 
 chmod +x /usr/bin/nafsdmctl
 chmod +x /usr/bin/nafsdm-master

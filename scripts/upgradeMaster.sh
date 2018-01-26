@@ -75,7 +75,9 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
 
   # newer than version 1.2.4
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
-  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+  chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
+  chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
   pip install -r requirements.txt
@@ -93,7 +95,9 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
 
   # newer than version 1.2.4
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
-  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+  chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
+  chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
   pip install -r requirements.txt
@@ -111,7 +115,9 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
 
   # newer than version 1.2.4
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
-  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+  chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
+  chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
   pip install -r requirements.txt
@@ -127,7 +133,9 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
 
   # newer than version 1.2.4
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
-  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+  chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
+  chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
   pip install -r requirements.txt
@@ -143,7 +151,9 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
 
   # newer than version 1.2.4
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
-  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+  chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
+  chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
   pip install -r requirements.txt
@@ -159,7 +169,28 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
 
   # newer than version 1.2.4
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
-  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsm/webinterface/nafsdm-webinterface.service
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+  chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
+  chmod +x /home/master-nafsdm/webinterface/start.sh
+
+  # newer than version 1.2.4
+  pip install -r requirements.txt
+  rm -rf requirements.txt
+
+  echo "* Update completed. Nothing to do or change!"
+elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/master-nafsdm/pythondaemon
+  rm -rf /home/master-nafsdm/nafsdmctl
+  cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
+  cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
+
+  # newer than version ??
+  rm -rf /home/master-nafsdm/webinterface
+  cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+  chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
+  chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
   pip install -r requirements.txt

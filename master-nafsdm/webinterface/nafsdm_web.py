@@ -32,10 +32,10 @@ def check_auth(username, password):
     passwordRaw = f.read()
     f.close()
 
-    if len(passwordRaw.split("\r")) == 2:
-        passReturn = passwordRaw.split("\r")[0]
-    elif len(passwordRaw.split("\r")) == 1:
-        passReturn = passwordRaw.split("\r")[0]
+    if len(passwordRaw.split("\n")) == 2:
+        passReturn = passwordRaw.split("\n")[0]
+    elif len(passwordRaw.split("\n")) == 1:
+        passReturn = passwordRaw.split("\n")[0]
     else:
         return "Invalid password in configuration", 500
 
