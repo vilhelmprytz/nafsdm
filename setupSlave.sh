@@ -93,11 +93,13 @@ cp /tmp/nafsdm/$GITHUB_DIR /home -R
 cp /tmp/nafsdm/LICENSE $HOME_DIR/LICENSE
 
 cp /tmp/nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
+cp /tmp/nafsdm/systemconfigs/nafscli /usr/bin/nafscli
 
 # make service start upon boot
 /usr/bin/env systemctl enable nafsdm-slave
 
 chmod +x /home/slave-nafsdm/start.py
+chmod +x /usr/bin/nafsdmctl
 
 echo "* Installed. Cleanup.."
 
