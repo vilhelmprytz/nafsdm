@@ -74,6 +74,21 @@ def checkMasterVersion(config):
         exit(1)
 
 
+# get CLI state
+def CLIStateCheck():
+    try:
+        f = open("/home/slave-nafsdm/pythondaemon/cli_state")
+    except Exception:
+        return False, None
+
+    stateRaw = f.read()
+    f.close()
+
+    # remove the file
+    os.remove("/home/slave-nafsdm/pythondaemon/cli_state")
+
+    return True, stateRaw
+
 def getData(config):
     try:
          outputNull = subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host + ":/home/master-nafsdm/data/domains.sql", "/home/slave-nafsdm/temp/domains_temp.sql"])
@@ -183,6 +198,14 @@ def runDaemon(config):
     endlessLoop = False
     while endlessLoop == False:
         time.sleep(int(config.update_interval))
+
+        # check for new CLI state
+        CLIstatus, stateRaw = CLIStateCheck():
+        if CLIstatus:
+            if stateRaw = "upgrade":
+                logging.info("Upgrade command received from CLI!")
+                from versionCheck import checkUpdate
+                checkUpdate(config)
 
         getData(config)
         changeStatus = changeDetected()
