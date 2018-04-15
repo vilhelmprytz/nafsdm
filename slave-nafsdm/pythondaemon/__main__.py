@@ -2,6 +2,7 @@
 # (c) Vilhelm Prytz 2017
 # __main__
 # get's stuff goooing
+# https://github.com/mrkakisen/nafsdm
 
 import logging
 import sys

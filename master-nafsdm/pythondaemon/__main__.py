@@ -1,6 +1,8 @@
 # nafsdm
 # __main__
 # masterd startup file
+# (c) Vilhelm Prytz 2018
+# https://github.com/mrkakisen/nafsdm
 
 # imports
 import os.path

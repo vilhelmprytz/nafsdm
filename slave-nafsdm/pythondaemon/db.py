@@ -2,6 +2,7 @@
 # (c) Vilhelm Prytz 2017
 # db
 # database SQL communication
+# https://github.com/mrkakisen/nafsdm
 
 import logging
 import sqlite3

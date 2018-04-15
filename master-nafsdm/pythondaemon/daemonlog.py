@@ -1,6 +1,8 @@
 # nafsdm
 # daemonlog
 # has logging functions
+# (c) Vilhelm Prytz 2018
+# https://github.com/mrkakisen/nafsdm
 
 from time import strftime
 

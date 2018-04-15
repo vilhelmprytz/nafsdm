@@ -2,6 +2,7 @@
 # (c) Vilhelm Prytz 2017
 # getConfig
 # parses the config and returns in var
+# https://github.com/mrkakisen/nafsdm
 
 import logging
 from configDir import __configDir__ as configDir

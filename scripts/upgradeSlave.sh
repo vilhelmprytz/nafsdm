@@ -1,6 +1,7 @@
 # nafsdm
 # upgrade script for nafsdm slave
 # (c) Vilhelm Prytz 2017
+# https://github.com/mrkakisen/nafsdm
 
 # check if user is root or not
 if [[ $EUID -ne 0 ]]; then

@@ -1,6 +1,8 @@
 # nafsdm
 # versionCheck
 # checks if a new version is available
+# (c) Vilhelm Prytz 2018
+# https://github.com/mrkakisen/nafsdm
 
 from version import version
 from daemonlog import log

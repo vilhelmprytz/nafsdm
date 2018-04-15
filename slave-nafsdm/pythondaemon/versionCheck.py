@@ -2,6 +2,7 @@
 # (c) Vilhelm Prytz 2017
 # versionCheck
 # checks if a new version is available
+# https://github.com/mrkakisen/nafsdm
 
 from version import version
 import logging

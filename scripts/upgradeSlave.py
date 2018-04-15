@@ -1,6 +1,7 @@
 # nafsdm
 # upgrade script for nafsdm slave
 # (c) Vilhelm Prytz 2017
+# https://github.com/mrkakisen/nafsdm
 
 # why have a seperate script for this? incase the thing needs more args than it knows
 

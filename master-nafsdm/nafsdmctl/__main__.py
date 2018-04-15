@@ -1,6 +1,8 @@
 # nafsdmctl
 # __main__
 # main file for the nafsdmctl
+# (c) Vilhelm Prytz 2018
+# https://github.com/mrkakisen/nafsdm
 
 # imports
 import sys

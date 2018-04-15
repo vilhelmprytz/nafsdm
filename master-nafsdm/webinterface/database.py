@@ -1,6 +1,8 @@
 # nafsdm webinterface
 # nafsdm_web.py
 # main file for the database connection
+# (c) Vilhelm Prytz 2018
+# https://github.com/mrkakisen/nafsdm
 
 import sqlite3
 

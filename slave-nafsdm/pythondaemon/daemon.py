@@ -2,6 +2,7 @@
 # (c) Vilhelm Prytz 2017
 # __main__
 # daemon functions
+# https://github.com/mrkakisen/nafsdm
 
 import logging
 import time
