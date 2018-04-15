@@ -1,4 +1,5 @@
 Version ? (Status: DEVELOPMENT)
+* Added nafscli for the slave, a command-line interface
 * Added developer mode for both Slave and Master (disables version checking)
 
 Version 1.2.4 (Status: RELEASED)
