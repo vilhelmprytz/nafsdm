@@ -61,7 +61,7 @@ def main():
     config = getConfig()
 
     # check for updates
-    checkUpdate(config)
+    checkUpdate(config, None)
 
     # run the daemon itself
     runDaemon(config)

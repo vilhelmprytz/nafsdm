@@ -31,7 +31,7 @@ if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_devmode.txt"):
     else:
         devStatus = False
 
-def checkUpdate(config):
+def checkUpdate(config, mode):
     if devStatus == True:
         logging.warning("Developer mode enabled, skipping version checking.")
     else:
@@ -82,7 +82,16 @@ def checkUpdate(config):
                             f.write(upgradeStatus)
                             f.close()
                             logging.info("Upgrade completed. Please update your configuration as the upgradeLog.log says.")
-                            exit(0)
+                            if mode == "cli":
+                                logging.info("Upgrade command sent from CLI. Restarting nafsdm-slave..")
+                                try:
+                                    output = subprocess.check_output(["/bin/systemctl", "restart", "nafsdm-slave.service"])
+                                except Exception:
+                                    logging.exception("An error occured during systemd restart.")
+                                    logging.error("Exit due to previous error.")
+                                    exit(1)
+                            else:
+                                exit(0)
                     else:
                         logging.critical("Couldn't connect to GitHub! Quitting...")
                         exit(1)

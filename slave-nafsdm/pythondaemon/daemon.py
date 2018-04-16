@@ -206,7 +206,7 @@ def runDaemon(config):
             if stateRaw = "upgrade":
                 logging.info("Upgrade command received from CLI!")
                 from versionCheck import checkUpdate
-                checkUpdate(config)
+                checkUpdate(config, "cli")
 
         getData(config)
         changeStatus = changeDetected()
