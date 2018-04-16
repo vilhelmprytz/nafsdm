@@ -101,7 +101,7 @@ cp /tmp/nafsdm/systemconfigs/nafscli /usr/bin/nafscli
 /usr/bin/env systemctl enable nafsdm-slave
 
 chmod +x /home/slave-nafsdm/start.py
-chmod +x /usr/bin/nafsdmctl
+chmod +x /usr/bin/nafscli
 
 echo "* Installed. Cleanup.."
 

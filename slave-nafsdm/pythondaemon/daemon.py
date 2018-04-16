@@ -201,9 +201,9 @@ def runDaemon(config):
         time.sleep(int(config.update_interval))
 
         # check for new CLI state
-        CLIstatus, stateRaw = CLIStateCheck():
+        CLIstatus, stateRaw = CLIStateCheck()
         if CLIstatus:
-            if stateRaw = "upgrade":
+            if stateRaw == "upgrade":
                 logging.info("Upgrade command received from CLI!")
                 from versionCheck import checkUpdate
                 checkUpdate(config, "cli")

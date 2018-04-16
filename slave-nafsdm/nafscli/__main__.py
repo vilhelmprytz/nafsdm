@@ -55,11 +55,16 @@ def printSyntax():
 def checkStatus():
     try:
         output = subprocess.check_output(["/bin/systemctl", "status", "nafsdm-slave.service"])
+        outputReturn = output
     except Exception:
+        for line in outputReturn.split("\n"):
+            if "Active:" in line:
+                if "inactive (dead) since" in line:
+                    return False
         errorPrint("an error occured during status check")
         exit(1)
 
-    for line in output.split():
+    for line in output.split("\n"):
         if "Active:" in line:
             if "active (running)" in line:
                 return True
@@ -68,7 +73,7 @@ def checkStatus():
 
 def fetchVersion():
     try:
-        f = open("/home/slave-nafsdm/version.py")
+        f = open("/home/slave-nafsdm/pythondaemon/version.py")
     except Exception:
         # if the file doesnt exist
         errorPrint("could not find daemon version file - is the daemon installed?")

@@ -10,6 +10,7 @@ import os
 import requests
 import os.path
 
+devStatus = False
 github_branch = "master"
 
 # dev function for specifing branch
@@ -26,7 +27,7 @@ if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_devmode.txt"):
     f = open("/home/slave-nafsdm/pythondaemon/dev_devmode.txt")
     devStatusRaw = f.read()
     f.close()
-    if "True" in devStatus:
+    if "True" in devStatusRaw:
         devStatus = True
     else:
         devStatus = False
