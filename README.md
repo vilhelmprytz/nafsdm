@@ -15,9 +15,9 @@ nafsdm is tested to work with the following operating systems:
 * CentOS 7
 
 # Installation
-To install, you will need at least one slave and one master. All slaves will connect to the master at a certain interval.
+To install, you will need at least one slave and one master. All slaves will connect to the master (make sure firewall allows SSH connections from all slaves)
 
-nafsdm now has install scripts for both master and slaves.
+nafsdm has installation scripts for both master and slaves.
 
 ## Master installation
 Connect to your master server, and download the installation script.
@@ -85,17 +85,19 @@ The key also needs to have correct permissions.
 
 You're done! You should now be able to start the slave (if everything is correctly configured).
 
-`service nafsdm-slave start`
+`nafscli start`
+
+As of version 1.2.5, you can control most of the basic operations on the slave using nafscli. Run nafscli for a list of available commands.
 
 Replace start with stop or restart if you would like to do that later on (or status to check if it's running)
 
 If anything fails, you can check the log.
 
-`cat /home/slave-nafsdm/log.log`
+`nafscli log`
 
 When running the slave the first time, you will probably have to accept the "fingerprint". To accept it, stop the daemon.
 
-`service nafsdm-slave stop`
+`nafscli stop`
 
 And run the slave in debug mode, which will let you accept the fingerprint.
 
@@ -120,7 +122,7 @@ I gladly accept any pull requests that looks good! Just make sure you're working
 Email: contact@mrkakisen.net
 
 nafsdm - Fast & easy DNS node manager for bind
-Copyright (C) 2017 Vilhelm Prytz
+Copyright (C) 2018 Vilhelm Prytz
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
