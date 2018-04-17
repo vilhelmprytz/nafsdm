@@ -49,17 +49,25 @@ def printSyntax():
     print("Commands:")
     print(bcolors.BOLD + " status" + bcolors.ENDC + "      Show current status of the daemon")
     print(bcolors.BOLD + " version" + bcolors.ENDC + "     Current version of nafsdm")
+    print(bcolors.BOLD + " start" + bcolors.ENDC + "       Start the daemon")
+    print(bcolors.BOLD + " stop" + bcolors.ENDC + "        Stop the daemon")
     print(bcolors.BOLD + " restart" + bcolors.ENDC + "     Restart the daemon")
     print(bcolors.BOLD + " upgrade" + bcolors.ENDC + "     Upgrade the daemon")
+    print(bcolors.BOLD + " log" + bcolors.ENDC + "         Shows the nafsdm log (uses tail -f)")
 
 def checkStatus():
     try:
         output = subprocess.check_output(["/bin/systemctl", "status", "nafsdm-slave.service"])
-        outputReturn = output
-    except Exception:
-        for line in outputReturn.split("\n"):
+    except Exception, e:
+        outputSaved = str(e.output)
+        if debug:
+            print("DEBUG - output from systemctl status nafsdm-slave")
+            print(outputSaved)
+        for line in outputSaved.split("\n"):
             if "Active:" in line:
-                if "inactive (dead) since" in line:
+                if "active (running)" in line:
+                    return True
+                else:
                     return False
         errorPrint("an error occured during status check")
         exit(1)
@@ -113,6 +121,26 @@ def restartDaemon():
 
     return True
 
+def startDaemon():
+    # simple start command to systemd
+    try:
+        output = subprocess.check_output(["/bin/systemctl", "start", "nafsdm-slave.service"])
+    except Exception:
+        errorPrint("an error occured during daemon start")
+        exit(1)
+
+    return True
+
+def stopDaemon():
+    # simple stop command to systemd
+    try:
+        output = subprocess.check_output(["/bin/systemctl", "stop", "nafsdm-slave.service"])
+    except Exception:
+        errorPrint("an error occured during daemon stop")
+        exit(1)
+
+    return True
+
 # the CLI can communicate with the daemon by setting a new CLI state
 def setCLIState(newState):
     if checkStatus():
@@ -138,7 +166,7 @@ if len(sys.argv) < 2:
 # routes
 if sys.argv[1] == "status":
     status = checkStatus()
-    if status == True:
+    if status:
         print("status: " + bcolors.GREENBG + "running" + bcolors.ENDC)
     else:
         print("status: " + bcolors.REDBG + "not running" + bcolors.ENDC)
@@ -157,5 +185,23 @@ elif sys.argv[1] == "restart":
 elif sys.argv[1] == "upgrade":
     setCLIState("upgrade")
     successPrint("upgrade command sent to daemon")
+elif sys.argv[1] == "log":
+    try:
+        output = subprocess.call(["tail", "-f", "/home/slave-nafsdm/log.log"])
+    except Exception:
+        errorPrint("could not read log")
+        exit(1)
+
+elif sys.argv[1] == "start":
+    if checkStatus():
+        errorPrint("daemon is already running")
+    else:
+        if startDaemon():
+            successPrint("daemon started")
+
+elif sys.argv[1] == "stop":
+    if stopDaemon():
+        successPrint("daemon stopped")
+
 else:
     print("nafscli: " + bcolors.FAIL + "no such command '" + bcolors.BOLD + sys.argv[1] + "'" + bcolors.ENDC)
