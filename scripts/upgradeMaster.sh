@@ -51,6 +51,9 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.2.2-stable"' ]; then
 elif [ "$MY_VERSION_RAW" == 'version = "1.2.3-stable"' ]; then
   echo "* Detected version 1.2.3-stable - supported by this upgrade script."
   MY_VERSION="1.2.3-stable"
+elif [ "$MY_VERSION_RAW" == 'version = "1.2.4-stable"' ]; then
+  echo "* Detected version 1.2.4-stable - supported by this upgrade script."
+  MY_VERSION="1.2.4-stable"
 else
   echo "* Your version is not supported (dev versions and 1.0 is not supported)."
   exit 1
