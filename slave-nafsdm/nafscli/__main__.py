@@ -161,8 +161,12 @@ def setCLIState(newState):
 
         f.write(newState)
         f.close()
+
+        return True
     else:
         errorPrint("daemon is not running, cannot set CLI state")
+        exit(1)
+        return False
 # debug print
 if debug:
     print("Debugg: " + str(sys.argv))
@@ -194,8 +198,8 @@ elif sys.argv[1] == "restart":
     if restartDaemon():
         successPrint("daemon restarted")
 elif sys.argv[1] == "upgrade":
-    setCLIState("upgrade")
-    successPrint("upgrade command sent to daemon")
+    if setCLIState("upgrade"):
+        successPrint("upgrade command sent to daemon")
 elif sys.argv[1] == "log":
     print("nafscli: " + bcolors.WARNING + "press CTRL+C to exit logviewer" + bcolors.ENDC)
     try:
