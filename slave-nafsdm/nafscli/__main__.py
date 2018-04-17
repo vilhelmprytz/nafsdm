@@ -35,6 +35,15 @@ class bcolors: # (thanks to https://stackoverflow.com/a/287944/8321546)
         self.FAIL = ''
         self.ENDC = ''
 
+# dev function for specifing branch
+if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_github_branch.txt"):
+    f = open("/home/slave-nafsdm/pythondaemon/dev_github_branch.txt")
+    branchRaw = f.read()
+    f.close()
+
+    if "development" in branchRaw:
+        github_branch = "development"
+
 # functions
 def errorPrint(message):
     print("nafscli: " + bcolors.FAIL + message + bcolors.ENDC)
@@ -175,9 +184,11 @@ elif sys.argv[1] == "version":
     version = fetchVersion()
     versionStatus, newVersion = checkVersion(version)
     if versionStatus == True:
-        print("nafscli: you're running the latest version, " + version)
+        if github_branch == "development":
+            print("seems like you're using the development branch")
+        successPrint("you're running the latest version, " + version)
     else:
-        print("nafscli: " + bcolors.OKGREEN + "a new version is available, " + bcolors.BOLD + newVersion + bcolors.ENDC)
+        print("nafscli: " + bcolors.OKGREEN + "a new version is available, " + bcolors.BOLD + newVersion + " (your version is " + version + ")" + bcolors.ENDC)
         print("         " + bcolors.OKGREEN + "upgrade using 'nafscli upgrade'" + bcolors.ENDC)
 elif sys.argv[1] == "restart":
     if restartDaemon():
@@ -186,6 +197,7 @@ elif sys.argv[1] == "upgrade":
     setCLIState("upgrade")
     successPrint("upgrade command sent to daemon")
 elif sys.argv[1] == "log":
+    print("nafscli: " + bcolors.WARNING + "press CTRL+C to exit logviewer" + bcolors.ENDC)
     try:
         output = subprocess.call(["tail", "-f", "/home/slave-nafsdm/log.log"])
     except Exception:
