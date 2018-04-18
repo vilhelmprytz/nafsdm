@@ -13,7 +13,7 @@ import requests
 # global vars
 github_branch = "master"
 debug = False
-debugVersion = "1.2.3-stable"
+debugVersion = "1.2.4-stable"
 class bcolors: # (thanks to https://stackoverflow.com/a/287944/8321546)
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
