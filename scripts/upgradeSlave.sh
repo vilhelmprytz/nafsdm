@@ -89,7 +89,7 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   # add nafscli (released in version 1.2.5)
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
-  chmod +x /usr/bin/nafsdmctl
+  chmod +x /usr/bin/nafscli
 
   echo "* Upgrade completed."
   echo "* Script has automatically modified your config to match with the new standards."
@@ -111,7 +111,7 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   # add nafscli (released in version 1.2.5)
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
-  chmod +x /usr/bin/nafsdmctl
+  chmod +x /usr/bin/nafscli
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -133,7 +133,7 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   # add nafscli (released in version 1.2.5)
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
-  chmod +x /usr/bin/nafsdmctl
+  chmod +x /usr/bin/nafscli
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -150,7 +150,7 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   # add nafscli (released in version 1.2.5)
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
-  chmod +x /usr/bin/nafsdmctl
+  chmod +x /usr/bin/nafscli
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -163,7 +163,7 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   # add nafscli (released in version 1.2.5)
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
-  chmod +x /usr/bin/nafsdmctl
+  chmod +x /usr/bin/nafscli
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -176,7 +176,7 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   # add nafscli (released in version 1.2.5)
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
-  chmod +x /usr/bin/nafsdmctl
+  chmod +x /usr/bin/nafscli
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -189,7 +189,7 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   # add nafscli (released in version 1.2.5)
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
-  chmod +x /usr/bin/nafsdmctl
+  chmod +x /usr/bin/nafscli
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
