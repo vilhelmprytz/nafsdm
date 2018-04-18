@@ -1,6 +1,8 @@
 # nafsdm webinterface
 # nafsdm_web.py
 # main file for the flask engine behind the nafsdm webinterface
+# (c) Vilhelm Prytz 2018
+# https://github.com/mrkakisen/nafsdm
 
 ###########
 ## SETUP ##

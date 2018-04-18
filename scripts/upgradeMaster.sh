@@ -1,6 +1,7 @@
 # nafsdm
 # upgrade script for nafsdm master
 # (c) Vilhelm Prytz 2017
+# https://github.com/mrkakisen/nafsdm
 
 # check if user is root or not
 if [[ $EUID -ne 0 ]]; then
@@ -50,6 +51,9 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.2.2-stable"' ]; then
 elif [ "$MY_VERSION_RAW" == 'version = "1.2.3-stable"' ]; then
   echo "* Detected version 1.2.3-stable - supported by this upgrade script."
   MY_VERSION="1.2.3-stable"
+elif [ "$MY_VERSION_RAW" == 'version = "1.2.4-stable"' ]; then
+  echo "* Detected version 1.2.4-stable - supported by this upgrade script."
+  MY_VERSION="1.2.4-stable"
 else
   echo "* Your version is not supported (dev versions and 1.0 is not supported)."
   exit 1
@@ -185,7 +189,7 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  # newer than version ??
+  # newer than version 1.2.4, all versions that already have the webinterface
   rm -rf /home/master-nafsdm/webinterface
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service

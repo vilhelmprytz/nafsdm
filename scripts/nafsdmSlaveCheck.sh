@@ -2,6 +2,7 @@
 # nafsdm
 # extra script: checks if the nafsdm slave is running or not
 # (c) Vilhelm Prytz 2018
+# https://github.com/mrkakisen/nafsdm
 
 GREP_FAILED=$(/bin/systemctl status nafsdm-slave.service | grep "Active: failed")
 GREP_INACTIVE=$(/bin/systemctl status nafsdm-slave.service | grep "Active: inactive")

@@ -1,6 +1,7 @@
 # nafsdm
 # help script for setting up nafsdm on all slaves
 # Copyright Vilhelm Prytz 2017
+# https://github.com/mrkakisen/nafsdm
 
 # check if user is root or not
 if [[ $EUID -ne 0 ]]; then
@@ -90,14 +91,17 @@ fi
 mkdir $HOME_DIR/.ssh
 chown -R slave-nafsdm:slave-nafsdm $HOME_DIR/.ssh
 cp /tmp/nafsdm/$GITHUB_DIR /home -R
+cp /tmp/nafsdm/$GITHUB_DIR/nafscli /home/$GITHUB_DIR/nafscli -R
 cp /tmp/nafsdm/LICENSE $HOME_DIR/LICENSE
 
 cp /tmp/nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
+cp /tmp/nafsdm/systemconfigs/nafscli /usr/bin/nafscli
 
 # make service start upon boot
 /usr/bin/env systemctl enable nafsdm-slave
 
 chmod +x /home/slave-nafsdm/start.py
+chmod +x /usr/bin/nafscli
 
 echo "* Installed. Cleanup.."
 

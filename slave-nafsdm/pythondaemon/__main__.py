@@ -2,6 +2,7 @@
 # (c) Vilhelm Prytz 2017
 # __main__
 # get's stuff goooing
+# https://github.com/mrkakisen/nafsdm
 
 import logging
 import sys
@@ -60,7 +61,7 @@ def main():
     config = getConfig()
 
     # check for updates
-    checkUpdate(config)
+    checkUpdate(config, None)
 
     # run the daemon itself
     runDaemon(config)

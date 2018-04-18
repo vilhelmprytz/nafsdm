@@ -1,6 +1,8 @@
 # nafsdmctl
 # db
 # database functions for nafsdmctl
+# (c) Vilhelm Prytz 2018
+# https://github.com/mrkakisen/nafsdm
 
 import sqlite3
 

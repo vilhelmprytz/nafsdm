@@ -1,3 +1,7 @@
+Version 1.2.5 (Status: RELEASED)
+* Added nafscli for the slave, a command-line interface
+* Added developer mode for both Slave and Master (disables version checking)
+
 Version 1.2.4 (Status: RELEASED)
 * experimental: webinterface for the master, allowing control from a browser
 * Slaves now check if their version matches with the one the master is running
