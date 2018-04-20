@@ -8,6 +8,7 @@
 import sys
 import os
 import os.path
+from tabulate import tabulate
 from db import *
 
 # catching ctrl+c
@@ -15,21 +16,54 @@ import signal
 
 # global vars
 longLine = ("---------------------------------------------------------")
+class bcolors: # (thanks to https://stackoverflow.com/a/287944/8321546)
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    # thanks to https://stackoverflow.com/questions/287871/print-in-terminal-with-colors/287944#comment7475474_287944
+    BOLD = "\033[1m"
+    # thanks to https://stackoverflow.com/a/21786287/8321546
+    GREENBG = "\x1b[6;30;42m" # green bg with black text
+    REDBG = "\x1b[2;30;41m" # red bg with black text
+
+    def disable(self):
+        self.HEADER = ''
+        self.OKBLUE = ''
+        self.OKGREEN = ''
+        self.WARNING = ''
+        self.FAIL = ''
+        self.ENDC = ''
 
 # functions
 def signal_handler(signal, frame):
     print("CTRL+C - quitting.")
     exit(0)
 
+# visual print functions
+def errorPrint(message):
+    print("nafsdmctl: " + bcolors.FAIL + message + bcolors.ENDC)
+
+def successPrint(metabulatessage):
+    print("nafsdmctl: " + bcolors.OKGREEN + message + bcolors.ENDC)
+
+def printSyntax():
+    # syntax and info
+    print("Usage: nafsdmctl [COMMAND] [ARG] ...")
+    print("\n" + bcolors.BOLD + bcolors.FAIL + "nafsdm control " + bcolors.ENDC + "for master daemon" + "\n")
+    print("Commands:")
+    print(bcolors.BOLD + " add [domain] [masterIP] [comment] [nodes.nodes] [dnssec.no/yes]" + bcolors.ENDC + " Add a new domain")
+    print(bcolors.BOLD + " remove [domain]" + bcolors.ENDC + "                                                 Remove a domain")
+    print(bcolors.BOLD + " edit [domain]" + bcolors.ENDC + "                                                   Edit a domain")
+    print(bcolors.BOLD + " list" + bcolors.ENDC + "                                                            List all domains")
+
+
 # global check if user hasn't typed any vars
 if len(sys.argv) < 2:
-    # length is two as len doesn't use 0 as first one
-    print("syntax error: please use correct argument." + "\n" +
-    "\n" + "nafsdmctl 'add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes dnssec.[yes/no]'" +
-    "\n" + "nafsdmctl 'remove domain.tld'" +
-    "\n" + "nafsdmctl 'edit domain.tld'"+
-    "\n" + "nafsdmctl 'list'")
-    exit(1)
+    # not enough args
+    printSyntax()
 
 # check which command user has run
 if (sys.argv[1] == "add"):
@@ -42,50 +76,55 @@ if (sys.argv[1] == "add"):
                 if "." in sys.argv[6]:
                     if "yes" in sys.argv[6] or "no" in sys.argv[6]:
                         addDomain(sys.argv)
-                        print("Domain added.")
+                        successPrint("domain added")
                     else:
-                        print("syntax error: use dnssec.yes or dnssec.no only.")
+                        errorPrint("use dnssec.yes or dnssec.no only.")
+                        exit(1)
                 else:
-                    print("syntax error: invalid dnssec option?")
+                    errorPrint("invalid dnssec option")
+                    exit(1)
             else:
-                print("syntax error: invalid master IP?")
+                errorPrint("invalid master IP")
                 exit(1)
         else:
-            print("syntax error: invalid domain name?")
+            errorPrint("invalid domain name")
             exit(1)
     else:
-        print("syntax error: 'nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes dnssec.[yes/no]' is correct syntax")
+        errorPrint("not enough arguments")
+        printSyntax()
         exit(1)
 elif (sys.argv[1] == "remove"):
     if (len(sys.argv) == 3):
         if "." in sys.argv[2]:
             if removeDomain(sys.argv[2]) == True:
-                print("nafsdmctl: remove succesful")
+                successPrint("remove succesful")
             else:
-                print("nafsdmctl: remove failed. Invalid domain name?")
+                errorPrint("remove failed - invalid domain name?")
         else:
-            print("syntax error: invalid domain name?")
+            errorPrint("invalid domain name")
     else:
-        print("syntax error: 'nafsdmctl remove domain.tld' is correct syntax")
+        errorPrint("not enough arguments")
+        printSyntax()
+        exit(1)
 elif (sys.argv[1] == "list"):
     # get domains
     domainsRaw = listDomains()
 
-    # print format to user
-    print(longLine)
-    print("id - domain - masterIP - comment - slaves - dnssec")
-    print(longLine)
+    # create table we append domains in
+    printTable = []
 
     for row in domainsRaw:
         if row != None:
             if row[5] == "y":
-                print(str(row[0]) + " - " + row[1] + " - "+ row[2] + " - " + row[3] + " - " + row[4] + " - yes")
+                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.OKGREEN + "yes" + bcolors.ENDC)
             elif row[5] == "n":
-                print(str(row[0]) + " - " + row[1] + " - "+ row[2] + " - " + row[3] + " - " + row[4] + " - no")
+                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.FAIL + "no" + bcolors.ENDC)
             else:
-                print(str(row[0]) + " - " + row[1] + " - "+ row[2] + " - " + row[3] + " - " + row[4] + " - " + row[5])
+                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], row[5])
 
-    print(longLine)
+    # print a fancy table using tabulate
+    headers = [bcolors.BOLD + "id", "domain", "master IP", "comment", "slaves", "DNSSEC status" + bcolors.ENDC]
+    print tabulate(printTable, headers, tablefmt="fancy_grid")
 
 
 elif (sys.argv[1] == "edit"):
@@ -107,7 +146,7 @@ elif (sys.argv[1] == "edit"):
                 if slaves == "":
                     slaves = None
             else:
-                print("syntax error: invalid slaves. Continuing anyways (set to same as before)")
+                errorPrint("invalid slaves. Continuing anyways (value set to same as before)")
                 slaves = None
 
             # DNSSEC
@@ -118,24 +157,21 @@ elif (sys.argv[1] == "edit"):
                 dnssec = "n"
             else:
                 dnssec = None
-                print("syntax error: only yes or no supported. Value set to same as before.")
+                errorPrint("only yes or no supported. Value set to same as before.")
 
             # set the domain
             domain = sys.argv[2]
 
             if editDomain(domain, master_ip, comment, slaves, dnssec) == True:
-                print("nafsdmctl: edit succesful")
+                successPrint("edit succesful")
             else:
-                print("nafsdmctl: edit failed")
+                errorPrint("edit failed")
         else:
-            print("syntax error: invalid domain name?")
+            errorPrint("invalid domain name?")
     else:
-        print("syntax error: 'nafsdmctl edit domain.tld' is correct syntax")
+        errorPrint("not enough arguments")
+        printSyntax()
+        exit(1)
 else:
-    # just prints some of the syntaxes and exists as an error
-    print("syntax error: please use correct argument." + "\n" +
-    "\n" + "nafsdmctl 'nafsdmctl add domain.tld 0.0.0.0 OwnComment nodes.nodes.nodes dnssec.[yes/no]'" +
-    "\n" + "nafsdmctl 'remove domain.tld'" +
-    "\n" + "nafsdmctl 'edit domain.tld'"+
-    "\n" + "nafsdmctl 'list'")
+    printSyntax()
     exit(1)
