@@ -15,7 +15,6 @@ from db import *
 import signal
 
 # global vars
-longLine = ("---------------------------------------------------------")
 class bcolors: # (thanks to https://stackoverflow.com/a/287944/8321546)
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
