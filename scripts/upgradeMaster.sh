@@ -1,7 +1,12 @@
 # nafsdm
 # upgrade script for nafsdm master
-# (c) Vilhelm Prytz 2017
+# (c) Vilhelm Prytz 2018
 # https://github.com/mrkakisen/nafsdm
+
+# Exit codes:
+# normal - 0
+# error - 1
+# unsupported version - 128
 
 # check if user is root or not
 if [[ $EUID -ne 0 ]]; then
@@ -56,7 +61,7 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.2.4-stable"' ]; then
   MY_VERSION="1.2.4-stable"
 else
   echo "* Your version is not supported (dev versions and 1.0 is not supported)."
-  exit 1
+  exit 128
 fi
 
 echo "* Downloading newest version."
@@ -90,6 +95,9 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
   echo "* NAFSDM WILL NOT START IF THIS SCRIPT EXISTS. DELETE IT BEFORE START."
+
+  exit 0
+
 elif [ "$MY_VERSION" == "1.1-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
@@ -110,6 +118,9 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
   echo "* NAFSDM WILL NOT START IF THIS SCRIPT EXISTS. DELETE IT BEFORE START."
+
+  exit 0
+
 elif [ "$MY_VERSION" == "1.2-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
@@ -128,6 +139,9 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   rm -rf requirements.txt
 
   echo "* Update completed. Nothing to do or change!"
+
+  exit 0
+
 elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
@@ -146,6 +160,9 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   rm -rf requirements.txt
 
   echo "* Update completed. Nothing to do or change!"
+
+  exit 0
+
 elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
@@ -164,6 +181,9 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   rm -rf requirements.txt
 
   echo "* Update completed. Nothing to do or change!"
+
+  exit 0
+
 elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
@@ -182,6 +202,9 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   rm -rf requirements.txt
 
   echo "* Update completed. Nothing to do or change!"
+
+  exit 0
+
 elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
@@ -201,6 +224,9 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   rm -rf requirements.txt
 
   echo "* Update completed. Nothing to do or change!"
+
+  exit 0
+
 else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1

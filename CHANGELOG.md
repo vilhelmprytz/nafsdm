@@ -1,5 +1,6 @@
 Version ? (Status: DEVELOPMENT)
 * Upgrade scripts now check for "github_branch" to download correct latest version file.
+* Upgrade scripts now return different exit codes depending on issue (dev versions will no longer crash the daemon due to unsupported version)
 
 Version 1.2.5 (Status: RELEASED)
 * Added nafscli for the slave, a command-line interface

@@ -76,7 +76,14 @@ def checkUpdate(config, mode):
                         from tempUpgrade.temp_upgrade import initUpgrade
                         upgradeStatus = initUpgrade(config, github_branch)
                         if upgradeStatus == "exception":
-                            logging.critical("An error occured during upgrade. Either you use a unsupported version or the script failed mid-through (that would break your installation). Please retry or run the script manually.")
+                            logging.critical("An error occured during upgrade. The script probably failed mid-through (that would break your installation). Please retry or run the script manually.")
+                            exit(1)
+                        elif upgradeStatus == "unsupported":
+                            logging.warning("You're running an unsupported version - nafsdm will not be able to upgrade.")
+                            logging.warning("Consider using developer mode to skip version checking.")
+                            logging.info("nafsdm will continue boot")
+                        elif upgradeStatus == "unknownException":
+                            logging.critical("Unknown exception occured during upgrade.")
                             exit(1)
                         else:
                             f = open("/home/slave-nafsdm/upgradeLog.log", "w")
