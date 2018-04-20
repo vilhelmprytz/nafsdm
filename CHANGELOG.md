@@ -1,3 +1,6 @@
+Version ? (Status: DEVELOPMENT)
+* Upgrade scripts now check for "github_branch" to download correct latest version file.
+
 Version 1.2.5 (Status: RELEASED)
 * Added nafscli for the slave, a command-line interface
 * Added developer mode for both Slave and Master (disables version checking)

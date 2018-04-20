@@ -26,7 +26,7 @@ else
   exit 1
 fi
 
-BRANCH="master"
+BRANCH="$1"
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
 MY_VERSION_RAW="`cat /home/master-nafsdm/pythondaemon/version.py`"
 LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/$BRANCH/version.txt)

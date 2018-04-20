@@ -8,9 +8,9 @@
 # imports
 import subprocess
 
-def initUpgrade():
+def initUpgrade(github_branch="master"):
     try:
-        output = subprocess.check_output(["/bin/bash", "/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh"])
+        output = subprocess.check_output(["/bin/bash", "/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh", github_branch])
     except Exception:
         # no point of logging anyways
         return "exception"

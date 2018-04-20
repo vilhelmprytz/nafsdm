@@ -11,9 +11,6 @@ fi
 
 echo "* Welcome to nafsdm slave upgrade script!"
 
-echo -n "* Enter operating system (debian/ubuntu/centos): "
-OPERATINGSYS="$1"
-
 if [ "$OPERATINGSYS" == "centos" ]; then
   yum install curl wget -y
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
@@ -23,7 +20,8 @@ else
   exit 1
 fi
 
-BRANCH="master"
+OPERATINGSYS="$1"
+BRANCH="$2"
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
 MY_VERSION_RAW="`cat /home/slave-nafsdm/pythondaemon/version.py`"
 LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/$BRANCH/version.txt)

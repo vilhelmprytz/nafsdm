@@ -73,7 +73,7 @@ def checkUpdate():
                         outputNull = subprocess.check_output(["chmod", "+x", "/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py"])
 
                         from tempUpgrade.temp_upgrade import initUpgrade
-                        upgradeStatus = initUpgrade()
+                        upgradeStatus = initUpgrade(github_branch)
                         if upgradeStatus == "exception":
                             log("FATAL: An error occured during upgrade. Either you use a unsupported version or the script failed mid-through (that would break your installation). Please retry or run the script manually.")
                             exit(1)
