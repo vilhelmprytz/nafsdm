@@ -247,6 +247,19 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   rm -rf /home/slave-nafsdm/nafscli
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
 
+  # dev set version
+  if [ "$DEV_IC_MODE" == "True" ]; then
+    echo "* Setting dev version.."
+
+    cd /tmp/nafsdm
+    COMMIT_HASH=$(git log -n 1 development | sed -n '1p' | cut -c8-14)
+    echo "version = \"$COMMIT_HASH-dev\"" > /home/slave-nafsdm/pythondaemon/version.py
+    echo "True" > /home/slave-nafsdm/pythondaemon/dev_ic_mode.txt
+    echo "development" > /home/slave-nafsdm/pythondaemon/dev_github_branch.txt
+
+    echo "* Done."
+  fi
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
@@ -255,15 +268,6 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
 else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1
-fi
-
-# dev set version
-if [ "$DEV_IC_MODE" == "True" ]; then
-  cd /tmp/nafsdm
-  COMMIT_HASH=$(git log -n 1 development | sed -n '1p' | cut -c8-14)
-  echo "version = \"$COMMIT_HASH-dev\"" > /home/slave-nafsdm/pythondaemon/version.py
-  echo "True" > /home/slave-nafsdm/pythondaemon/dev_ic_mode.txt
-  echo "development" > /home/slave-nafsdm/pythondaemon/dev_github_branch.txt
 fi
 
 rm -rf /tmp/nafsdm
