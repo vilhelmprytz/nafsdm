@@ -4,6 +4,7 @@ Version 1.3 (Status: DEVELOPMENT)
 * Complete visual overhaul of nafsdmctl (looks a lot nicer)
 * New development mode, allowing latest commit to always be installed on master and slave (not set version numbers).
 * Slave: development functions are now enabled using the config.conf instead of adding files.
+* Developer mode introduced in version 1.2.5-stable has been renamed to "skipVersionCheck"
 * nafsdmctl: now has remove by domain and remove by ID functions
 * nafsdmctl: now has status/start/stop/restart functions for the webinterface
 * Slaves now report last connection time to master (nafsdmctl can show a table of which slaves has connected recently)
