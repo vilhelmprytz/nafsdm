@@ -23,9 +23,9 @@ python -mplatform | grep -qi debian && echo "debian" > /home/master-nafsdm/syste
 OPERATINGSYS="`cat /home/master-nafsdm/system-type.txt`"
 
 if [ "$OPERATINGSYS" == "centos" ]; then
-  yum install curl wget -y
+  yum install curl wget git -y
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
-  apt-get install curl wget -y
+  apt-get install curl wget git -y
 else
   echo "* Invalid OS. Quit."
   exit 1
