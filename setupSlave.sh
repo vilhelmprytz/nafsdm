@@ -49,39 +49,61 @@ fi
 echo "* Fetching information about latest version.."
 LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/version.txt)
 
-# select version
-echo "* Please select your version. Type in the version number or type 'latest' for latest version."
-echo -n "* Version: "
-read VERSION_USER
+# commit updates
+echo "* Developers only: Would you like to enable incremental commit updates and use development branch only (y/n)?"
+echo "* Warning: This is a developer function, do not use in a production environment."
+read DEV_IC_CONFIRM
 
-if [ "$VERSION_USER" == "latest" ]; then
-  echo -n "* Confirm? (y/n): "
-  read CONFIRM
-  if [ "$CONFIRM" == "y" ]; then
-    DL_VERSION="$LATEST_VERSION"
+if [ "$DEV_IC_CONFIRM" == "y" ]; then
+  if [ "$OPERATINGSYS" == "centos" ]; then
+    yum install git -y
+  elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
+    apt-get install git -y
   else
-    echo "* Aborting.."
+    echo "* Invalid operating system."
     exit 1
-  fi
-else
-  echo -n "* Confirm? If version doesn't exist, script will fail. (y/n): "
-  read CONFIRM
-  if [ "$CONFIRM" == "y" ]; then
-    DL_VERSION="$VERSION_USER"
+
+  cd /tmp
+  git clone -b development https://github.com/MrKaKisen/nafsdm.git
+elif [ "$DEV_IC_CONFIRM" == "n" ]; then
+  echo "* Skipping.."
+  # select version
+  echo "* Please select your version. Type in the version number or type 'latest' for latest version."
+  echo -n "* Version: "
+  read VERSION_USER
+
+  if [ "$VERSION_USER" == "latest" ]; then
+    echo -n "* Confirm? (y/n): "
+    read CONFIRM
+    if [ "$CONFIRM" == "y" ]; then
+      DL_VERSION="$LATEST_VERSION"
+    else
+      echo "* Aborting.."
+      exit 1
+    fi
   else
-    echo "* Aborting.."
-    exit 1
+    echo -n "* Confirm? If version doesn't exist, script will fail. (y/n): "
+    read CONFIRM
+    if [ "$CONFIRM" == "y" ]; then
+      DL_VERSION="$VERSION_USER"
+    else
+      echo "* Aborting.."
+      exit 1
+    fi
   fi
-fi
 
 echo "* Required packages installed!"
 echo "* Downloading nafsdm & installing.."
 
 # download in temp dir
+if [ "$DEV_IC_CONFIRM" == "n" ]; then
+  cd /tmp
+  wget $DL_URL$DL_VERSION.tar.gz -O nafsdm.tar.gz
+  tar -zxvf nafsdm.tar.gz
+  mv nafsdm-* nafsdm
+fi
+
 cd /tmp
-wget $DL_URL$DL_VERSION.tar.gz -O nafsdm.tar.gz
-tar -zxvf nafsdm.tar.gz
-mv nafsdm-* nafsdm
 
 useradd $USER
 # debian and ubuntu doesn't create its home dir automatically, unlike centos
@@ -102,6 +124,14 @@ cp /tmp/nafsdm/systemconfigs/nafscli /usr/bin/nafscli
 
 chmod +x /home/slave-nafsdm/start.py
 chmod +x /usr/bin/nafscli
+
+# dev set version
+if [ "$DEV_IC_CONFIRM" == "y" ]; then
+  cd /tmp/nafsdm
+  COMMIT_HASH=$(git log -n 1 development | sed -n '1p' | cut -c8-14)
+  echo "version = \"$COMMIT_HASH-dev\"" > /home/slave-nafsdm/pythondaemon/version.py
+  echo "True" > /home/slave-nafsdm/pythondaemon/dev_ic_mode.txt
+fi
 
 echo "* Installed. Cleanup.."
 

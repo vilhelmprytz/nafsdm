@@ -27,6 +27,7 @@ fi
 
 OPERATINGSYS="$1"
 BRANCH="$2"
+DEV_IC_MODE="$3"
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
 MY_VERSION_RAW="`cat /home/slave-nafsdm/pythondaemon/version.py`"
 LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/$BRANCH/version.txt)
@@ -60,10 +61,14 @@ fi
 
 echo "* Downloading newest version."
 cd /tmp
-wget $DL_URL$LATEST_VERSION.tar.gz -O nafsdm.tar.gz
-tar -zxvf nafsdm.tar.gz
-mv nafsdm-* nafsdm
-rm -rf nafsdm.tar.gz
+if [ "$DEV_IC_MODE" == "True" ];
+  git clone -b development https://github.com/MrKaKisen/nafsdm.git
+else
+  wget $DL_URL$LATEST_VERSION.tar.gz -O nafsdm.tar.gz
+  tar -zxvf nafsdm.tar.gz
+  mv nafsdm-* nafsdm
+  rm -rf nafsdm.tar.gz
+fi
 
 # perform upgrade
 if [ "$MY_VERSION" == "1.0.1-stable" ]; then
@@ -231,6 +236,13 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
 else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1
+fi
+
+# dev set version
+if [ "$DEV_IC_MODE" == "y" ]; then
+  cd /tmp/nafsdm
+  COMMIT_HASH=$(git log -n 1 development | sed -n '1p' | cut -c8-14)
+  echo "version = \"$COMMIT_HASH-dev\"" > /home/slave-nafsdm/pythondaemon/version.py
 fi
 
 rm -rf /tmp/nafsdm

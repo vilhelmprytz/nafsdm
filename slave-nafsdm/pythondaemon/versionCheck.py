@@ -10,8 +10,11 @@ import os
 import requests
 import os.path
 
-devStatus = False
 github_branch = "master"
+devIcMode = False
+devStatus = False
+doICUpdate = False
+normalUpdate = False
 
 # dev function for specifing branch
 if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_github_branch.txt"):
@@ -32,18 +35,46 @@ if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_devmode.txt"):
     else:
         devStatus = False
 
+# dev ic mode
+if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt"):
+    f = open("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt")
+    devIcModeRaw = f.read()
+    f.close()
+    if "True" in devIcModeRaw:
+        devIcMode = True
+    else:
+        devIcMode = False
+
 def checkUpdate(config, mode):
     if devStatus == True:
         logging.warning("Developer mode enabled, skipping version checking.")
     else:
-        logging.info("Checking if a new version is available..")
-        r = requests.get("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/version.txt")
-
-        # check if we got a good code, requests has builtin codes which are OK
-        if (r.status_code == requests.codes.ok):
-            if (r.text.split("\n")[0] == version):
-                logging.info("You're running the latest version, " + version + "!")
+        if devIcMode:
+            logging.info("Development commit update mode.")
+            response = requests.get("https://api.github.com/repos/mrkakisen/nafsdm/branches/development")
+            if (response.status_code == requests.codes.ok):
+                data = response.json()
+                latestCommit = data["commit"]["sha"][0:7]
+                if version.split("-")[0] == latestCommit:
+                    logging.info("You're using the latest development commit!")
+                else:
+                    doICUpdate = True
+                    logging.info("A new update is available (dev commit - my version: " + version + " - latest version: " + latestCommit + "-dev)")
             else:
+                logging.critical("Couldn't connect to GitHub! Quitting...")
+                exit(1)
+        else:
+            logging.info("Checking if a new version is available..")
+            r = requests.get("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/version.txt")
+
+            # check if we got a good code, requests has builtin codes which are OK
+            if (r.status_code == requests.codes.ok):
+                if (r.text.split("\n")[0] == version):
+                    logging.info("You're running the latest version, " + version + "!")
+                else:
+                    normalUpdate = True
+
+            if normalUpdate == True or doICUpdate == True:
                 logging.info("There is a new version available! New version: " + r.text.split("\n")[0])
                 if (os.path.exists("/home/slave-nafsdm/tempUpgrade")):
                     logging.warning("Temp upgrade folder already exists?")
@@ -74,7 +105,10 @@ def checkUpdate(config, mode):
                         outputNull = subprocess.check_output(["chmod", "+x", "/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py"])
 
                         from tempUpgrade.temp_upgrade import initUpgrade
-                        upgradeStatus = initUpgrade(config, github_branch)
+                        if doICUpdate:
+
+                        else:
+                            upgradeStatus = initUpgrade(config, github_branch)
                         if upgradeStatus == "exception":
                             logging.critical("An error occured during upgrade. The script probably failed mid-through (that would break your installation). Please retry or run the script manually.")
                             exit(1)

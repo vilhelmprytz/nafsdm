@@ -13,9 +13,9 @@ import sys
 sys.path.insert(0, "/home/master-nafsdm/pythondaemon")
 from version import version
 
-def initUpgrade(github_branch="master"):
+def initUpgrade(github_branch="master", dev_ic_mode=False):
     try:
-        output = subprocess.check_output(["/bin/bash", "/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh", github_branch])
+        output = subprocess.check_output(["/bin/bash", "/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh", github_branch, str(dev_ic_mode)])
     except subprocess.CalledProcessError as grepexc:
         # we want grepexc to determine the exit code (if it's an issue or just unsupported version)
         exit_code = grepexc.returncode
