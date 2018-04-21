@@ -124,11 +124,12 @@ def checkUpdate():
                         f = open("/home/master-nafsdm/upgradeLog.log", "w")
                         f.write(upgradeStatus)
                         f.close()
-                        log("INFO: Upgrade completed. Please update your configuration as the upgradeLog.log says.")
+                        log("Upgrade completed. Make sure no additional adjustments are required for this particular upgrade.")
+                        log("Upgrade log is available at /home/master-nafsdm/upgradeLog.log")
                         exit(0)
                 else:
-                    log("FATAL: Couldn't connect to GitHub! Quitting...")
+                    log("FATAL: Failed to establish connection to GitHub.")
                     exit(1)
             else:
-                log("FATAL: Couldn't connect to GitHub! Quitting..")
+                log("FATAL: Failed to establish connection to GitHub.")
                 exit(1)

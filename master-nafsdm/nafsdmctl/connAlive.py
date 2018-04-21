@@ -36,7 +36,7 @@ def slaveConnections(bcolors):
 
             timeAgoString, epochAgo = timeAgo("/home/master-nafsdm/slaveAlive/" + file)
 
-            if int(epochAgo) > interval+5:
+            if int(epochAgo) > int(interval)+5:
                 slaveConnections.append([file.split(".")[0], bcolors.FAIL + timeAgoString + bcolors.ENDC, slaveDate, interval])
             else:
                 slaveConnections.append([file.split(".")[0], bcolors.OKGREEN + timeAgoString + bcolors.ENDC, slaveDate, interval])
