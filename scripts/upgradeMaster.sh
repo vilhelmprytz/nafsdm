@@ -102,9 +102,10 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   rm -rf requirements.txt
 
   # from version 1.3 onwards
-  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+  if [ ! -d "/home/master-nafsdm/slaveAlive" ]; then
     mkdir /home/master-nafsdm/slaveAlive
   fi
+  chown -R master-nafsdm:master-nafsdm /home/master-nafsdm/slaveAlive
 
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
@@ -128,9 +129,10 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   rm -rf requirements.txt
 
   # from version 1.3 onwards
-  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+  if [ ! -d "/home/master-nafsdm/slaveAlive" ]; then
     mkdir /home/master-nafsdm/slaveAlive
   fi
+  chown -R master-nafsdm:master-nafsdm /home/master-nafsdm/slaveAlive
 
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
@@ -154,9 +156,10 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   rm -rf requirements.txt
 
   # from version 1.3 onwards
-  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+  if [ ! -d "/home/master-nafsdm/slaveAlive" ]; then
     mkdir /home/master-nafsdm/slaveAlive
   fi
+  chown -R master-nafsdm:master-nafsdm /home/master-nafsdm/slaveAlive
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -178,9 +181,10 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   rm -rf requirements.txt
 
   # from version 1.3 onwards
-  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+  if [ ! -d "/home/master-nafsdm/slaveAlive" ]; then
     mkdir /home/master-nafsdm/slaveAlive
   fi
+  chown -R master-nafsdm:master-nafsdm /home/master-nafsdm/slaveAlive
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -202,9 +206,10 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   rm -rf requirements.txt
 
   # from version 1.3 onwards
-  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+  if [ ! -d "/home/master-nafsdm/slaveAlive" ]; then
     mkdir /home/master-nafsdm/slaveAlive
   fi
+  chown -R master-nafsdm:master-nafsdm /home/master-nafsdm/slaveAlive
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -226,9 +231,10 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   rm -rf requirements.txt
 
   # from version 1.3 onwards
-  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+  if [ ! -d "/home/master-nafsdm/slaveAlive" ]; then
     mkdir /home/master-nafsdm/slaveAlive
   fi
+  chown -R master-nafsdm:master-nafsdm /home/master-nafsdm/slaveAlive
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -251,9 +257,10 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   rm -rf requirements.txt
 
   # from version 1.3 onwards
-  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+  if [ ! -d "/home/master-nafsdm/slaveAlive" ]; then
     mkdir /home/master-nafsdm/slaveAlive
   fi
+  chown -R master-nafsdm:master-nafsdm /home/master-nafsdm/slaveAlive
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -277,9 +284,10 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   rm -rf requirements.txt
 
   # from version 1.3 onwards
-  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+  if [ ! -d "/home/master-nafsdm/slaveAlive" ]; then
     mkdir /home/master-nafsdm/slaveAlive
   fi
+  chown -R master-nafsdm:master-nafsdm /home/master-nafsdm/slaveAlive
 
   # dev set version
   if [ "$DEV_IC_MODE" == "True" ]; then

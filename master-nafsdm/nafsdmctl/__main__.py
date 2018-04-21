@@ -12,6 +12,7 @@ from tabulate import tabulate
 from db import *
 from connAlive import slaveConnections
 import subprocess
+import time
 
 # catching ctrl+c
 import signal
@@ -129,6 +130,8 @@ def printSlaveConnections():
 
     # print a fancy table using tabulate
     headers = [bcolors.BOLD + "hostname", "latest connection", "latest connection date (according to slave)" + bcolors.ENDC]
+
+    print(bcolors.BOLD + "Current date: " + bcolors.ENDC + time.strftime("%Y-%M-%d %H:%M:%S") + "\n")
     print tabulate(slaveConn, headers, tablefmt="fancy_grid")
 
 # global check if user hasn't typed any vars
@@ -282,7 +285,7 @@ elif (sys.argv[1] == "webinterface"):
             printSyntax()
             exit(1)
 elif (sys.argv[1] == "slavestatus"):
-
+    printSlaveConnections()
 else:
     printSyntax()
     exit(1)

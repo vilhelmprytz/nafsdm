@@ -193,6 +193,9 @@ def runDaemon(config):
     versionCheck = checkMasterVersion(config)
     if versionCheck == False:
         logging.warning("Skipping master version check step..")
+    # connect alive
+    if connectAlive(config) == False:
+        logging.warning("Could not write alive status.")
     getData(config)
     writeData(config)
     reloadBind()
