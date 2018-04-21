@@ -258,10 +258,11 @@ else
 fi
 
 # dev set version
-if [ "$DEV_IC_MODE" == "y" ]; then
+if [ "$DEV_IC_MODE" == "True" ]; then
   cd /tmp/nafsdm
   COMMIT_HASH=$(git log -n 1 development | sed -n '1p' | cut -c8-14)
   echo "version = \"$COMMIT_HASH-dev\"" > /home/slave-nafsdm/pythondaemon/version.py
+  echo "True" > /home/slave-nafsdm/pythondaemon/dev_ic_mode.txt
 fi
 
 rm -rf /tmp/nafsdm
