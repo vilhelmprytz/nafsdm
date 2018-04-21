@@ -12,43 +12,28 @@ import os.path
 
 github_branch = "master"
 devIcMode = False
-devStatus = False
+devSkipVersionCheck = False
 doICUpdate = False
 normalUpdate = False
 
 # dev function for specifing branch
-if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_github_branch.txt"):
-    f = open("/home/slave-nafsdm/pythondaemon/dev_github_branch.txt")
-    branchRaw = f.read()
-    f.close()
+def setDevFunctions(config):
+    github_branch = config.dev_github_branch
+    devSkipVersionCheck = False
+    devIcMode = False
 
-    if "development" in branchRaw:
-        github_branch = "development"
-
-# dev mode, disables auto updater
-if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_devmode.txt"):
-    f = open("/home/slave-nafsdm/pythondaemon/dev_devmode.txt")
-    devStatusRaw = f.read()
-    f.close()
-    if "True" in devStatusRaw:
-        devStatus = True
-    else:
-        devStatus = False
-
-# dev ic mode
-if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_ic_mode.txt"):
-    f = open("/home/slave-nafsdm/pythondaemon/dev_ic_mode.txt")
-    devIcModeRaw = f.read()
-    f.close()
-    if "True" in devIcModeRaw:
+    if config.dev_skipVersionCheck == "True" or config.dev_skipVersionCheck == "true":
+        devSkipVersionCheck = True
+    if config.dev_incrementalCommitVersions == "True" or config.dev_incrementalCommitVersions == "true":
         devIcMode = True
-    else:
-        devIcMode = False
+
+    return github_branch, devSkipVersionCheck, devIcMode
 
 def checkUpdate(config, mode):
+    github_branch, devSkipVersionCheck, devIcMode = setDevFunctions(config)
     doICUpdate = False
     normalUpdate = False
-    if devStatus == True:
+    if devSkipVersionCheck == True:
         logging.warning("Developer mode enabled, skipping version checking.")
     else:
         if devIcMode:

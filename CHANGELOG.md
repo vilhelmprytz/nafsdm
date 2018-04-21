@@ -3,6 +3,7 @@ Version ? (Status: DEVELOPMENT)
 * Upgrade scripts now return different exit codes depending on issue (dev versions will no longer crash the daemon due to unsupported version)
 * Complete visual overhaul of nafsdmctl (looks a lot nicer)
 * New development mode, allowing latest commit to always be installed on master and slave (not set version numbers).
+* Slave: development functions are now enabled using the config.conf instead of adding files.
 
 Version 1.2.5 (Status: RELEASED)
 * Added nafscli for the slave, a command-line interface
