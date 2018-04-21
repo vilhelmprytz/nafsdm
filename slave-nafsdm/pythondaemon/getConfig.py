@@ -23,6 +23,11 @@ class Config(object):
             self.bindPath = parser.get("nafsdm", "bindPath")
             self.nodeName = parser.get("nafsdm", "nodeName")
 
+            # dev section
+            self.dev_github_branch = parser.get("development", "github_branch")
+            self.dev_skipVersionCheck = parser.get("development", "skipVersionCheck")
+            self.dev_incrementalCommitVersions = parser.get("development", "incrementalCommitVersions")
+            
         except Exception:
             logging.exception("Could not read config. Please check your config if it's setup properly.")
             logging.critical("Exiting application due to recent error.")
