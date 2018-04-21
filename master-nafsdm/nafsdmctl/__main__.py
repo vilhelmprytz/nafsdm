@@ -45,7 +45,7 @@ def signal_handler(signal, frame):
 def errorPrint(message):
     print("nafsdmctl: " + bcolors.FAIL + message + bcolors.ENDC)
 
-def successPrint(metabulatessage):
+def successPrint(message):
     print("nafsdmctl: " + bcolors.OKGREEN + message + bcolors.ENDC)
 
 def printSyntax():
@@ -63,6 +63,7 @@ def printSyntax():
 if len(sys.argv) < 2:
     # not enough args
     printSyntax()
+    exit(0)
 
 # check which command user has run
 if (sys.argv[1] == "add"):
