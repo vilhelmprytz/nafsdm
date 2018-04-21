@@ -216,11 +216,17 @@ elif sys.argv[1] == "upgrade":
         successPrint("upgrade command sent to daemon")
 elif sys.argv[1] == "log":
     print("nafscli: " + bcolors.WARNING + "press CTRL+C to exit logviewer" + bcolors.ENDC)
+
+    # supress all traceback info
+    sys.tracebacklimit = 0
     try:
         output = subprocess.call(["tail", "-f", "/home/slave-nafsdm/log.log"])
     except Exception:
         errorPrint("could not read log")
         exit(1)
+
+    # back to default value
+    sys.tracebacklimit = 1000
 
 elif sys.argv[1] == "start":
     if checkStatus():
