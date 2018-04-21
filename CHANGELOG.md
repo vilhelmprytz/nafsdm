@@ -4,7 +4,8 @@ Version ? (Status: DEVELOPMENT)
 * Complete visual overhaul of nafsdmctl (looks a lot nicer)
 * New development mode, allowing latest commit to always be installed on master and slave (not set version numbers).
 * Slave: development functions are now enabled using the config.conf instead of adding files.
-* nafsdmctl: now has remove by domain and remove by ID function
+* nafsdmctl: now has remove by domain and remove by ID functions
+* nafsdmctl: now has status/start/stop/restart functions for the webinterface
 
 Version 1.2.5 (Status: RELEASED)
 * Added nafscli for the slave, a command-line interface

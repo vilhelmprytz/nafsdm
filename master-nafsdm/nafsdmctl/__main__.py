@@ -15,6 +15,7 @@ from db import *
 import signal
 
 # global vars
+debug = False
 class bcolors: # (thanks to https://stackoverflow.com/a/287944/8321546)
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -58,7 +59,65 @@ def printSyntax():
     print(bcolors.BOLD + " removeid [id]" + bcolors.ENDC + "                                                   Remove a record by ID")
     print(bcolors.BOLD + " edit [domain]" + bcolors.ENDC + "                                                   Edit a domain")
     print(bcolors.BOLD + " list" + bcolors.ENDC + "                                                            List all domains")
+    print("\n" + "nafsdm webinterface commands:")
+    print(bcolors.BOLD + " webinterface status" + bcolors.ENDC + "                                             Shows status of webinterface")
+    print(bcolors.BOLD + " webinterface start" + bcolors.ENDC + "                                              Start the nafsdm-webinterface")
+    print(bcolors.BOLD + " webinterface stop" + bcolors.ENDC + "                                               Start the nafsdm-webinterface")
+    print(bcolors.BOLD + " webinterface restart" + bcolors.ENDC + "                                            Start the nafsdm-webinterface")
 
+# webinterface control commands
+def webinterfaceStatus():
+    try:
+        output = subprocess.check_output(["/bin/systemctl", "status", "nafsdm-webinterface.service"])
+    except Exception, e:
+        outputSaved = str(e.output)
+        if debug:
+            print("DEBUG - output from systemctl status nafsdm-webinterface")
+            print(outputSaved)
+        for line in outputSaved.split("\n"):
+            if "Active:" in line:
+                if "active (running)" in line:
+                    return True
+                else:
+                    return False
+        errorPrint("an error occured during status check (perhaps webinterface is not enabled on this system?)")
+        exit(1)
+
+    for line in output.split("\n"):
+        if "Active:" in line:
+            if "active (running)" in line:
+                return True
+    # systemd should give us 'Active: active (running)' if it's running, otherwise it's not
+    return False
+
+def startWebinterface():
+    # simple start command to systemd
+    try:
+        output = subprocess.check_output(["/bin/systemctl", "start", "nafsdm-webinterface.service"])
+    except Exception:
+        errorPrint("an error occured during webinterface start")
+        exit(1)
+
+    return True
+def stopWebinterface():
+    # simple stop command to systemd
+    try:
+        output = subprocess.check_output(["/bin/systemctl", "stop", "nafsdm-webinterface.service"])
+    except Exception:
+        errorPrint("an error occured during webinterface stop")
+        exit(1)
+
+    return True
+
+def restartWebinterface():
+    # we'll send a simple restart command to systemd
+    try:
+        output = subprocess.check_output(["/bin/systemctl", "restart", "nafsdm-webinterface.service"])
+    except Exception:
+        errorPrint("an error occured during webinterface restart")
+        exit(1)
+
+    return True
 
 # global check if user hasn't typed any vars
 if len(sys.argv) < 2:
@@ -181,6 +240,28 @@ elif (sys.argv[1] == "edit"):
             errorPrint("invalid domain name?")
     else:
         errorPrint("not enough arguments")
+        printSyntax()
+        exit(1)
+elif (sys.argv[1] == "webinterface"):
+    if sys.argv[2] == "status":
+        if webinterfaceStatus():
+            print("status: " + bcolors.GREENBG + "running" + bcolors.ENDC)
+        else:
+            print("status: " + bcolors.REDBG + "not running" + bcolors.ENDC)
+    elif sys.argv[2] == "start":
+        if webinterfaceStatus():
+            errorPrint("webinterface is already running")
+        else:
+            if startWebinterface():
+                successPrint("webinterface started")
+    elif sys.argv[2] == "stop":
+        if stopWebinterface():
+            successPrint("webinterface stopped")
+    elif sys.argv[2] == "restart":
+        if restartWebinterface():
+            successPrint("webinterface restarted")
+    else:
+        errorPrint("invalid webinterface argument")
         printSyntax()
         exit(1)
 else:
