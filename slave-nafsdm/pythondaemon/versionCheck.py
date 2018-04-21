@@ -36,8 +36,8 @@ if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_devmode.txt"):
         devStatus = False
 
 # dev ic mode
-if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt"):
-    f = open("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt")
+if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_ic_mode.txt"):
+    f = open("/home/slave-nafsdm/pythondaemon/dev_ic_mode.txt")
     devIcModeRaw = f.read()
     f.close()
     if "True" in devIcModeRaw:
@@ -46,6 +46,8 @@ if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt"):
         devIcMode = False
 
 def checkUpdate(config, mode):
+    doICUpdate = False
+    normalUpdate = False
     if devStatus == True:
         logging.warning("Developer mode enabled, skipping version checking.")
     else:
@@ -106,9 +108,9 @@ def checkUpdate(config, mode):
 
                         from tempUpgrade.temp_upgrade import initUpgrade
                         if doICUpdate:
-
+                            upgradeStatus = initUpgrade(config, github_branch, True)
                         else:
-                            upgradeStatus = initUpgrade(config, github_branch)
+                            upgradeStatus = initUpgrade(config, github_branch, False)
                         if upgradeStatus == "exception":
                             logging.critical("An error occured during upgrade. The script probably failed mid-through (that would break your installation). Please retry or run the script manually.")
                             exit(1)
@@ -140,6 +142,3 @@ def checkUpdate(config, mode):
                 else:
                     logging.critical("Couldn't connect to GitHub! Quitting..")
                     exit(1)
-        else:
-            logging.critical("Couldn't receive latest version (on GitHub). Quitting.")
-            exit(1)

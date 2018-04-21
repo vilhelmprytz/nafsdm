@@ -104,6 +104,7 @@ elif [ "$DEV_IC_CONFIRM" == "n" ]; then
 else
   echo "* Aborting.."
   exit 1
+fi
 
 echo "* Required packages installed!"
 echo "* Downloading nafsdm & installing.."

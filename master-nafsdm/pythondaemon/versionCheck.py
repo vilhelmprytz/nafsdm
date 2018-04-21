@@ -46,6 +46,8 @@ if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt"):
         devIcMode = False
 
 def checkUpdate():
+    normalUpdate = False
+    doICUpdate = False
     if devStatus == True:
         log("Developer mode enabled, skipping version checking.")
     else:
@@ -71,6 +73,7 @@ def checkUpdate():
             if (r.status_code == requests.codes.ok):
                 if (r.text.split("\n")[0] == version):
                     log("You're running the latest version, " + version + "!")
+                    normalUpdate = False
                 else:
                     log("NOTICE: There is a new version available! New version: " + r.text.split("\n")[0])
                     normalUpdate = True
@@ -129,6 +132,3 @@ def checkUpdate():
             else:
                 log("FATAL: Couldn't connect to GitHub! Quitting..")
                 exit(1)
-    else:
-        log("FATAL: Couldn't receive latest version (on GitHub). Quitting.")
-        exit(1)
