@@ -64,13 +64,13 @@ def removeDomain(domain):
 def removeDomainId(domainId):
     connection, cursor = dbConnection()
 
-    sql_command = '''DELETE FROM domain WHERE id="''' + str(id) + '''";'''
+    sql_command = '''DELETE FROM domain WHERE id="''' + str(domainId) + '''";'''
 
     # execute
     cursor.execute(sql_command)
 
     # check if domain is there
-    cursor.execute('''SELECT * FROM domain WHERE id= "''' + str(id) + '''";''')
+    cursor.execute('''SELECT * FROM domain WHERE id= "''' + str(domainId) + '''";''')
 
     if len(cursor.fetchall()) == 0:
         status = True
