@@ -61,13 +61,15 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.2.4-stable"' ]; then
   echo "* Detected version 1.2.4-stable - supported by this upgrade script."
   MY_VERSION="1.2.4-stable"
 else
-  echo "* Your version is not supported (dev versions and 1.0 is not supported)."
-  exit 128
+  if [ "$DEV_IC_MODE" == "False" ]; then
+    echo "* Your version is not supported (dev versions and 1.0 is not supported)."
+    exit 128
+  fi
 fi
 
 echo "* Downloading newest version."
 cd /tmp
-if [ "$DEV_IC_MODE" == "True" ];
+if [ "$DEV_IC_MODE" == "True" ]; then
   git clone -b development https://github.com/MrKaKisen/nafsdm.git
 else
   wget $DL_URL$LATEST_VERSION.tar.gz -O nafsdm.tar.gz
