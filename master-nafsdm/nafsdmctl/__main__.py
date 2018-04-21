@@ -10,6 +10,7 @@ import os
 import os.path
 from tabulate import tabulate
 from db import *
+import subprocess
 
 # catching ctrl+c
 import signal
@@ -243,27 +244,32 @@ elif (sys.argv[1] == "edit"):
         printSyntax()
         exit(1)
 elif (sys.argv[1] == "webinterface"):
-    if sys.argv[2] == "status":
-        if webinterfaceStatus():
-            print("status: " + bcolors.GREENBG + "running" + bcolors.ENDC)
-        else:
-            print("status: " + bcolors.REDBG + "not running" + bcolors.ENDC)
-    elif sys.argv[2] == "start":
-        if webinterfaceStatus():
-            errorPrint("webinterface is already running")
-        else:
-            if startWebinterface():
-                successPrint("webinterface started")
-    elif sys.argv[2] == "stop":
-        if stopWebinterface():
-            successPrint("webinterface stopped")
-    elif sys.argv[2] == "restart":
-        if restartWebinterface():
-            successPrint("webinterface restarted")
-    else:
-        errorPrint("invalid webinterface argument")
+    if len(sys.argv) < 3:
+        errorPrint("not enough arguments")
         printSyntax()
         exit(1)
+    else:
+        if sys.argv[2] == "status":
+            if webinterfaceStatus():
+                print("status: " + bcolors.GREENBG + "running" + bcolors.ENDC)
+            else:
+                print("status: " + bcolors.REDBG + "not running" + bcolors.ENDC)
+        elif sys.argv[2] == "start":
+            if webinterfaceStatus():
+                errorPrint("webinterface is already running")
+            else:
+                if startWebinterface():
+                    successPrint("webinterface started")
+        elif sys.argv[2] == "stop":
+            if stopWebinterface():
+                successPrint("webinterface stopped")
+        elif sys.argv[2] == "restart":
+            if restartWebinterface():
+                successPrint("webinterface restarted")
+        else:
+            errorPrint("invalid webinterface argument")
+            printSyntax()
+            exit(1)
 else:
     printSyntax()
     exit(1)
