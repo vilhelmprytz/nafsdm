@@ -6,6 +6,7 @@
 
 import logging
 import ConfigParser
+import sys
 
 # import configDir
 sys.path.insert(0, "/home/slave-nafsdm/pythondaemon")
