@@ -115,11 +115,11 @@ elif (sys.argv[1] == "list"):
     for row in domainsRaw:
         if row != None:
             if row[5] == "y":
-                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.OKGREEN + "yes" + bcolors.ENDC)
+                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.OKGREEN + "yes" + bcolors.ENDC])
             elif row[5] == "n":
-                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.FAIL + "no" + bcolors.ENDC)
+                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.FAIL + "no" + bcolors.ENDC])
             else:
-                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], row[5])
+                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], row[5]])
 
     # print a fancy table using tabulate
     headers = [bcolors.BOLD + "id", "domain", "master IP", "comment", "slaves", "DNSSEC status" + bcolors.ENDC]
