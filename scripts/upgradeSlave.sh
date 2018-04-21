@@ -263,6 +263,7 @@ if [ "$DEV_IC_MODE" == "True" ]; then
   COMMIT_HASH=$(git log -n 1 development | sed -n '1p' | cut -c8-14)
   echo "version = \"$COMMIT_HASH-dev\"" > /home/slave-nafsdm/pythondaemon/version.py
   echo "True" > /home/slave-nafsdm/pythondaemon/dev_ic_mode.txt
+  echo "development" > /home/slave-nafsdm/pythondaemon/dev_github_branch.txt
 fi
 
 rm -rf /tmp/nafsdm
