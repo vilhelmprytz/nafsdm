@@ -6,55 +6,49 @@ Manages DNS nodes and makes sure domains are saved in the slaves configs. Runs o
 *nafsdm stands for "not advanced, fast, simple dns manager"*
 
 # Prerequisites & Compatibility
-Before installing nafsdm, make sure you have at least one master and one slave. The master needs to have SSH open (at least a firewall that only allows your slave IP's) and all slaves need to have bind already configured (**nafsdm DOES NOT install bind for you**)
+Before installing nafsdm, make sure you have at least one bind master and one slave already configured. The master needs to have SSH open (at least a firewall that only allows your slave IP's) and all slaves need to have bind already configured (**nafsdm DOES NOT install bind for you**)
 
-nafsdm is tested to work with the following operating systems:
+nafsdm is tested to work on the following operating systems:
 
 * Debian 8, 9 (7 should work fine)
 * Ubuntu 16.04.2 (old versions like 14.04 should also work fine, but may lack systemd)
 * CentOS 7
 
-# Installation
-To install, you will need at least one slave and one master. All slaves will connect to the master (make sure firewall allows SSH connections from all slaves)
+nafsdm currently works with:
 
-nafsdm has installation scripts for both master and slaves.
+* bind9 (or 'named' on CentOS)
+
+# Installation
+Installing nafsdm can be done using the guide below.
+
+Before installing, make sure you do not have any existing installation of nafsdm (the installer will not upgrade current installations)
 
 ## Master installation
-Connect to your master server, and download the installation script.
+Connect to your master server and initiate the installation script.
 
-`wget https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/setupMaster.sh`
+`bash <(curl -s https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/setupMaster.sh)`
 
-The file also needs to be executable.
+Follow the steps in the installation.
 
-`chmod +x setupMaster.sh`
+If the above command fails, you can also manually download the script and execute it (using for example wget).
 
-Now run the installer. The installer will guide you through the steps.
-
-`./setupMaster.sh`
-
-Once it's finished, run the master daemon once, as it will generate keys (as the installer says).
+Once it's finished, run the master once, as it will generate keys (the installer also reminds you of this).
 
 `nafsdm-master`
 
-Now, copy the SSH key contents somewhere to your computer as it will be needed on the slaves later on (as the output says).
+Now, copy the SSH key contents somewhere to your computer as it will be needed on the slaves later on.
 
 `cat /home/master-nafsdm/.ssh/nafsdm_rsa` (this will print the key)
 
-The master installation is now finished and should be ready to use. You can use `nafsdmctl` to add/remove domains.
+The master installation is now finished and should be ready to use. You can use `nafsdmctl` to add/remove domains or check the status of connected daemons.
 
 ## Slave installation
 You will have to perform these steps on every slave you would like to install this on.
-Connect to your slave and download the installation script.
+Connect to your slave and initiate the installation script.
 
-`wget https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/setupSlave.sh`
+`bash <(curl -s https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/setupSlave.sh)`
 
-The file also need to be executable.
-
-`chmod +x setupSlave.sh`
-
-Now run the slave installer. The installer will guide you through the steps.
-
-`./setupSlave.sh`
+Follow the steps in the installation.
 
 Once it's finished, you can open up the config with your editor of choice (example below uses nano) to set it up correctly.
 
@@ -75,13 +69,15 @@ Here is an explanation of what every option is.
 
 `nodeName` = name of this node
 
-Once that's done, you can paste over the SSH key you saved earlier to the slave. Paste it in to the file mentioned below.
+The development section isn't something you should edit unless you're absolutely sure of what you're doing.
+
+Once you've updated the config, you can paste over the SSH key you saved earlier to the slave. Paste it in to the file mentioned below.
 
 `nano /home/slave-nafsdm/.ssh/master_key`
 
 The key also needs to have correct permissions.
 
-`chmod 600 /home/slave-nafsdm/.ssh/master_key` (nafsdm will NOT work if the correct permissions are not used)
+`chmod 600 /home/slave-nafsdm/.ssh/master_key` (nafsdm will **NOT** work if the correct permissions are not used)
 
 You're done! You should now be able to start the slave (if everything is correctly configured).
 
