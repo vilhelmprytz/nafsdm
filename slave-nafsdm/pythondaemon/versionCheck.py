@@ -34,7 +34,7 @@ def checkUpdate(config, mode):
     doICUpdate = False
     normalUpdate = False
     if devSkipVersionCheck == True:
-        logging.warning("Developer mode enabled, skipping version checking.")
+        logging.warning("Version check skipping mode enabled, skipping version checking.")
     else:
         if devIcMode:
             logging.info("Development commit update mode.")
@@ -48,10 +48,10 @@ def checkUpdate(config, mode):
                     doICUpdate = True
                     logging.info("A new update is available (dev commit - my version: " + version + " - latest version: " + latestCommit + "-dev)")
             else:
-                logging.critical("Couldn't connect to GitHub! Quitting...")
+                logging.critical("Failed to establish connection to GitHub.")
                 exit(1)
         else:
-            logging.info("Checking if a new version is available..")
+            logging.info("Checking for new versions..")
             r = requests.get("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/version.txt")
 
             # check if we got a good code, requests has builtin codes which are OK
@@ -64,7 +64,7 @@ def checkUpdate(config, mode):
 
         if normalUpdate == True or doICUpdate == True:
             if (os.path.exists("/home/slave-nafsdm/tempUpgrade")):
-                logging.warning("Temp upgrade folder already exists?")
+                logging.warning("Temp upgrade folder already exists!")
             else:
                 os.makedirs("/home/slave-nafsdm/pythondaemon/tempUpgrade")
                 # shortcut to make the shit importable
@@ -101,7 +101,7 @@ def checkUpdate(config, mode):
                         exit(1)
                     elif upgradeStatus == "unsupported":
                         logging.warning("You're running an unsupported version - nafsdm will not be able to upgrade.")
-                        logging.warning("Consider using developer mode to skip version checking.")
+                        logging.warning("Consider enabling skip version checking.")
                         logging.info("nafsdm will continue boot")
                     elif upgradeStatus == "unknownException":
                         logging.critical("Unknown exception occured during upgrade.")
@@ -110,9 +110,10 @@ def checkUpdate(config, mode):
                         f = open("/home/slave-nafsdm/upgradeLog.log", "w")
                         f.write(upgradeStatus)
                         f.close()
-                        logging.info("Upgrade completed. Please update your configuration as the upgradeLog.log says.")
+                        logging.info("Upgrade completed. Make sure no additional adjustments are required for this particular upgrade.")
+                        logging.info("Upgrade log is available at /home/slave-nafsdm/upgradeLog.log")
                         if mode == "cli":
-                            logging.info("Upgrade command sent from CLI. Restarting nafsdm-slave..")
+                            logging.info("Upgrade command was sent from CLI. Restarting nafsdm-slave..")
                             try:
                                 output = subprocess.check_output(["/bin/systemctl", "restart", "nafsdm-slave.service"])
                             except Exception:
@@ -122,8 +123,8 @@ def checkUpdate(config, mode):
                         else:
                             exit(0)
                 else:
-                    logging.critical("Couldn't connect to GitHub! Quitting...")
+                    logging.critical("Failed to establish connection to GitHub.")
                     exit(1)
             else:
-                logging.critical("Couldn't connect to GitHub! Quitting..")
+                logging.critical("Failed to establish connection to GitHub.")
                 exit(1)

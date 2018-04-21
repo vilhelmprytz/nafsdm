@@ -8,6 +8,7 @@ Version 1.3 (Status: DEVELOPMENT)
 * nafsdmctl: now has status/start/stop/restart functions for the webinterface
 * Slaves now report last connection time to master (nafsdmctl can show a table of which slaves has connected recently)
 * nafscli logviewer no longer throws a traceback message on exit (using CTRL+C)
+* Rewrote most log messages for both master and slave
 
 Version 1.2.5 (Status: RELEASED)
 * Added nafscli for the slave, a command-line interface
