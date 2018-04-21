@@ -59,10 +59,10 @@ def checkUpdate(config, mode):
                 if (r.text.split("\n")[0] == version):
                     logging.info("You're running the latest version, " + version + "!")
                 else:
+                    logging.info("There is a new version available! New version: " + r.text.split("\n")[0])
                     normalUpdate = True
 
         if normalUpdate == True or doICUpdate == True:
-            logging.info("There is a new version available! New version: " + r.text.split("\n")[0])
             if (os.path.exists("/home/slave-nafsdm/tempUpgrade")):
                 logging.warning("Temp upgrade folder already exists?")
             else:
