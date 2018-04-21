@@ -62,6 +62,7 @@ if [ "$DEV_IC_CONFIRM" == "y" ]; then
   else
     echo "* Invalid operating system."
     exit 1
+  fi
 
   cd /tmp
   git clone -b development https://github.com/MrKaKisen/nafsdm.git
