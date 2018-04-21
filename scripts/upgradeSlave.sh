@@ -16,6 +16,9 @@ fi
 
 echo "* Welcome to nafsdm slave upgrade script!"
 
+# set OPERATINGSYS first
+OPERATINGSYS="$1"
+
 if [ "$OPERATINGSYS" == "centos" ]; then
   yum install curl wget -y
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
@@ -25,7 +28,6 @@ else
   exit 1
 fi
 
-OPERATINGSYS="$1"
 BRANCH="$2"
 DEV_IC_MODE="$3"
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
