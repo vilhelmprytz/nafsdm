@@ -54,7 +54,8 @@ def printSyntax():
     print("\n" + bcolors.BOLD + bcolors.FAIL + "nafsdm control " + bcolors.ENDC + "for master daemon" + "\n")
     print("Commands:")
     print(bcolors.BOLD + " add [domain] [masterIP] [comment] [nodes.nodes] [dnssec.no/yes]" + bcolors.ENDC + " Add a new domain")
-    print(bcolors.BOLD + " remove [domain]" + bcolors.ENDC + "                                                 Remove a domain")
+    print(bcolors.BOLD + " removedomain [domain]" + bcolors.ENDC + "                                           Remove a record by domain")
+    print(bcolors.BOLD + " removeid [id]" + bcolors.ENDC + "                                                   Remove a record by ID")
     print(bcolors.BOLD + " edit [domain]" + bcolors.ENDC + "                                                   Edit a domain")
     print(bcolors.BOLD + " list" + bcolors.ENDC + "                                                            List all domains")
 
@@ -93,7 +94,7 @@ if (sys.argv[1] == "add"):
         errorPrint("not enough arguments")
         printSyntax()
         exit(1)
-elif (sys.argv[1] == "remove"):
+elif (sys.argv[1] == "removedomain"):
     if (len(sys.argv) == 3):
         if "." in sys.argv[2]:
             if removeDomain(sys.argv[2]) == True:
@@ -102,6 +103,16 @@ elif (sys.argv[1] == "remove"):
                 errorPrint("remove failed - invalid domain name?")
         else:
             errorPrint("invalid domain name")
+    else:
+        errorPrint("not enough arguments")
+        printSyntax()
+        exit(1)
+elif (sys.argv[1] == "removeid"):
+    if (len(sys.argv) == 3):
+        if removeDomainId(sys.argv[2]) == True:
+            successPrint("remove succesful")
+        else:
+            errorPrint("remove failed - invalid id?")
     else:
         errorPrint("not enough arguments")
         printSyntax()
