@@ -58,6 +58,8 @@ else
   if [ "$DEV_IC_MODE" == "False" ]; then
     echo "* Your version is not supported (dev versions and 1.0 is not supported)."
     exit 128
+  else
+    MY_VERSION="dev_release"
   fi
 fi
 
@@ -222,6 +224,21 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   exit 0
 
 elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/slave-nafsdm/pythondaemon
+  cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
+
+  # nafscli reinstall (delete and copy) (from version 1.2.5 onwards)
+  rm -rf /home/slave-nafsdm/nafscli
+  cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
+
+  echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
+  rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
+
+  exit 0
+
+# for dev versions
+elif [ "$MY_VERSION" == "dev_release" ]; then
   echo "* Replacing python files.."
   rm -rf /home/slave-nafsdm/pythondaemon
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R

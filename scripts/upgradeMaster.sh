@@ -64,6 +64,8 @@ else
   if [ "$DEV_IC_MODE" == "False" ]; then
     echo "* Your version is not supported (dev versions and 1.0 is not supported)."
     exit 128
+  else
+    MY_VERSION="dev_release"
   fi
 fi
 
@@ -234,6 +236,28 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
 
   exit 0
 
+# for dev versions
+elif [ "$MY_VERSION" == "dev_release" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/master-nafsdm/pythondaemon
+  rm -rf /home/master-nafsdm/nafsdmctl
+  cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
+  cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
+
+  # newer than version 1.2.4, all versions that already have the webinterface
+  rm -rf /home/master-nafsdm/webinterface
+  cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+  chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
+  chmod +x /home/master-nafsdm/webinterface/start.sh
+
+  # newer than version 1.2.4
+  pip install -r requirements.txt
+  rm -rf requirements.txt
+
+  echo "* Update completed. Nothing to do or change!"
+
+  exit 0
 else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1
