@@ -129,7 +129,7 @@ def printSlaveConnections():
     slaveConn = slaveConnections(bcolors)
 
     # print a fancy table using tabulate
-    headers = [bcolors.BOLD + "hostname", "latest connection", "latest connection date (according to slave)" + bcolors.ENDC]
+    headers = [bcolors.BOLD + "hostname", "latest connection", "latest connection date", "interval" + bcolors.ENDC]
 
     print(bcolors.BOLD + "Current date: " + bcolors.ENDC + time.strftime("%Y-%M-%d %H:%M:%S") + "\n")
     print tabulate(slaveConn, headers, tablefmt="fancy_grid")

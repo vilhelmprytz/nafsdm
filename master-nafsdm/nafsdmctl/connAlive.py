@@ -16,9 +16,9 @@ def timeAgo(filename):
     modifiedTime = format(statbuf.st_mtime)
     epochAgo = int(float(time.time())) - int(float(modifiedTime))
 
-    fullString = time.strftime('%M minute(s) and %S second(s) ago', time.localtime(epochAgo))
+    fullString = time.strftime('%M min(s) and %S sec(s) ago', time.localtime(epochAgo))
 
-    return fullString
+    return fullString, epochAgo
 
 def slaveConnections(bcolors):
     slaveConnections = []
@@ -30,6 +30,15 @@ def slaveConnections(bcolors):
             slaveDate = f.read()
             f.close()
 
-            slaveConnections.append([file.split(".")[0], bcolors.OKGREEN + timeAgo("/home/master-nafsdm/slaveAlive/" + file) + bcolors.ENDC, slaveDate])
+            f = open("/home/master-nafsdm/slaveAlive/" + file.split(".")[0] + ".slaveInterval")
+            interval = f.read()
+            f.close()
+
+            timeAgoString, epochAgo = timeAgo("/home/master-nafsdm/slaveAlive/" + file)
+
+            if int(epochAgo) > interval+5:
+                slaveConnections.append([file.split(".")[0], bcolors.FAIL + timeAgoString + bcolors.ENDC, slaveDate, interval])
+            else:
+                slaveConnections.append([file.split(".")[0], bcolors.OKGREEN + timeAgoString + bcolors.ENDC, slaveDate, interval])
 
     return slaveConnections
