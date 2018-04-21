@@ -109,8 +109,6 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   echo "* Upgrade completed."
   echo "* Script has automatically modified your config to match with the new standards."
 
-  exit 0
-
 elif [ "$MY_VERSION" == "1.1-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/slave-nafsdm/pythondaemon
@@ -136,8 +134,6 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
-
-  exit 0
 
 elif [ "$MY_VERSION" == "1.2-stable" ]; then
   echo "* Replacing python files.."
@@ -165,8 +161,6 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
-  exit 0
-
 elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/slave-nafsdm/pythondaemon
@@ -188,8 +182,6 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
-  exit 0
-
 elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/slave-nafsdm/pythondaemon
@@ -205,8 +197,6 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
-
-  exit 0
 
 elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   echo "* Replacing python files.."
@@ -224,8 +214,6 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
-  exit 0
-
 elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/slave-nafsdm/pythondaemon
@@ -242,8 +230,6 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
-  exit 0
-
 elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/slave-nafsdm/pythondaemon
@@ -258,8 +244,6 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
-
-  exit 0
 
 # for dev versions
 elif [ "$MY_VERSION" == "dev_release" ]; then
@@ -286,11 +270,10 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   echo "* Make sure to copy the [development] section into config.conf and make sure branch is set to development and that incrementalCommitVersions is set to True."
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
-  exit 0
-
 else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1
 fi
 
 rm -rf /tmp/nafsdm
+exit 0

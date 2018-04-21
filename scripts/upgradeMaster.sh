@@ -105,8 +105,6 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
   echo "* NAFSDM WILL NOT START IF THIS SCRIPT EXISTS. DELETE IT BEFORE START."
 
-  exit 0
-
 elif [ "$MY_VERSION" == "1.1-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
@@ -128,8 +126,6 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
   echo "* NAFSDM WILL NOT START IF THIS SCRIPT EXISTS. DELETE IT BEFORE START."
 
-  exit 0
-
 elif [ "$MY_VERSION" == "1.2-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
@@ -148,8 +144,6 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   rm -rf requirements.txt
 
   echo "* Update completed. Nothing to do or change!"
-
-  exit 0
 
 elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   echo "* Replacing python files.."
@@ -170,8 +164,6 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
 
   echo "* Update completed. Nothing to do or change!"
 
-  exit 0
-
 elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
@@ -190,8 +182,6 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   rm -rf requirements.txt
 
   echo "* Update completed. Nothing to do or change!"
-
-  exit 0
 
 elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   echo "* Replacing python files.."
@@ -212,8 +202,6 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
 
   echo "* Update completed. Nothing to do or change!"
 
-  exit 0
-
 elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
@@ -233,8 +221,6 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   rm -rf requirements.txt
 
   echo "* Update completed. Nothing to do or change!"
-
-  exit 0
 
 # for dev versions
 elif [ "$MY_VERSION" == "dev_release" ]; then
@@ -258,7 +244,7 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   # dev set version
   if [ "$DEV_IC_MODE" == "True" ]; then
     echo "* Setting dev version.."
-    
+
     cd /tmp/nafsdm
     COMMIT_HASH=$(git log -n 1 development | sed -n '1p' | cut -c8-14)
     echo "version = \"$COMMIT_HASH-dev\"" > /home/master-nafsdm/pythondaemon/version.py
@@ -270,10 +256,10 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
 
   echo "* Update completed. Nothing to do or change!"
 
-  exit 0
 else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1
 fi
 
 rm -rf /tmp/nafsdm
+exit 0
