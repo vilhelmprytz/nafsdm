@@ -6,6 +6,7 @@ Version 1.3 (Status: DEVELOPMENT)
 * Slave: development functions are now enabled using the config.conf instead of adding files.
 * nafsdmctl: now has remove by domain and remove by ID functions
 * nafsdmctl: now has status/start/stop/restart functions for the webinterface
+* Slaves now report last connection time to master (nafsdmctl can show a table of which slaves has connected recently)
 
 Version 1.2.5 (Status: RELEASED)
 * Added nafscli for the slave, a command-line interface

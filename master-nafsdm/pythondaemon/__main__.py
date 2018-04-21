@@ -51,6 +51,12 @@ if not os.path.isfile("/home/master-nafsdm/data/domains.sql"):
     log("Could not find the domains.sql file. Configuring database..")
     setupDatabase()
 
+# check for the slave alive folder
+if not os.path.exists("/home/master-nafsdm/slaveAlive")
+    log("Creating slaveAlive directory..")
+    os.makedirs("/home/master-nafsdm/slaveAlive")
+
+
 # check for new update
 checkUpdate()
 

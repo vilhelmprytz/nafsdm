@@ -101,6 +101,11 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   pip install -r requirements.txt
   rm -rf requirements.txt
 
+  # from version 1.3 onwards
+  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+    mkdir /home/master-nafsdm/slaveAlive
+  fi
+
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
   echo "* NAFSDM WILL NOT START IF THIS SCRIPT EXISTS. DELETE IT BEFORE START."
@@ -121,6 +126,11 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   # newer than version 1.2.4
   pip install -r requirements.txt
   rm -rf requirements.txt
+
+  # from version 1.3 onwards
+  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+    mkdir /home/master-nafsdm/slaveAlive
+  fi
 
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
@@ -143,6 +153,11 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   pip install -r requirements.txt
   rm -rf requirements.txt
 
+  # from version 1.3 onwards
+  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+    mkdir /home/master-nafsdm/slaveAlive
+  fi
+
   echo "* Update completed. Nothing to do or change!"
 
 elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
@@ -161,6 +176,11 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   # newer than version 1.2.4
   pip install -r requirements.txt
   rm -rf requirements.txt
+
+  # from version 1.3 onwards
+  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+    mkdir /home/master-nafsdm/slaveAlive
+  fi
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -181,6 +201,11 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   pip install -r requirements.txt
   rm -rf requirements.txt
 
+  # from version 1.3 onwards
+  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+    mkdir /home/master-nafsdm/slaveAlive
+  fi
+
   echo "* Update completed. Nothing to do or change!"
 
 elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
@@ -199,6 +224,11 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   # newer than version 1.2.4
   pip install -r requirements.txt
   rm -rf requirements.txt
+
+  # from version 1.3 onwards
+  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+    mkdir /home/master-nafsdm/slaveAlive
+  fi
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -220,6 +250,11 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   pip install -r requirements.txt
   rm -rf requirements.txt
 
+  # from version 1.3 onwards
+  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+    mkdir /home/master-nafsdm/slaveAlive
+  fi
+
   echo "* Update completed. Nothing to do or change!"
 
 # for dev versions
@@ -240,6 +275,11 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   # newer than version 1.2.4
   pip install -r requirements.txt
   rm -rf requirements.txt
+
+  # from version 1.3 onwards
+  if [ ! -d "/home/master-nafsdm/slaveAlive"]; then
+    mkdir /home/master-nafsdm/slaveAlive
+  fi
 
   # dev set version
   if [ "$DEV_IC_MODE" == "True" ]; then

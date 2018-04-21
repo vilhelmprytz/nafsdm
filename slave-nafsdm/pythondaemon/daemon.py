@@ -12,6 +12,7 @@ import subprocess
 from db import parseDbData
 from shutil import copyfile
 from version import version
+from connAlive import connectAlive
 
 def changeDetected():
     changeDetected = None
@@ -214,3 +215,7 @@ def runDaemon(config):
             logging.info("Change detected! Writing configuration & reloading bind")
             writeData(config)
             reloadBind()
+
+        # connect alive
+        if connectAlive(config) == False:
+            logging.warning("Could not write alive status.")

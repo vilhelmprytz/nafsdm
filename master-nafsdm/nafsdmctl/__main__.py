@@ -10,6 +10,7 @@ import os
 import os.path
 from tabulate import tabulate
 from db import *
+from connAlive import slaveConnections
 import subprocess
 
 # catching ctrl+c
@@ -55,6 +56,7 @@ def printSyntax():
     print("Usage: nafsdmctl [COMMAND] [ARG] ...")
     print("\n" + bcolors.BOLD + bcolors.FAIL + "nafsdm control " + bcolors.ENDC + "for master daemon" + "\n")
     print("Commands:")
+    print(bcolors.BOLD + " slavestatus" + bcolors.ENDC + "                                                     Shows connection status of all slaves.")
     print(bcolors.BOLD + " add [domain] [masterIP] [comment] [nodes.nodes] [dnssec.no/yes]" + bcolors.ENDC + " Add a new domain")
     print(bcolors.BOLD + " removedomain [domain]" + bcolors.ENDC + "                                           Remove a record by domain")
     print(bcolors.BOLD + " removeid [id]" + bcolors.ENDC + "                                                   Remove a record by ID")
@@ -119,6 +121,15 @@ def restartWebinterface():
         exit(1)
 
     return True
+
+# slave connection status
+def printSlaveConnections():
+    # get slave connection status
+    slaveConn = slaveConnections(bcolors)
+
+    # print a fancy table using tabulate
+    headers = [bcolors.BOLD + "hostname", "latest connection", "latest connection date (according to slave)" + bcolors.ENDC]
+    print tabulate(slaveConn, headers, tablefmt="fancy_grid")
 
 # global check if user hasn't typed any vars
 if len(sys.argv) < 2:
@@ -270,6 +281,8 @@ elif (sys.argv[1] == "webinterface"):
             errorPrint("invalid webinterface argument")
             printSyntax()
             exit(1)
+elif (sys.argv[1] == "slavestatus"):
+
 else:
     printSyntax()
     exit(1)
