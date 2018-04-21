@@ -10,6 +10,9 @@ import os
 import subprocess
 import requests
 
+# get config
+from getConfig import getConfig
+
 # global vars
 github_branch = "master"
 debug = False
@@ -35,14 +38,13 @@ class bcolors: # (thanks to https://stackoverflow.com/a/287944/8321546)
         self.FAIL = ''
         self.ENDC = ''
 
-# dev function for specifing branch
-if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_github_branch.txt"):
-    f = open("/home/slave-nafsdm/pythondaemon/dev_github_branch.txt")
-    branchRaw = f.read()
-    f.close()
-
-    if "development" in branchRaw:
-        github_branch = "development"
+# get config
+config = getConfig()
+github_branch = config.dev_github_branch
+if config.dev_incrementalCommitVersions:
+    devICMode = True
+else:
+    devICMode = False
 
 # functions
 def errorPrint(message):
@@ -110,15 +112,25 @@ def fetchVersion():
     return version
 
 def checkVersion(currentVersion):
-    r = requests.get("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/version.txt")
+    if devICMode:
+        response = requests.get("https://api.github.com/repos/mrkakisen/nafsdm/branches/development")
+        if (response.status_code == requests.codes.ok):
+            data = response.json()
+            latestCommit = data["commit"]["sha"][0:7]
+            if currentVersion.split("-")[0] == latestCommit:
+                return True, None
+            else:
+                return False, latestCommit + "-dev"
+    else:
+        r = requests.get("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/version.txt")
 
-    # check for ok response codes
-    if (r.status_code == requests.codes.ok):
-        # code borrowed from daemon/versionCheck.py
-        if (r.text.split("\n")[0] == currentVersion):
-            return True, None
-        else:
-            return False, r.text.split("\n")[0]
+        # check for ok response codes
+        if (r.status_code == requests.codes.ok):
+            # code borrowed from daemon/versionCheck.py
+            if (r.text.split("\n")[0] == currentVersion):
+                return True, None
+            else:
+                return False, r.text.split("\n")[0]
 
 def restartDaemon():
     # we'll send a simple restart command to systemd
@@ -190,6 +202,8 @@ elif sys.argv[1] == "version":
     if versionStatus == True:
         if github_branch == "development":
             print("seems like you're using the development branch")
+        if devICMode:
+            print("seems like you're using the incremental commit versions")
         successPrint("you're running the latest version, " + version)
     else:
         print("nafscli: " + bcolors.OKGREEN + "a new version is available, " + bcolors.BOLD + newVersion + " (your version is " + version + ")" + bcolors.ENDC)
