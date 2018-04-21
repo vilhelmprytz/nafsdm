@@ -52,7 +52,7 @@ if not os.path.isfile("/home/master-nafsdm/data/domains.sql"):
     setupDatabase()
 
 # check for the slave alive folder
-if not os.path.exists("/home/master-nafsdm/slaveAlive")
+if not os.path.exists("/home/master-nafsdm/slaveAlive"):
     log("Creating slaveAlive directory..")
     os.makedirs("/home/master-nafsdm/slaveAlive")
 
