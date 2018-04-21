@@ -146,7 +146,7 @@ if [ "$DEV_IC_CONFIRM" == "y" ]; then
   COMMIT_HASH=$(git log -n 1 development | sed -n '1p' | cut -c8-14)
   echo "version = \"$COMMIT_HASH-dev\"" > /home/master-nafsdm/pythondaemon/version.py
   echo "True" > /home/master-nafsdm/pythondaemon/dev_ic_mode.txt
-  echo "development" > /home/slave-nafsdm/pythondaemon/dev_github_branch.txt
+  echo "development" > /home/master-nafsdm/pythondaemon/dev_github_branch.txt
 fi
 
 echo "* Installed. Cleanup.."
