@@ -61,69 +61,69 @@ def checkUpdate(config, mode):
                 else:
                     normalUpdate = True
 
-            if normalUpdate == True or doICUpdate == True:
-                logging.info("There is a new version available! New version: " + r.text.split("\n")[0])
-                if (os.path.exists("/home/slave-nafsdm/tempUpgrade")):
-                    logging.warning("Temp upgrade folder already exists?")
-                else:
-                    os.makedirs("/home/slave-nafsdm/pythondaemon/tempUpgrade")
-                    # shortcut to make the shit importable
-                    f = open("/home/slave-nafsdm/pythondaemon/tempUpgrade/__init__.py", "w")
-                    f.write(" ")
-                    f.close()
+        if normalUpdate == True or doICUpdate == True:
+            logging.info("There is a new version available! New version: " + r.text.split("\n")[0])
+            if (os.path.exists("/home/slave-nafsdm/tempUpgrade")):
+                logging.warning("Temp upgrade folder already exists?")
+            else:
+                os.makedirs("/home/slave-nafsdm/pythondaemon/tempUpgrade")
+                # shortcut to make the shit importable
+                f = open("/home/slave-nafsdm/pythondaemon/tempUpgrade/__init__.py", "w")
+                f.write(" ")
+                f.close()
 
-                # url must change from development to master before release!!
-                url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/scripts/upgradeSlave.sh")
+            # url must change from development to master before release!!
+            url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/scripts/upgradeSlave.sh")
+            r = requests.get(url)
+            if (r.status_code == requests.codes.ok):
+                f = open("/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh", "w")
+                f.write(r.content)
+                f.close()
+                import subprocess
+                outputNull = subprocess.check_output(["chmod", "+x", "/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh"])
+
+                url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/scripts/upgradeSlave.py")
                 r = requests.get(url)
                 if (r.status_code == requests.codes.ok):
-                    f = open("/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh", "w")
+                    f = open("/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py", "w")
                     f.write(r.content)
                     f.close()
                     import subprocess
-                    outputNull = subprocess.check_output(["chmod", "+x", "/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh"])
+                    outputNull = subprocess.check_output(["chmod", "+x", "/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py"])
 
-                    url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/scripts/upgradeSlave.py")
-                    r = requests.get(url)
-                    if (r.status_code == requests.codes.ok):
-                        f = open("/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py", "w")
-                        f.write(r.content)
-                        f.close()
-                        import subprocess
-                        outputNull = subprocess.check_output(["chmod", "+x", "/home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py"])
-
-                        from tempUpgrade.temp_upgrade import initUpgrade
-                        if doICUpdate:
-                            upgradeStatus = initUpgrade(config, github_branch, True)
-                        else:
-                            upgradeStatus = initUpgrade(config, github_branch, False)
-                        if upgradeStatus == "exception":
-                            logging.critical("An error occured during upgrade. The script probably failed mid-through (that would break your installation). Please retry or run the script manually.")
-                            exit(1)
-                        elif upgradeStatus == "unsupported":
-                            logging.warning("You're running an unsupported version - nafsdm will not be able to upgrade.")
-                            logging.warning("Consider using developer mode to skip version checking.")
-                            logging.info("nafsdm will continue boot")
-                        elif upgradeStatus == "unknownException":
-                            logging.critical("Unknown exception occured during upgrade.")
-                            exit(1)
-                        else:
-                            f = open("/home/slave-nafsdm/upgradeLog.log", "w")
-                            f.write(upgradeStatus)
-                            f.close()
-                            logging.info("Upgrade completed. Please update your configuration as the upgradeLog.log says.")
-                            if mode == "cli":
-                                logging.info("Upgrade command sent from CLI. Restarting nafsdm-slave..")
-                                try:
-                                    output = subprocess.check_output(["/bin/systemctl", "restart", "nafsdm-slave.service"])
-                                except Exception:
-                                    logging.exception("An error occured during systemd restart.")
-                                    logging.error("Exit due to previous error.")
-                                    exit(1)
-                            else:
-                                exit(0)
+                    from tempUpgrade.temp_upgrade import initUpgrade
+                    if doICUpdate:
+                        upgradeStatus = initUpgrade(config, github_branch, True)
                     else:
-                        logging.critical("Couldn't connect to GitHub! Quitting...")
+                        upgradeStatus = initUpgrade(config, github_branch, False)
+                    if upgradeStatus == "exception":
+                        logging.critical("An error occured during upgrade. The script probably failed mid-through (that would break your installation). Please retry or run the script manually.")
                         exit(1)
+                    elif upgradeStatus == "unsupported":
+                        logging.warning("You're running an unsupported version - nafsdm will not be able to upgrade.")
+                        logging.warning("Consider using developer mode to skip version checking.")
+                        logging.info("nafsdm will continue boot")
+                    elif upgradeStatus == "unknownException":
+                        logging.critical("Unknown exception occured during upgrade.")
+                        exit(1)
+                    else:
+                        f = open("/home/slave-nafsdm/upgradeLog.log", "w")
+                        f.write(upgradeStatus)
+                        f.close()
+                        logging.info("Upgrade completed. Please update your configuration as the upgradeLog.log says.")
+                        if mode == "cli":
+                            logging.info("Upgrade command sent from CLI. Restarting nafsdm-slave..")
+                            try:
+                                output = subprocess.check_output(["/bin/systemctl", "restart", "nafsdm-slave.service"])
+                            except Exception:
+                                logging.exception("An error occured during systemd restart.")
+                                logging.error("Exit due to previous error.")
+                                exit(1)
+                        else:
+                            exit(0)
                 else:
-                    logging.critical("Couldn't connect to GitHub! Quitting..")
+                    logging.critical("Couldn't connect to GitHub! Quitting...")
                     exit(1)
+            else:
+                logging.critical("Couldn't connect to GitHub! Quitting..")
+                exit(1)
