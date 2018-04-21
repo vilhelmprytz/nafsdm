@@ -9,7 +9,8 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-#  DL_VERSION will be changed at the time of update
+CLONE_URL="https://github.com/MrKaKisen/nafsdm.git"
+CLONE_BRANCH="development"
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
 REQ_URL="https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/scripts/requirements_master.txt"
 GITHUB_DIR="master-nafsdm"
@@ -59,8 +60,9 @@ echo "* Fetching information about latest version.."
 LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/version.txt)
 
 # commit updates
-echo "* Developers only: Would you like to enable incremental commit updates and use development branch only (y/n)?"
+echo "* Developers only: Would you like to enable incremental commit updates and use development branch only?"
 echo "* Warning: This is a developer function, do not use in a production environment."
+echo -n "* Enable? (y/n): "
 read DEV_IC_CONFIRM
 
 if [ "$DEV_IC_CONFIRM" == "y" ]; then
@@ -74,7 +76,7 @@ if [ "$DEV_IC_CONFIRM" == "y" ]; then
   fi
 
   cd /tmp
-  git clone -b development https://github.com/MrKaKisen/nafsdm.git
+  git clone -b $CLONE_BRANCH $CLONE_URL
 elif [ "$DEV_IC_CONFIRM" == "n" ]; then
   echo "* Skipping.."
   # select version
