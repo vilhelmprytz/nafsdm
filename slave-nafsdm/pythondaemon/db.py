@@ -1,5 +1,5 @@
 # nafsdm
-# (c) Vilhelm Prytz 2017
+# (c) Vilhelm Prytz 2018
 # db
 # database SQL communication
 # https://github.com/mrkakisen/nafsdm

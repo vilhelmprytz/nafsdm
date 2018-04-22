@@ -1,5 +1,5 @@
 # nafsdm
-# (c) Vilhelm Prytz 2017
+# (c) Vilhelm Prytz 2018
 # getConfig
 # parses the config and returns in var
 # https://github.com/mrkakisen/nafsdm

@@ -12,6 +12,7 @@ Version 1.3 (Status: DEVELOPMENT)
 * Rewrote most log messages for both master and slave
 * Ability to enable or disable nafsdm upgrades on start (if turned off, you will have to use nafscli upgrade) on slave daemon
 * nafscli status now has -a argument which shows the full systemd status of the nafsdm daemon
+* (minor): Update all copyright notices to 2018
 
 Version 1.2.5 (Status: RELEASED)
 * Added nafscli for the slave, a command-line interface

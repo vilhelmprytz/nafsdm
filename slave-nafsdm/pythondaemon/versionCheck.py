@@ -1,5 +1,5 @@
 # nafsdm
-# (c) Vilhelm Prytz 2017
+# (c) Vilhelm Prytz 2018
 # versionCheck
 # checks if a new version is available
 # https://github.com/mrkakisen/nafsdm

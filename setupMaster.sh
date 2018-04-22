@@ -1,6 +1,6 @@
 # nafsdm
 # help script for setting up nafsdm on the master
-# Copyright Vilhelm Prytz 2017
+# Copyright Vilhelm Prytz 2018
 # https://github.com/mrkakisen/nafsdm
 
 # check if user is root or not

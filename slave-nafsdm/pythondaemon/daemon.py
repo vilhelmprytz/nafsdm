@@ -1,5 +1,5 @@
 # nafsdm
-# (c) Vilhelm Prytz 2017
+# (c) Vilhelm Prytz 2018
 # __main__
 # daemon functions
 # https://github.com/mrkakisen/nafsdm
