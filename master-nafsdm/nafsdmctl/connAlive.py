@@ -48,3 +48,15 @@ def slaveConnections(bcolors):
                 slaveConnections.append([file.split(".")[0], bcolors.OKGREEN + timeAgoString + bcolors.ENDC, slaveDate, interval])
 
     return slaveConnections
+
+# deletes all slave connections
+def flushSlaveConnections():
+    fileList = [f for f in listdir("/home/master-nafsdm/slaveAlive") if isfile(join("/home/master-nafsdm/slaveAlive", f))]
+
+    for file in fileList:
+        try:
+            os.remove("/home/master-nafsdm/slaveAliv/" + file)
+        except Exception:
+            print("failed to delete " + file)
+
+    return True

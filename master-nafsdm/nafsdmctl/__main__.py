@@ -57,17 +57,17 @@ def printSyntax():
     print("Usage: nafsdmctl [COMMAND] [ARG] ...")
     print("\n" + bcolors.BOLD + bcolors.FAIL + "nafsdm control " + bcolors.ENDC + "for master daemon" + "\n")
     print("Commands:")
-    print(bcolors.BOLD + " slavestatus" + bcolors.ENDC + "                                                     Shows connection status of all slaves.")
-    print(bcolors.BOLD + " add [domain] [masterIP] [comment] [nodes.nodes] [dnssec.no/yes]" + bcolors.ENDC + " Add a new domain")
-    print(bcolors.BOLD + " removedomain [domain]" + bcolors.ENDC + "                                           Remove a record by domain")
-    print(bcolors.BOLD + " removeid [id]" + bcolors.ENDC + "                                                   Remove a record by ID")
-    print(bcolors.BOLD + " edit [domain]" + bcolors.ENDC + "                                                   Edit a domain")
-    print(bcolors.BOLD + " list" + bcolors.ENDC + "                                                            List all domains")
+    print(bcolors.BOLD + " slavestatus [flush]" + bcolors.ENDC + "                                                 Shows connection status of all slaves.")
+    print(bcolors.BOLD + " add [domain.tld] [masterIP] [comment] [nodes.nodes] [dnssec.no/yes]" + bcolors.ENDC + " Add a new domain")
+    print(bcolors.BOLD + " removedomain [domain]" + bcolors.ENDC + "                                               Remove a record by domain")
+    print(bcolors.BOLD + " removeid [id]" + bcolors.ENDC + "                                                       Remove a record by ID")
+    print(bcolors.BOLD + " edit [domain]" + bcolors.ENDC + "                                                       Edit a domain")
+    print(bcolors.BOLD + " list" + bcolors.ENDC + "                                                                List all domains")
     print("\n" + "nafsdm webinterface commands:")
-    print(bcolors.BOLD + " webinterface status" + bcolors.ENDC + "                                             Shows status of webinterface")
-    print(bcolors.BOLD + " webinterface start" + bcolors.ENDC + "                                              Start the nafsdm-webinterface")
-    print(bcolors.BOLD + " webinterface stop" + bcolors.ENDC + "                                               Start the nafsdm-webinterface")
-    print(bcolors.BOLD + " webinterface restart" + bcolors.ENDC + "                                            Start the nafsdm-webinterface")
+    print(bcolors.BOLD + " webinterface status" + bcolors.ENDC + "                                                 Shows status of webinterface")
+    print(bcolors.BOLD + " webinterface start" + bcolors.ENDC + "                                                  Start the nafsdm-webinterface")
+    print(bcolors.BOLD + " webinterface stop" + bcolors.ENDC + "                                                   Start the nafsdm-webinterface")
+    print(bcolors.BOLD + " webinterface restart" + bcolors.ENDC + "                                                Start the nafsdm-webinterface")
 
 # webinterface control commands
 def webinterfaceStatus():
@@ -285,7 +285,11 @@ elif (sys.argv[1] == "webinterface"):
             printSyntax()
             exit(1)
 elif (sys.argv[1] == "slavestatus"):
-    printSlaveConnections()
+    if len(sys.argv) < 3:
+        printSlaveConnections()
+    else:
+        if sys.argv[2] == "flush":
+            flushSlaveConnections()
 else:
     printSyntax()
     exit(1)
