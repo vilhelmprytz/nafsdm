@@ -289,7 +289,14 @@ elif (sys.argv[1] == "slavestatus"):
         printSlaveConnections()
     else:
         if sys.argv[2] == "flush":
-            flushSlaveConnections()
+            if flushSlaveConnections():
+                successPrint("flush successful")
+            else:
+                errorPrint("flush failed")
+        else:
+            errorPrint("invalid argument")
+            printSyntax()
+            exit(1)
 else:
     printSyntax()
     exit(1)
