@@ -1,3 +1,19 @@
+Version 1.3 (Status: RELEASED)
+* Upgrade scripts now check for "github_branch" to download correct latest version file.
+* Upgrade scripts now return different exit codes depending on issue (dev versions will no longer crash the daemon due to unsupported version)
+* Complete visual overhaul of nafsdmctl (looks a lot nicer)
+* New development mode, allowing latest commit to always be installed on master and slave (not set version numbers).
+* Slave: development functions are now enabled using the config.conf instead of adding files.
+* Developer mode introduced in version 1.2.5-stable has been renamed to "skipVersionCheck"
+* nafsdmctl: now has remove by domain and remove by ID functions
+* nafsdmctl: now has status/start/stop/restart functions for the webinterface
+* Slaves now report last connection time to master (nafsdmctl can show a table of which slaves has connected recently)
+* nafscli logviewer no longer throws a traceback message on exit (using CTRL+C)
+* Rewrote most log messages for both master and slave
+* Ability to enable or disable nafsdm upgrades on start (if turned off, you will have to use nafscli upgrade) on slave daemon
+* nafscli status now has -a argument which shows the full systemd status of the nafsdm daemon
+* (minor): Update all copyright notices to 2018
+
 Version 1.2.5 (Status: RELEASED)
 * Added nafscli for the slave, a command-line interface
 * Added developer mode for both Slave and Master (disables version checking)

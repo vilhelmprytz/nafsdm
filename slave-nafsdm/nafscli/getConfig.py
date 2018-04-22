@@ -1,12 +1,16 @@
-# nafsdm
+# nafscli
 # (c) Vilhelm Prytz 2018
 # getConfig
 # parses the config and returns in var
 # https://github.com/mrkakisen/nafsdm
 
 import logging
-from configDir import __configDir__ as configDir
 import ConfigParser
+import sys
+
+# import configDir
+sys.path.insert(0, "/home/slave-nafsdm/pythondaemon")
+from configDir import __configDir__ as configDir
 
 class Config(object):
     import ConfigParser
@@ -23,18 +27,14 @@ class Config(object):
             self.bindPath = parser.get("nafsdm", "bindPath")
             self.nodeName = parser.get("nafsdm", "nodeName")
 
-            # options section
-            self.options_upgradeOnStart = parser.get("options", "upgradeOnStart")
-
             # dev section
             self.dev_github_branch = parser.get("development", "github_branch")
             self.dev_skipVersionCheck = parser.get("development", "skipVersionCheck")
             self.dev_incrementalCommitVersions = parser.get("development", "incrementalCommitVersions")
 
         except Exception:
-            logging.exception("Could not read config. Please check if your config is setup properly.")
-            logging.critical("Exiting due to previous error.")
-            quit(1)
+            print("unexpected error occured during config reading")
+            exit(1)
 
 
 def getConfig():

@@ -1,5 +1,5 @@
 # nafsdm
-# (c) Vilhelm Prytz 2017
+# (c) Vilhelm Prytz 2018
 # __main__
 # get's stuff goooing
 # https://github.com/mrkakisen/nafsdm
@@ -35,16 +35,21 @@ def main():
     logger.addHandler(fh)
 
     # welcome
-    logging.info("Welcome to Slave nafsdm version " + version)
+    logging.info("*******************************************************")
+    logging.info("nafsdm-slave daemon - running version " + version)
+    logging.info("*******************************************************")
+
+    logging.info("Running pre-start checks..")
 
     # check if the upgrade script is present (we shouldn't be running if so)
     if os.path.isfile("/home/slave-nafsdm/tempUpgrade/temp_upgrade.sh"):
-        logging.warning("Upgrade script found. Please delete the upgrade script before runing nafsdm-slave!")
+        logging.warning("Upgrade script was found during pre-start checks. Please delete the upgrade script before runing nafsdm-slave!")
         logging.warning("Note: the script is left there because the config has changed and needs updating.")
         exit(1)
 
     if os.path.isfile("/home/slave-nafsdm/config-legacy.conf"):
-        logging.warning("Legacy config was found. This probably means that nafsdm has been upgraded but the config hasn't been changed yet.")
+        logging.warning("Legacy config was found. This probably means that nafsdm has been upgraded but the config hasn't been updated yet.")
+        logging.warning("Remove the legacy config when finished.")
         exit(1)
 
     # check if the temp folder exists

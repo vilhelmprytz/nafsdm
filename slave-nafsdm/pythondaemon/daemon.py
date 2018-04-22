@@ -1,5 +1,5 @@
 # nafsdm
-# (c) Vilhelm Prytz 2017
+# (c) Vilhelm Prytz 2018
 # __main__
 # daemon functions
 # https://github.com/mrkakisen/nafsdm
@@ -12,6 +12,7 @@ import subprocess
 from db import parseDbData
 from shutil import copyfile
 from version import version
+from connAlive import connectAlive
 
 def changeDetected():
     changeDetected = None
@@ -71,7 +72,7 @@ def checkMasterVersion(config):
         return True
     else:
         logging.critical("We're NOT running the same version as the master! (my version: " + str(version) + " - Master version: " + masterVersion + ")")
-        logging.critical("nafsdm will not be able to start.")
+        logging.critical("nafsdm-slave daemon will not be able to start.")
         exit(1)
 
 
@@ -95,7 +96,7 @@ def getData(config):
          outputNull = subprocess.check_output(["scp", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host + ":/home/master-nafsdm/data/domains.sql", "/home/slave-nafsdm/temp/domains_temp.sql"])
     except Exception:
         logging.exception("An error occured during SCP connection.")
-        logging.error("Please check if the master is up and working.")
+        logging.error("Please check if the master is up and reachable.")
 
 def writeData(config):
     if os.path.isfile("/home/slave-nafsdm/temp/domains_temp.sql") == True:
@@ -164,16 +165,16 @@ zone "''' + r[1] + '''" IN {
             logging.debug("New config has been written.")
     else:
         logging.error("An error occured while reading data that was recently downloaded. This usually means the file never was downloaded and therefore doesn't exist.")
-        logging.error("Couldn't read from domains file! Connection error?")
 
 def reloadBind():
     # if it fails, it will be printed in log
     reloadSucceeded = True
+    logging.info("Reloading bind..")
     try:
         logging.info("Reload output (should be empty if ok): " + subprocess.check_output(["rndc", "reconfig"]))
     except Exception:
         logging.exception("An error occured during bind reload.")
-        logging.error("Due to the recent error, we will continue to try to reload bind.")
+        logging.error("Due to previous error, nafsdm will retry bind reload.")
         reloadSucceeded = False
 
     if reloadSucceeded == True:
@@ -181,20 +182,25 @@ def reloadBind():
         try:
             copyfile("/home/slave-nafsdm/temp/domains_temp.sql", "/home/slave-nafsdm/temp/domains_before.sql")
         except Exception:
-            logging.exception("Error occured during file replacement domains_temp to domains_before.")
+            logging.exception("Error occured during file replacement (domains_temp to domains_before).")
             logging.error("Do we have permissions to that folder?")
 
 
 def runDaemon(config):
-    logging.info("Daemon started!")
+    logging.info("Starting daemon..")
 
     # run everything once as we get immediate output if everything is OK
     versionCheck = checkMasterVersion(config)
     if versionCheck == False:
         logging.warning("Skipping master version check step..")
+    # connect alive
+    if connectAlive(config) == False:
+        logging.warning("Could not write alive status.")
     getData(config)
     writeData(config)
     reloadBind()
+
+    logging.info("Daemon started!")
 
     endlessLoop = False
     while endlessLoop == False:
@@ -214,3 +220,7 @@ def runDaemon(config):
             logging.info("Change detected! Writing configuration & reloading bind")
             writeData(config)
             reloadBind()
+
+        # connect alive
+        if connectAlive(config) == False:
+            logging.warning("Could not write alive status.")

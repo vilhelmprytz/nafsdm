@@ -1,7 +1,12 @@
 # nafsdm
 # upgrade script for nafsdm slave
-# (c) Vilhelm Prytz 2017
+# (c) Vilhelm Prytz 2018
 # https://github.com/mrkakisen/nafsdm
+
+# Exit codes:
+# normal - 0
+# error - 1
+# unsupported version - 128
 
 # check if user is root or not
 if [[ $EUID -ne 0 ]]; then
@@ -11,19 +16,20 @@ fi
 
 echo "* Welcome to nafsdm slave upgrade script!"
 
-echo -n "* Enter operating system (debian/ubuntu/centos): "
+# set OPERATINGSYS first
 OPERATINGSYS="$1"
 
 if [ "$OPERATINGSYS" == "centos" ]; then
-  yum install curl wget -y
+  yum install curl wget git -y
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
-  apt-get install curl wget -y
+  apt-get install curl wget git -y
 else
   echo "* Invalid OS. Quit."
   exit 1
 fi
 
-BRANCH="master"
+BRANCH="$2"
+DEV_IC_MODE="$3"
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
 MY_VERSION_RAW="`cat /home/slave-nafsdm/pythondaemon/version.py`"
 LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/$BRANCH/version.txt)
@@ -50,17 +56,28 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.2.3-stable"' ]; then
 elif [ "$MY_VERSION_RAW" == 'version = "1.2.4-stable"' ]; then
   echo "* Detected version 1.2.4-stable - supported by this upgrade script."
   MY_VERSION="1.2.4-stable"
+elif [ "$MY_VERSION_RAW" == 'version = "1.2.5-stable"' ]; then
+  echo "* Detected version 1.2.5-stable - supported by this upgrade script."
+  MY_VERSION="1.2.5-stable"
 else
-  echo "* Your version is not supported (dev versions and 1.0 is not supported)."
-  exit 1
+  if [ "$DEV_IC_MODE" == "False" ]; then
+    echo "* Your version is not supported (dev versions and 1.0 is not supported)."
+    exit 128
+  else
+    MY_VERSION="dev_release"
+  fi
 fi
 
 echo "* Downloading newest version."
 cd /tmp
-wget $DL_URL$LATEST_VERSION.tar.gz -O nafsdm.tar.gz
-tar -zxvf nafsdm.tar.gz
-mv nafsdm-* nafsdm
-rm -rf nafsdm.tar.gz
+if [ "$DEV_IC_MODE" == "True" ]; then
+  git clone -b development https://github.com/MrKaKisen/nafsdm.git
+else
+  wget $DL_URL$LATEST_VERSION.tar.gz -O nafsdm.tar.gz
+  tar -zxvf nafsdm.tar.gz
+  mv nafsdm-* nafsdm
+  rm -rf nafsdm.tar.gz
+fi
 
 # perform upgrade
 if [ "$MY_VERSION" == "1.0.1-stable" ]; then
@@ -91,8 +108,13 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
+  echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
+
   echo "* Upgrade completed."
   echo "* Script has automatically modified your config to match with the new standards."
+
 elif [ "$MY_VERSION" == "1.1-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/slave-nafsdm/pythondaemon
@@ -113,8 +135,13 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
+  echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
+
 elif [ "$MY_VERSION" == "1.2-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/slave-nafsdm/pythondaemon
@@ -135,8 +162,13 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
+  echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
+
 elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/slave-nafsdm/pythondaemon
@@ -152,6 +184,10 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
+  echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
@@ -164,6 +200,10 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
+
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
+  echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -178,6 +218,10 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
+  echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
@@ -191,6 +235,10 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
+  echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
@@ -203,7 +251,36 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   rm -rf /home/slave-nafsdm/nafscli
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
 
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
+  echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
+  rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
+
+# for dev versions
+elif [ "$MY_VERSION" == "dev_release" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/slave-nafsdm/pythondaemon
+  cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
+
+  # nafscli reinstall (delete and copy) (from version 1.2.5 onwards)
+  rm -rf /home/slave-nafsdm/nafscli
+  cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
+
+  # dev set version
+  if [ "$DEV_IC_MODE" == "True" ]; then
+    echo "* Setting dev version.."
+
+    cd /tmp/nafsdm
+    COMMIT_HASH=$(git log -n 1 development | sed -n '1p' | cut -c8-14)
+    echo "version = \"$COMMIT_HASH-dev\"" > /home/slave-nafsdm/pythondaemon/version.py
+
+    echo "* Done."
+  fi
+
+  echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
+  echo "* Make sure to copy the [development] section into config.conf and make sure branch is set to development and that incrementalCommitVersions is set to True."
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
 else
@@ -212,3 +289,4 @@ else
 fi
 
 rm -rf /tmp/nafsdm
+exit 0

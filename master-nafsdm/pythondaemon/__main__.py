@@ -11,11 +11,15 @@ from daemonlog import log
 from version import version
 from versionCheck import checkUpdate
 
-log("Master nafsdm starting up! Welcome! Running version " + version)
+log("*******************************************************")
+log("master-nafsdm - running version " + version)
+log("*******************************************************")
+
+log("Performing pre-start checks..")
 
 # pre checks
 if not os.path.isfile("/home/master-nafsdm/.ssh/nafsdm_rsa"):
-    log("SSH directory not found. Running first time setup!")
+    log("SSH directory not found. Performing first time setup!")
     setupSSH()
 
 # check for upgrade script
@@ -51,7 +55,13 @@ if not os.path.isfile("/home/master-nafsdm/data/domains.sql"):
     log("Could not find the domains.sql file. Configuring database..")
     setupDatabase()
 
+# check for the slave alive folder
+if not os.path.exists("/home/master-nafsdm/slaveAlive"):
+    log("Creating slaveAlive directory..")
+    os.makedirs("/home/master-nafsdm/slaveAlive")
+
+
 # check for new update
 checkUpdate()
 
-log("Master DNS daemon ready.")
+log("nafsdm-master is now ready.")

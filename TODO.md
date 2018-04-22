@@ -2,7 +2,7 @@
 (remove completely from list when finished/solved)
 
 ## High Priority
-* Rework nafsdmctl (make it look nicer)
+* nafsdmctl webinterface enable and disable
 
 ## Lower Priority
 * rework the master

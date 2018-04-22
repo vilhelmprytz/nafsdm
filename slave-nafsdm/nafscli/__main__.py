@@ -10,6 +10,9 @@ import os
 import subprocess
 import requests
 
+# get config
+from getConfig import getConfig
+
 # global vars
 github_branch = "master"
 debug = False
@@ -35,14 +38,13 @@ class bcolors: # (thanks to https://stackoverflow.com/a/287944/8321546)
         self.FAIL = ''
         self.ENDC = ''
 
-# dev function for specifing branch
-if os.path.isfile("/home/slave-nafsdm/pythondaemon/dev_github_branch.txt"):
-    f = open("/home/slave-nafsdm/pythondaemon/dev_github_branch.txt")
-    branchRaw = f.read()
-    f.close()
-
-    if "development" in branchRaw:
-        github_branch = "development"
+# get config
+config = getConfig()
+github_branch = config.dev_github_branch
+if config.dev_incrementalCommitVersions == "True" or config.dev_incrementalCommitVersions == "true":
+    devICMode = True
+else:
+    devICMode = False
 
 # functions
 def errorPrint(message):
@@ -56,7 +58,7 @@ def printSyntax():
     print("Usage: nafscli [COMMAND]")
     print("\n" + bcolors.BOLD + bcolors.FAIL + "nafsdm command-line interface " + bcolors.ENDC + "for slave daemon" + "\n")
     print("Commands:")
-    print(bcolors.BOLD + " status" + bcolors.ENDC + "      Show current status of the daemon")
+    print(bcolors.BOLD + " status [-a]" + bcolors.ENDC + " Show current status of the daemon (-a shows all information)")
     print(bcolors.BOLD + " version" + bcolors.ENDC + "     Current version of nafsdm")
     print(bcolors.BOLD + " start" + bcolors.ENDC + "       Start the daemon")
     print(bcolors.BOLD + " stop" + bcolors.ENDC + "        Stop the daemon")
@@ -75,18 +77,18 @@ def checkStatus():
         for line in outputSaved.split("\n"):
             if "Active:" in line:
                 if "active (running)" in line:
-                    return True
+                    return True, outputSaved
                 else:
-                    return False
+                    return False, outputSaved
         errorPrint("an error occured during status check")
         exit(1)
 
     for line in output.split("\n"):
         if "Active:" in line:
             if "active (running)" in line:
-                return True
+                return True, output
     # systemd should give us 'Active: active (running)' if it's running, otherwise it's not
-    return False
+    return False, output
 
 def fetchVersion():
     try:
@@ -110,15 +112,25 @@ def fetchVersion():
     return version
 
 def checkVersion(currentVersion):
-    r = requests.get("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/version.txt")
+    if devICMode:
+        response = requests.get("https://api.github.com/repos/mrkakisen/nafsdm/branches/development")
+        if (response.status_code == requests.codes.ok):
+            data = response.json()
+            latestCommit = data["commit"]["sha"][0:7]
+            if currentVersion.split("-")[0] == latestCommit:
+                return True, None
+            else:
+                return False, latestCommit + "-dev"
+    else:
+        r = requests.get("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/version.txt")
 
-    # check for ok response codes
-    if (r.status_code == requests.codes.ok):
-        # code borrowed from daemon/versionCheck.py
-        if (r.text.split("\n")[0] == currentVersion):
-            return True, None
-        else:
-            return False, r.text.split("\n")[0]
+        # check for ok response codes
+        if (r.status_code == requests.codes.ok):
+            # code borrowed from daemon/versionCheck.py
+            if (r.text.split("\n")[0] == currentVersion):
+                return True, None
+            else:
+                return False, r.text.split("\n")[0]
 
 def restartDaemon():
     # we'll send a simple restart command to systemd
@@ -152,7 +164,7 @@ def stopDaemon():
 
 # the CLI can communicate with the daemon by setting a new CLI state
 def setCLIState(newState):
-    if checkStatus():
+    if checkStatus()[0]:
         try:
             f = open("/home/slave-nafsdm/pythondaemon/cli_state", "w")
         except Exception:
@@ -178,11 +190,24 @@ if len(sys.argv) < 2:
 
 # routes
 if sys.argv[1] == "status":
-    status = checkStatus()
-    if status:
-        print("status: " + bcolors.GREENBG + "running" + bcolors.ENDC)
+    if len(sys.argv) < 3:
+        status, output = checkStatus()
+        if status:
+            print("status: " + bcolors.GREENBG + "running" + bcolors.ENDC)
+        else:
+            print("status: " + bcolors.REDBG + "not running" + bcolors.ENDC)
     else:
-        print("status: " + bcolors.REDBG + "not running" + bcolors.ENDC)
+        if sys.argv[2] == "-a":
+            status, output = checkStatus()
+            print(output)
+            if status:
+                print("status: " + bcolors.GREENBG + "running" + bcolors.ENDC)
+            else:
+                print("status: " + bcolors.REDBG + "not running" + bcolors.ENDC)
+        else:
+            errorPrint("invalid argument")
+            printSyntax()
+            exit(1)
 
 elif sys.argv[1] == "version":
     version = fetchVersion()
@@ -190,6 +215,8 @@ elif sys.argv[1] == "version":
     if versionStatus == True:
         if github_branch == "development":
             print("seems like you're using the development branch")
+        if devICMode:
+            print("seems like you're using the incremental commit versions")
         successPrint("you're running the latest version, " + version)
     else:
         print("nafscli: " + bcolors.OKGREEN + "a new version is available, " + bcolors.BOLD + newVersion + " (your version is " + version + ")" + bcolors.ENDC)
@@ -202,14 +229,20 @@ elif sys.argv[1] == "upgrade":
         successPrint("upgrade command sent to daemon")
 elif sys.argv[1] == "log":
     print("nafscli: " + bcolors.WARNING + "press CTRL+C to exit logviewer" + bcolors.ENDC)
+
+    # supress all traceback info
+    sys.tracebacklimit = 0
     try:
         output = subprocess.call(["tail", "-f", "/home/slave-nafsdm/log.log"])
     except Exception:
         errorPrint("could not read log")
         exit(1)
 
+    # back to default value
+    sys.tracebacklimit = 1000
+
 elif sys.argv[1] == "start":
-    if checkStatus():
+    if checkStatus()[0]:
         errorPrint("daemon is already running")
     else:
         if startDaemon():

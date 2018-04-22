@@ -1,5 +1,0 @@
-install:
-  - echo "hello"
-
-script:
-  - echo "Not done."

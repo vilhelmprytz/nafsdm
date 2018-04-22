@@ -61,6 +61,28 @@ def removeDomain(domain):
 
     return status
 
+def removeDomainId(domainId):
+    connection, cursor = dbConnection()
+
+    sql_command = '''DELETE FROM domain WHERE id="''' + str(domainId) + '''";'''
+
+    # execute
+    cursor.execute(sql_command)
+
+    # check if domain is there
+    cursor.execute('''SELECT * FROM domain WHERE id= "''' + str(domainId) + '''";''')
+
+    if len(cursor.fetchall()) == 0:
+        status = True
+    else:
+        status = False
+
+    # close connection
+    connection.commit()
+    connection.close()
+
+    return status
+
 def listDomains():
     connection, cursor = dbConnection()
 
