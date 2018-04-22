@@ -36,7 +36,7 @@ def main():
 
     # welcome
     logging.info("*******************************************************")
-    logging.info("Welcome to nafsdm-slave daemon - version " + version)
+    logging.info("nafsdm-slave daemon - running version " + version)
     logging.info("*******************************************************")
 
     logging.info("Running pre-start checks..")
