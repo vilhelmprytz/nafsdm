@@ -10,6 +10,7 @@ Version 1.3 (Status: DEVELOPMENT)
 * Slaves now report last connection time to master (nafsdmctl can show a table of which slaves has connected recently)
 * nafscli logviewer no longer throws a traceback message on exit (using CTRL+C)
 * Rewrote most log messages for both master and slave
+* Ability to enable or disable nafsdm upgrades on start (if turned off, you will have to use nafscli upgrade) on slave daemon
 
 Version 1.2.5 (Status: RELEASED)
 * Added nafscli for the slave, a command-line interface

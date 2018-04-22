@@ -23,6 +23,9 @@ class Config(object):
             self.bindPath = parser.get("nafsdm", "bindPath")
             self.nodeName = parser.get("nafsdm", "nodeName")
 
+            # options section
+            self.options_upgradeOnStart = parser.get("options", "upgradeOnStart")
+
             # dev section
             self.dev_github_branch = parser.get("development", "github_branch")
             self.dev_skipVersionCheck = parser.get("development", "skipVersionCheck")

@@ -108,7 +108,8 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
-  # add new development section to config file (versions after 1.2.5)
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   echo "* Upgrade completed."
@@ -134,7 +135,8 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
-  # add new development section to config file (versions after 1.2.5)
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
@@ -160,7 +162,8 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
-  # add new development section to config file (versions after 1.2.5)
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
@@ -181,7 +184,8 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
-  # add new development section to config file (versions after 1.2.5)
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
@@ -197,7 +201,8 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
-  # add new development section to config file (versions after 1.2.5)
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
@@ -213,7 +218,8 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
-  # add new development section to config file (versions after 1.2.5)
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
@@ -229,7 +235,8 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
-  # add new development section to config file (versions after 1.2.5)
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
@@ -244,7 +251,8 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   rm -rf /home/slave-nafsdm/nafscli
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
 
-  # add new development section to config file (versions after 1.2.5)
+  # add new development section to config file (versions after 1.2.5) & added new options section
+  echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
