@@ -55,7 +55,7 @@ def flushSlaveConnections():
 
     for file in fileList:
         try:
-            os.remove("/home/master-nafsdm/slaveAliv/" + file)
+            os.remove("/home/master-nafsdm/slaveAlive/" + file)
         except Exception:
             print("failed to delete " + file)
 
