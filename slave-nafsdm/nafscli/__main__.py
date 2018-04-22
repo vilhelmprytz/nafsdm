@@ -41,7 +41,7 @@ class bcolors: # (thanks to https://stackoverflow.com/a/287944/8321546)
 # get config
 config = getConfig()
 github_branch = config.dev_github_branch
-if config.dev_incrementalCommitVersions:
+if config.dev_incrementalCommitVersions == "True" or config.dev_incrementalCommitVersions == "true":
     devICMode = True
 else:
     devICMode = False

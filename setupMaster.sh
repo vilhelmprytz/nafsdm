@@ -127,7 +127,9 @@ if [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
   mkdir $HOME_DIR
 fi
 mkdir $HOME_DIR/.ssh
+mkdir $HOME_DIR/slaveAlive
 chown -R master-nafsdm:master-nafsdm $HOME_DIR/.ssh
+chown -R master-nafsdm:master-nafsdm $HOME_DIR/slaveAlive
 cp /tmp/nafsdm/$GITHUB_DIR /home -R
 cp /tmp/nafsdm/LICENSE $HOME_DIR/LICENSE
 

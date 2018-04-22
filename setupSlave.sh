@@ -53,7 +53,7 @@ LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/
 # commit updates
 echo "* Developers only: Would you like to enable incremental commit updates and use development branch only?"
 echo "* Warning: This is a developer function, do not use in a production environment."
-echo -n "Enable? (y/n): "
+echo -n "* Enable? (y/n): "
 read DEV_IC_CONFIRM
 
 if [ "$DEV_IC_CONFIRM" == "y" ]; then
