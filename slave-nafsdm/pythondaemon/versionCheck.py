@@ -70,7 +70,7 @@ def checkUpdate(config, mode):
                     normalUpdate = True
 
         if normalUpdate == True or doICUpdate == True:
-            if upgradeOnStart:
+            if upgradeOnStart or doICUpdate == True:
                 if (os.path.exists("/home/slave-nafsdm/tempUpgrade")):
                     logging.warning("Temp upgrade folder already exists!")
                 else:
