@@ -58,7 +58,7 @@ def printSyntax():
     print("Usage: nafscli [COMMAND]")
     print("\n" + bcolors.BOLD + bcolors.FAIL + "nafsdm command-line interface " + bcolors.ENDC + "for slave daemon" + "\n")
     print("Commands:")
-    print(bcolors.BOLD + " status" + bcolors.ENDC + "      Show current status of the daemon")
+    print(bcolors.BOLD + " status [-a]" + bcolors.ENDC + " Show current status of the daemon (-a shows all information)")
     print(bcolors.BOLD + " version" + bcolors.ENDC + "     Current version of nafsdm")
     print(bcolors.BOLD + " start" + bcolors.ENDC + "       Start the daemon")
     print(bcolors.BOLD + " stop" + bcolors.ENDC + "        Stop the daemon")
@@ -77,18 +77,18 @@ def checkStatus():
         for line in outputSaved.split("\n"):
             if "Active:" in line:
                 if "active (running)" in line:
-                    return True
+                    return True, outputSaved
                 else:
-                    return False
+                    return False, outputSaved
         errorPrint("an error occured during status check")
         exit(1)
 
     for line in output.split("\n"):
         if "Active:" in line:
             if "active (running)" in line:
-                return True
+                return True, output
     # systemd should give us 'Active: active (running)' if it's running, otherwise it's not
-    return False
+    return False, output
 
 def fetchVersion():
     try:
@@ -164,7 +164,7 @@ def stopDaemon():
 
 # the CLI can communicate with the daemon by setting a new CLI state
 def setCLIState(newState):
-    if checkStatus():
+    if checkStatus()[0]:
         try:
             f = open("/home/slave-nafsdm/pythondaemon/cli_state", "w")
         except Exception:
@@ -190,11 +190,24 @@ if len(sys.argv) < 2:
 
 # routes
 if sys.argv[1] == "status":
-    status = checkStatus()
-    if status:
-        print("status: " + bcolors.GREENBG + "running" + bcolors.ENDC)
+    if len(sys.argv) < 3:
+        status, output = checkStatus()
+        if status:
+            print("status: " + bcolors.GREENBG + "running" + bcolors.ENDC)
+        else:
+            print("status: " + bcolors.REDBG + "not running" + bcolors.ENDC)
     else:
-        print("status: " + bcolors.REDBG + "not running" + bcolors.ENDC)
+        if sys.argv[2] == "-a":
+            status, output = checkStatus()
+            print(output)
+            if status:
+                print("status: " + bcolors.GREENBG + "running" + bcolors.ENDC)
+            else:
+                print("status: " + bcolors.REDBG + "not running" + bcolors.ENDC)
+        else:
+            errorPrint("invalid argument")
+            printSyntax()
+            exit(1)
 
 elif sys.argv[1] == "version":
     version = fetchVersion()
@@ -229,7 +242,7 @@ elif sys.argv[1] == "log":
     sys.tracebacklimit = 1000
 
 elif sys.argv[1] == "start":
-    if checkStatus():
+    if checkStatus()[0]:
         errorPrint("daemon is already running")
     else:
         if startDaemon():
