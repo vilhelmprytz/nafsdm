@@ -10,7 +10,7 @@ import os
 import os.path
 from tabulate import tabulate
 from db import *
-from connAlive import slaveConnections
+from connAlive import slaveConnections, flushSlaveConnections
 import subprocess
 import time
 
