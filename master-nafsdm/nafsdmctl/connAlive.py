@@ -18,6 +18,12 @@ def timeAgo(filename):
 
     fullString = time.strftime('%M min(s) and %S sec(s) ago', time.localtime(epochAgo))
 
+    if epochAgo > 3600:
+        fullString = str(epochAgo/3600) + " hour(s) ago"
+
+    if epochAgo > 86400:
+        fullString = str(epochAgo/86400) + " day(s) ago"
+
     return fullString, epochAgo
 
 def slaveConnections(bcolors):
