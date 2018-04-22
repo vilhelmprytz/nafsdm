@@ -137,5 +137,5 @@ def checkUpdate(config, mode):
                     logging.critical("Failed to establish connection to GitHub.")
                     exit(1)
             else:
-                logging.info("Upgrade on start is disabled - nafsdm will not perform upgrade.)
+                logging.info("Upgrade on start is disabled - nafsdm will not perform upgrade.")
                 logging.info("It is recommended to upgrade as soon as possible using 'nafscli upgrade'")
