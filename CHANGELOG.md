@@ -1,3 +1,6 @@
+Version 1.3.1 (Status: DEVELOPMENT)
+* Bugfix: Slaves reported incorrect date to nafsdmctl slavestatus (minute instead of month under the "latest connection date" section) 
+
 Version 1.3 (Status: RELEASED)
 * Upgrade scripts now check for "github_branch" to download correct latest version file.
 * Upgrade scripts now return different exit codes depending on issue (dev versions will no longer crash the daemon due to unsupported version)
