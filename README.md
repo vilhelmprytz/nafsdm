@@ -1,5 +1,5 @@
 # nafsdm
-**Current status: STABLE, version 1.2.5-stable**
+**Current status: STABLE, version 1.3-stable**
 
 Manages DNS nodes and makes sure domains are saved in the slaves configs. Runs on Python and SSH.
 
