@@ -33,6 +33,7 @@ DEV_IC_MODE="$3"
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
 MY_VERSION_RAW="`cat /home/slave-nafsdm/pythondaemon/version.py`"
 LATEST_VERSION=$(curl https://raw.githubusercontent.com/MrKaKisen/nafsdm/$BRANCH/version.txt)
+REQ_URL="https://raw.githubusercontent.com/MrKaKisen/nafsdm/$BRANCH/scripts/requirements_slave.txt"
 
 # determine supported versions
 if [ "$MY_VERSION_RAW" == 'version = "1.0.1-stable"' ]; then
