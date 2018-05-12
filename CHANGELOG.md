@@ -1,5 +1,7 @@
 Version 1.3.1 (Status: DEVELOPMENT)
-* Bugfix: Slaves reported incorrect date to nafsdmctl slavestatus (minute instead of month under the "latest connection date" section) 
+* Bugfix: Slaves reported incorrect date to nafsdmctl slavestatus (minute instead of month under the "latest connection date" section)
+* Slaves now check if another nafsdm-slave process is running before boot
+* (minor): Slaves properly catch SIGINT and SIGTERM to exit gracefully
 
 Version 1.3 (Status: RELEASED)
 * Upgrade scripts now check for "github_branch" to download correct latest version file.

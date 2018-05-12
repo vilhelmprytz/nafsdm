@@ -79,6 +79,9 @@ else
   rm -rf nafsdm.tar.gz
 fi
 
+# req dl
+wget -O requirements.txt $REQ_URL
+
 # perform upgrade
 if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   echo "* Replacing python files.."
@@ -112,6 +115,10 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
+  # install from req file (released in version 1.3.1)
+  pip install -r requirements.txt
+  rm -rf requirements.txt
+
   echo "* Upgrade completed."
   echo "* Script has automatically modified your config to match with the new standards."
 
@@ -138,6 +145,10 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   # add new development section to config file (versions after 1.2.5) & added new options section
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
+
+  # install from req file (released in version 1.3.1)
+  pip install -r requirements.txt
+  rm -rf requirements.txt
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -166,6 +177,10 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
+  # install from req file (released in version 1.3.1)
+  pip install -r requirements.txt
+  rm -rf requirements.txt
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
@@ -188,6 +203,10 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
+  # install from req file (released in version 1.3.1)
+  pip install -r requirements.txt
+  rm -rf requirements.txt
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
@@ -204,6 +223,10 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   # add new development section to config file (versions after 1.2.5) & added new options section
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
+
+  # install from req file (released in version 1.3.1)
+  pip install -r requirements.txt
+  rm -rf requirements.txt
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -222,6 +245,10 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
+  # install from req file (released in version 1.3.1)
+  pip install -r requirements.txt
+  rm -rf requirements.txt
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
@@ -239,6 +266,10 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
+  # install from req file (released in version 1.3.1)
+  pip install -r requirements.txt
+  rm -rf requirements.txt
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
@@ -254,6 +285,10 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   # add new development section to config file (versions after 1.2.5) & added new options section
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
+
+  # install from req file (released in version 1.3.1)
+  pip install -r requirements.txt
+  rm -rf requirements.txt
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -278,6 +313,10 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
 
     echo "* Done."
   fi
+
+  # install from req file (released in version 1.3.1)
+  pip install -r requirements.txt
+  rm -rf requirements.txt
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   echo "* Make sure to copy the [development] section into config.conf and make sure branch is set to development and that incrementalCommitVersions is set to True."

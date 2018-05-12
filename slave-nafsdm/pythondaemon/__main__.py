@@ -8,7 +8,9 @@ import logging
 import sys
 import shutil
 import os
+import psutil
 from daemon import *
+from exitDaemon import *
 from version import version
 from getConfig import getConfig
 from versionCheck import checkUpdate
@@ -41,16 +43,57 @@ def main():
 
     logging.info("Running pre-start checks..")
 
+    # before everything, check if no other slave is already running
+    if os.path.isfile("/home/slave-nafsdm/slave.pid"):
+        try:
+            f = open("/home/slave-nafsdm/slave.pid")
+        except Exception, e:
+            logging.exception("Could not read PID file (" + str(e) + ")")
+            logging.critical("Exit due to previous error.")
+            exit(1)
+
+        pid = int(f.read())
+        f.close()
+
+        # verify the process
+        try:
+            p = psutil.Process(pid)
+        except Exception, e:
+            # throws exception if pid does not exist
+            logging.exception("PID (" + str(pid) + ") in PID file was not found!")
+            logging.critical("Please verify that there are no other instances of nafsdm running then delete /home/slave-nafsdm/slave.pid and retry start")
+            logging.critical(str(e))
+            exit(1)
+
+        # print error then exit
+        logging.critical("Another process of nafsdm is already running on PID " + str(pid))
+        logging.critical("nafsdm-slave will not be able to start.")
+        exit(1)
+    else:
+        ourPID = os.getpid()
+
+        try:
+            f = open("/home/slave-nafsdm/slave.pid", "w")
+            f.write(str(ourPID))
+            f.close()
+        except Exception, e:
+            logging.exception("Could not write PID file.")
+            logging.critical("Exit due to previous error.")
+            gracefulExit(1)
+
+        logging.info("No other instances of nafsdm found.")
+        logging.info("nafsdm running on PID " + str(ourPID))
+
     # check if the upgrade script is present (we shouldn't be running if so)
     if os.path.isfile("/home/slave-nafsdm/tempUpgrade/temp_upgrade.sh"):
         logging.warning("Upgrade script was found during pre-start checks. Please delete the upgrade script before runing nafsdm-slave!")
         logging.warning("Note: the script is left there because the config has changed and needs updating.")
-        exit(1)
+        gracefulExit(1)
 
     if os.path.isfile("/home/slave-nafsdm/config-legacy.conf"):
         logging.warning("Legacy config was found. This probably means that nafsdm has been upgraded but the config hasn't been updated yet.")
         logging.warning("Remove the legacy config when finished.")
-        exit(1)
+        gracefulExit(1)
 
     # check if the temp folder exists
     if os.path.isdir("/home/slave-nafsdm/temp"):
@@ -74,4 +117,4 @@ def main():
 if __name__ == "__main__":
     main()
     # graceful exit
-    exit(0)
+    gracefulExit(0)

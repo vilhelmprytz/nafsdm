@@ -9,10 +9,18 @@ import time
 import os
 import sys
 import subprocess
+import signal
+from exitDaemon import *
 from db import parseDbData
 from shutil import copyfile
 from version import version
 from connAlive import connectAlive
+
+# catch SIGINT & SIGTERM
+class ExitCatch:
+    def __init__(self):
+        signal.signal(signal.SIGINT, gracefulExit(0))
+        signal.signal(signal.SIGTERM, gracefulExit(0))
 
 def changeDetected():
     changeDetected = None
@@ -73,7 +81,7 @@ def checkMasterVersion(config):
     else:
         logging.critical("We're NOT running the same version as the master! (my version: " + str(version) + " - Master version: " + masterVersion + ")")
         logging.critical("nafsdm-slave daemon will not be able to start.")
-        exit(1)
+        gracefulExit(1)
 
 
 # get CLI state
@@ -161,7 +169,7 @@ zone "''' + r[1] + '''" IN {
                         invalidSystemType = True
             if invalidSystemType == True:
                 logging.critical("Invalid system type! Please check your config!")
-                exit(1)
+                gracefulExit(1)
             logging.debug("New config has been written.")
     else:
         logging.error("An error occured while reading data that was recently downloaded. This usually means the file never was downloaded and therefore doesn't exist.")
@@ -187,6 +195,9 @@ def reloadBind():
 
 
 def runDaemon(config):
+    # catch exits
+    catchExit = ExitCatch()
+    
     logging.info("Starting daemon..")
 
     # run everything once as we get immediate output if everything is OK

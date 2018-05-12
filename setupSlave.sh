@@ -12,6 +12,7 @@ fi
 CLONE_URL="https://github.com/MrKaKisen/nafsdm.git"
 CLONE_BRANCH="development"
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
+REQ_URL="https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/scripts/requirements_slave.txt"
 GITHUB_DIR="slave-nafsdm"
 HOME_DIR="/home/slave-nafsdm"
 USER="slave-nafsdm"
@@ -34,13 +35,21 @@ if [ "$OPERATINGSYS" == "centos" ]; then
   python get-pip.py
   rm get-pip.py -rf
 
-  pip install requests
+  cd /tmp
+  wget -O requirements.txt $REQ_URL
+
+  pip install -r requirements.txt
+  rm -rf requirements.txt
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
   echo "* Installing packages.."
   apt-get update -y
   apt-get install python python-pip curl wget -y
 
-  pip install requests
+  cd /tmp
+  wget -O requirements.txt $REQ_URL
+
+  pip install -r requirements.txt
+  rm -rf requirements.txt
 else
   echo "* Invalid operating system. Only 'debian', 'ubuntu' and 'centos' supported."
   exit 1

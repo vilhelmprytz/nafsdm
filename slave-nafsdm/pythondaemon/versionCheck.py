@@ -5,6 +5,7 @@
 # https://github.com/mrkakisen/nafsdm
 
 from version import version
+from exitDaemon import *
 import logging
 import os
 import requests
@@ -56,7 +57,7 @@ def checkUpdate(config, mode):
                     logging.info("A new update is available (dev commit - my version: " + version + " - latest version: " + latestCommit + "-dev)")
             else:
                 logging.critical("Failed to establish connection to GitHub.")
-                exit(1)
+                gracefulExit(1)
         else:
             logging.info("Checking for new versions..")
             r = requests.get("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/version.txt")
@@ -106,14 +107,14 @@ def checkUpdate(config, mode):
                             upgradeStatus = initUpgrade(config, github_branch, False)
                         if upgradeStatus == "exception":
                             logging.critical("An error occured during upgrade. The script probably failed mid-through (that would break your installation). Please retry or run the script manually.")
-                            exit(1)
+                            gracefulExit(1)
                         elif upgradeStatus == "unsupported":
                             logging.warning("You're running an unsupported version - nafsdm will not be able to upgrade.")
                             logging.warning("Consider enabling skip version checking.")
                             logging.info("nafsdm will continue boot")
                         elif upgradeStatus == "unknownException":
                             logging.critical("Unknown exception occured during upgrade.")
-                            exit(1)
+                            gracefulExit(1)
                         else:
                             f = open("/home/slave-nafsdm/upgradeLog.log", "w")
                             f.write(upgradeStatus)
@@ -127,15 +128,15 @@ def checkUpdate(config, mode):
                                 except Exception:
                                     logging.exception("An error occured during systemd restart.")
                                     logging.error("Exit due to previous error.")
-                                    exit(1)
+                                    gracefulExit(1)
                             else:
-                                exit(0)
+                                gracefulExit(0)
                     else:
                         logging.critical("Failed to establish connection to GitHub.")
-                        exit(1)
+                        gracefulExit(1)
                 else:
                     logging.critical("Failed to establish connection to GitHub.")
-                    exit(1)
+                    gracefulExit(1)
             else:
                 logging.info("Upgrade on start is disabled - nafsdm will not perform upgrade.")
                 logging.info("It is recommended to upgrade as soon as possible using 'nafscli upgrade'")
