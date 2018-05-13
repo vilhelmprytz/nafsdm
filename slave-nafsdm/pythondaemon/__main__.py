@@ -60,9 +60,9 @@ def main():
             p = psutil.Process(pid)
         except Exception, e:
             # throws exception if pid does not exist
-            logging.exception("PID (" + str(pid) + ") in PID file was not found!")
-            logging.critical("Please verify that there are no other instances of nafsdm running then delete /home/slave-nafsdm/slave.pid and retry start")
+            logging.critical("PID (" + str(pid) + ") in PID file was not found!")
             logging.critical(str(e))
+            logging.critical("Please verify that there are no other instances of nafsdm running then delete /home/slave-nafsdm/slave.pid and retry start")
             exit(1)
 
         # print error then exit
