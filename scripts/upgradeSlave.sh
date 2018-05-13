@@ -60,6 +60,9 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.2.4-stable"' ]; then
 elif [ "$MY_VERSION_RAW" == 'version = "1.2.5-stable"' ]; then
   echo "* Detected version 1.2.5-stable - supported by this upgrade script."
   MY_VERSION="1.2.5-stable"
+elif [ "$MY_VERSION_RAW" == 'version = "1.3-stable"' ]; then
+  echo "* Detected version 1.3-stable - supported by this upgrade script."
+  MY_VERSION="1.3-stable"
 else
   if [ "$DEV_IC_MODE" == "False" ]; then
     echo "* Your version is not supported (dev versions and 1.0 is not supported)."
@@ -286,6 +289,22 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   # add new development section to config file (versions after 1.2.5) & added new options section
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
+
+  # install from req file (released in version 1.3.1)
+  pip install -r requirements.txt
+  rm -rf requirements.txt
+
+  echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
+  rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
+
+elif [ "$MY_VERSION" == "1.3-stable" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/slave-nafsdm/pythondaemon
+  cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
+
+  # nafscli reinstall (delete and copy) (from version 1.2.5 onwards)
+  rm -rf /home/slave-nafsdm/nafscli
+  cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
 
   # install from req file (released in version 1.3.1)
   pip install -r requirements.txt

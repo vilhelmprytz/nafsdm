@@ -63,6 +63,9 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.2.4-stable"' ]; then
 elif [ "$MY_VERSION_RAW" == 'version = "1.2.5-stable"' ]; then
   echo "* Detected version 1.2.5-stable - supported by this upgrade script."
   MY_VERSION="1.2.5-stable"
+elif [ "$MY_VERSION_RAW" == 'version = "1.3-stable"' ]; then
+  echo "* Detected version 1.3-stable - supported by this upgrade script."
+  MY_VERSION="1.3-stable"
 else
   if [ "$DEV_IC_MODE" == "False" ]; then
     echo "* Your version is not supported (dev versions and 1.0 is not supported)."
@@ -268,6 +271,32 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   echo "* Update completed. Nothing to do or change!"
 
 elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/master-nafsdm/pythondaemon
+  rm -rf /home/master-nafsdm/nafsdmctl
+  cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
+  cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
+
+  # newer than version 1.2.4, all versions that already have the webinterface
+  rm -rf /home/master-nafsdm/webinterface
+  cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+  chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
+  chmod +x /home/master-nafsdm/webinterface/start.sh
+
+  # newer than version 1.2.4
+  pip install -r requirements.txt
+  rm -rf requirements.txt
+
+  # from version 1.3 onwards
+  if [ ! -d "/home/master-nafsdm/slaveAlive" ]; then
+    mkdir /home/master-nafsdm/slaveAlive
+  fi
+  chown -R master-nafsdm:master-nafsdm /home/master-nafsdm/slaveAlive
+
+  echo "* Update completed. Nothing to do or change!"
+
+elif [ "$MY_VERSION" == "1.3-stable" ]; then
   echo "* Replacing python files.."
   rm -rf /home/master-nafsdm/pythondaemon
   rm -rf /home/master-nafsdm/nafsdmctl
