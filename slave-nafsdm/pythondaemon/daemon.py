@@ -16,11 +16,13 @@ from shutil import copyfile
 from version import version
 from connAlive import connectAlive
 
-# catch SIGINT & SIGTERM
-class ExitCatch:
-    def __init__(self):
-        signal.signal(signal.SIGINT, gracefulExit(0))
-        signal.signal(signal.SIGTERM, gracefulExit(0))
+# catch SIGTERM
+def sigterm_handler(signal, frame):
+    # exit gracefully
+    gracefulExit(0)
+
+# catches it
+signal.signal(signal.SIGTERM, sigterm_handler)
 
 def changeDetected():
     changeDetected = None
@@ -195,9 +197,6 @@ def reloadBind():
 
 
 def runDaemon(config):
-    # catch exits
-    catchExit = ExitCatch()
-    
     logging.info("Starting daemon..")
 
     # run everything once as we get immediate output if everything is OK

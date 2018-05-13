@@ -148,8 +148,8 @@ if [ "$DEV_IC_CONFIRM" == "y" ]; then
   echo "version = \"$COMMIT_HASH-dev\"" > /home/slave-nafsdm/pythondaemon/version.py
 
   # enable IC mode and change branch to master
-  sed -i '10s/.*/github_branch = development/' /home/slave-nafsdm/config.conf
-  sed -i '12s/.*/incrementalCommitVersions = True/' /home/slave-nafsdm/config.conf
+  sed -i '13s/.*/github_branch = development/' /home/slave-nafsdm/config.conf
+  sed -i '15s/.*/incrementalCommitVersions = True/' /home/slave-nafsdm/config.conf
 fi
 
 echo "* Installed. Cleanup.."
