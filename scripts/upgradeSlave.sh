@@ -87,7 +87,7 @@ fi
 wget -O requirements.txt $REQ_URL
 
 # as of version 1.3.1, we also copy the CHANGELOG
-rm -rf
+rm -rf /home/slave-nafsdm/changelog.txt
 cp /tmp/nafsdm/CHANGELOG.md /home/slave-nafsdm/changelog.txt
 
 # perform upgrade

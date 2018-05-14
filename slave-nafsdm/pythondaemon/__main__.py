@@ -16,6 +16,23 @@ from getConfig import getConfig
 from versionCheck import checkUpdate
 from logPath import logPath
 
+# write our PID
+def writePID():
+    # get our PID using the psutil libs
+    ourPID = os.getpid()
+
+    try:
+        f = open("/home/slave-nafsdm/slave.pid", "w")
+        f.write(str(ourPID))
+        f.close()
+    except Exception, e:
+        logging.exception("Could not write PID file.")
+        logging.critical("Exit due to previous error.")
+        gracefulExit(1)
+
+    # log our PID
+    logging.info("nafsdm running on PID " + str(ourPID))
+
 def main():
     # logger setup
     logger = logging.getLogger()
@@ -36,7 +53,7 @@ def main():
     fh.setFormatter(formatter)
     logger.addHandler(fh)
 
-    # welcome
+    # welcome message
     logging.info("*******************************************************")
     logging.info("nafsdm-slave daemon - running version " + version)
     logging.info("*******************************************************")
@@ -55,34 +72,34 @@ def main():
         pid = int(f.read())
         f.close()
 
-        # verify the process
+        logging.info("Found PID " + str(pid) + " in file")
+
+        # verify that there is an active process on that PID
+        fail = True
         try:
             p = psutil.Process(pid)
         except Exception, e:
-            # throws exception if pid does not exist
-            logging.critical("PID (" + str(pid) + ") in PID file was not found!")
-            logging.critical(str(e))
-            logging.critical("Please verify that there are no other instances of nafsdm running then delete /home/slave-nafsdm/slave.pid and retry start")
+            # throws exception if pid does not
+            logging.warning(str(e))
+            logging.warning("Invalid PID found - nafsdm will boot anyways")
+
+            # remove the file
+            os.remove("/home/slave-nafsdm/slave.pid")
+
+            # writePID function
+            writePID()
+
+            fail = False
+
+        # we don't wan't to do this if it turns out the PID is not an active process
+        if fail:
+            # print error then exit
+            logging.critical("Another process of nafsdm is already running on PID " + str(pid))
+            logging.critical("nafsdm-slave will not be able to start.")
             exit(1)
-
-        # print error then exit
-        logging.critical("Another process of nafsdm is already running on PID " + str(pid))
-        logging.critical("nafsdm-slave will not be able to start.")
-        exit(1)
     else:
-        ourPID = os.getpid()
-
-        try:
-            f = open("/home/slave-nafsdm/slave.pid", "w")
-            f.write(str(ourPID))
-            f.close()
-        except Exception, e:
-            logging.exception("Could not write PID file.")
-            logging.critical("Exit due to previous error.")
-            gracefulExit(1)
-
         logging.info("No other instances of nafsdm found.")
-        logging.info("nafsdm running on PID " + str(ourPID))
+        writePID()
 
     # check if the upgrade script is present (we shouldn't be running if so)
     if os.path.isfile("/home/slave-nafsdm/tempUpgrade/temp_upgrade.sh"):
@@ -90,6 +107,7 @@ def main():
         logging.warning("Note: the script is left there because the config has changed and needs updating.")
         gracefulExit(1)
 
+    # this is the legacy config from 1.0-stable
     if os.path.isfile("/home/slave-nafsdm/config-legacy.conf"):
         logging.warning("Legacy config was found. This probably means that nafsdm has been upgraded but the config hasn't been updated yet.")
         logging.warning("Remove the legacy config when finished.")
