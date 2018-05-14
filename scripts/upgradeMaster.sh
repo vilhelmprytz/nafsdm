@@ -89,6 +89,10 @@ fi
 # req dl
 wget -O requirements.txt $REQ_URL
 
+# as of version 1.3.1, we also copy the CHANGELOG
+rm -rf
+cp /tmp/nafsdm/CHANGELOG.md /home/slave-nafsdm/changelog.txt
+
 # perform upgrade
 if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   echo "* Replacing python files.."

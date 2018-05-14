@@ -141,6 +141,9 @@ cp /tmp/nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/web
 chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
 chmod +x /home/master-nafsdm/webinterface/start.sh
 
+# as of version 1.3.1, we also copy the CHANGELOG
+cp /tmp/nafsdm/CHANGELOG.md $HOME_DIR/changelog.txt
+
 chmod +x /usr/bin/nafsdmctl
 chmod +x /usr/bin/nafsdm-master
 

@@ -135,6 +135,9 @@ cp /tmp/nafsdm/LICENSE $HOME_DIR/LICENSE
 cp /tmp/nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
 cp /tmp/nafsdm/systemconfigs/nafscli /usr/bin/nafscli
 
+# as of version 1.3.1, we also copy the CHANGELOG
+cp /tmp/nafsdm/CHANGELOG.md $HOME_DIR/changelog.txt
+
 # make service start upon boot
 /usr/bin/env systemctl enable nafsdm-slave
 
