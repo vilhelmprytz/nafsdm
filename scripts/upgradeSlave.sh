@@ -108,6 +108,7 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   /usr/bin/env systemctl enable nafsdm-slave
+  systemctl daemon-reload
 
   # 1.2.2 > forward (replace start)
   rm -rf /home/slave-nafsdm/start.py
@@ -139,6 +140,7 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   /usr/bin/env systemctl enable nafsdm-slave
+  systemctl daemon-reload
 
   # 1.2.2 > forward (replace start)
   rm -rf /home/slave-nafsdm/start.py
@@ -170,6 +172,7 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   /usr/bin/env systemctl enable nafsdm-slave
+  systemctl daemon-reload
 
   # 1.2.2 > forward (replace start)
   rm -rf /home/slave-nafsdm/start.py
@@ -215,6 +218,11 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   pip install -r requirements.txt
   rm -rf requirements.txt
 
+  # as of 1.3.1, replace systemd file
+  rm -rf /etc/systemd/system/nafsdm-slave.service
+  cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
+  systemctl daemon-reload
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
@@ -235,6 +243,11 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   # install from req file (released in version 1.3.1)
   pip install -r requirements.txt
   rm -rf requirements.txt
+
+  # as of 1.3.1, replace systemd file
+  rm -rf /etc/systemd/system/nafsdm-slave.service
+  cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
+  systemctl daemon-reload
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -257,6 +270,11 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   pip install -r requirements.txt
   rm -rf requirements.txt
 
+  # as of 1.3.1, replace systemd file
+  rm -rf /etc/systemd/system/nafsdm-slave.service
+  cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
+  systemctl daemon-reload
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
@@ -278,6 +296,11 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   pip install -r requirements.txt
   rm -rf requirements.txt
 
+  # as of 1.3.1, replace systemd file
+  rm -rf /etc/systemd/system/nafsdm-slave.service
+  cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
+  systemctl daemon-reload
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
@@ -298,6 +321,11 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   pip install -r requirements.txt
   rm -rf requirements.txt
 
+  # as of 1.3.1, replace systemd file
+  rm -rf /etc/systemd/system/nafsdm-slave.service
+  cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
+  systemctl daemon-reload
+
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
 
@@ -313,6 +341,11 @@ elif [ "$MY_VERSION" == "1.3-stable" ]; then
   # install from req file (released in version 1.3.1)
   pip install -r requirements.txt
   rm -rf requirements.txt
+
+  # as of 1.3.1, replace systemd file
+  rm -rf /etc/systemd/system/nafsdm-slave.service
+  cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
+  systemctl daemon-reload
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
@@ -341,6 +374,11 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   # install from req file (released in version 1.3.1)
   pip install -r requirements.txt
   rm -rf requirements.txt
+
+  # always reinstall systemd file
+  rm -rf /etc/systemd/system/nafsdm-slave.service
+  cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
+  systemctl daemon-reload
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   echo "* Make sure to copy the [development] section into config.conf and make sure branch is set to development and that incrementalCommitVersions is set to True."

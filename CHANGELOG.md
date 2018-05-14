@@ -1,6 +1,7 @@
 Version 1.3.1 (Status: DEVELOPMENT)
 * Bugfix: Slaves reported incorrect date to nafsdmctl slavestatus (minute instead of month under the "latest connection date" section)
 * Slaves now check if another nafsdm-slave process is running before boot
+* Fix issue #22
 * (minor): Slaves properly catch SIGINT and SIGTERM to exit gracefully
 * (minor): CHANGELOG is now included in install
 
