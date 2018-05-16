@@ -9,7 +9,7 @@ import subprocess
 import time
 
 def connectAlive(config):
-    currentTime = time.strftime("%Y-%M-%d %H:%M:%S")
+    currentTime = time.strftime("%Y-%m-%d %H:%M:%S")
 
     try:
         output = subprocess.check_output(["ssh", "-i", "/home/slave-nafsdm/.ssh/master_key", config.user + "@" + config.host, "/usr/bin/env", "echo", '"' + currentTime + '"', ">", "/home/master-nafsdm/slaveAlive/" + config.nodeName + ".slaveConn"])

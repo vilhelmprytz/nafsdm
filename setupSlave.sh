@@ -12,6 +12,7 @@ fi
 CLONE_URL="https://github.com/MrKaKisen/nafsdm.git"
 CLONE_BRANCH="development"
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
+REQ_URL="https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/scripts/requirements_slave.txt"
 GITHUB_DIR="slave-nafsdm"
 HOME_DIR="/home/slave-nafsdm"
 USER="slave-nafsdm"
@@ -27,20 +28,28 @@ read OPERATINGSYS
 if [ "$OPERATINGSYS" == "centos" ]; then
   echo "* Installing packages.."
   yum update -y
-  yum install python curl wget -y
+  yum install python curl wget python-devel -y
 
   # centos does not have pip in it's repos
   curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
   python get-pip.py
   rm get-pip.py -rf
 
-  pip install requests
+  cd /tmp
+  wget -O requirements.txt $REQ_URL
+
+  pip install -r requirements.txt
+  rm -rf requirements.txt
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
   echo "* Installing packages.."
   apt-get update -y
   apt-get install python python-pip curl wget -y
 
-  pip install requests
+  cd /tmp
+  wget -O requirements.txt $REQ_URL
+
+  pip install -r requirements.txt
+  rm -rf requirements.txt
 else
   echo "* Invalid operating system. Only 'debian', 'ubuntu' and 'centos' supported."
   exit 1
@@ -126,6 +135,9 @@ cp /tmp/nafsdm/LICENSE $HOME_DIR/LICENSE
 cp /tmp/nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
 cp /tmp/nafsdm/systemconfigs/nafscli /usr/bin/nafscli
 
+# as of version 1.3.1, we also copy the CHANGELOG
+cp /tmp/nafsdm/CHANGELOG.md $HOME_DIR/changelog.txt
+
 # make service start upon boot
 /usr/bin/env systemctl enable nafsdm-slave
 
@@ -139,8 +151,8 @@ if [ "$DEV_IC_CONFIRM" == "y" ]; then
   echo "version = \"$COMMIT_HASH-dev\"" > /home/slave-nafsdm/pythondaemon/version.py
 
   # enable IC mode and change branch to master
-  sed -i '10s/.*/github_branch = development/' /home/slave-nafsdm/config.conf
-  sed -i '12s/.*/incrementalCommitVersions = True/' /home/slave-nafsdm/config.conf
+  sed -i '13s/.*/github_branch = development/' /home/slave-nafsdm/config.conf
+  sed -i '15s/.*/incrementalCommitVersions = True/' /home/slave-nafsdm/config.conf
 fi
 
 echo "* Installed. Cleanup.."

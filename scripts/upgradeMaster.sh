@@ -14,7 +14,12 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-echo "* Welcome to nafsdm master upgrade script!"
+DATE="`date`"
+
+echo "###################################################################"
+echo "* nafsdm-master upgrade script script"
+echo "* date: $DATE"
+echo "###################################################################"
 
 # as nafsdm-master doesn't know if it's centos or debian, this command should generally work.
 python -mplatform | grep -qi Ubuntu && echo "debian" > /home/master-nafsdm/system-type.txt || echo "centos" > /home/master-nafsdm/system-type.txt
@@ -23,8 +28,10 @@ python -mplatform | grep -qi debian && echo "debian" > /home/master-nafsdm/syste
 OPERATINGSYS="`cat /home/master-nafsdm/system-type.txt`"
 
 if [ "$OPERATINGSYS" == "centos" ]; then
+  echo "* Installing required packages for CentOS.."
   yum install curl wget git -y
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
+  echo "* Installing required packages for Debian/Ubuntu.."
   apt-get install curl wget git -y
 else
   echo "* Invalid OS. Quit."
@@ -63,16 +70,20 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.2.4-stable"' ]; then
 elif [ "$MY_VERSION_RAW" == 'version = "1.2.5-stable"' ]; then
   echo "* Detected version 1.2.5-stable - supported by this upgrade script."
   MY_VERSION="1.2.5-stable"
+elif [ "$MY_VERSION_RAW" == 'version = "1.3-stable"' ]; then
+  echo "* Detected version 1.3-stable - supported by this upgrade script."
+  MY_VERSION="1.3-stable"
 else
   if [ "$DEV_IC_MODE" == "False" ]; then
     echo "* Your version is not supported (dev versions and 1.0 is not supported)."
     exit 128
   else
+    echo "* Detected dev_release (commit update mode)."
     MY_VERSION="dev_release"
   fi
 fi
 
-echo "* Downloading newest version."
+echo "* Downloading newest release."
 cd /tmp
 if [ "$DEV_IC_MODE" == "True" ]; then
   git clone -b development https://github.com/MrKaKisen/nafsdm.git
@@ -86,6 +97,10 @@ fi
 # req dl
 wget -O requirements.txt $REQ_URL
 
+# as of version 1.3.1, we also copy the CHANGELOG
+rm -rf /home/master-nafsdm/changelog.txt
+cp /tmp/nafsdm/CHANGELOG.md /home/master-nafsdm/changelog.txt
+
 # perform upgrade
 if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   echo "* Replacing python files.."
@@ -95,12 +110,14 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   # newer than version 1.2.4
+  echo "* Installing webinterface.."
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
   chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -122,12 +139,14 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   # newer than version 1.2.4
+  echo "* Installing webinterface.."
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
   chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -149,12 +168,14 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   # newer than version 1.2.4
+  echo "* Installing webinterface.."
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
   chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -174,12 +195,14 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   # newer than version 1.2.4
+  echo "* Installing webinterface.."
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
   chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -199,12 +222,14 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   # newer than version 1.2.4
+  echo "* Installing webinterface.."
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
   chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -224,12 +249,14 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   # newer than version 1.2.4
+  echo "* Installing webinterface.."
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
   chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -249,6 +276,7 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   # newer than version 1.2.4, all versions that already have the webinterface
+  echo "* Replacing webinterface.."
   rm -rf /home/master-nafsdm/webinterface
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
@@ -256,6 +284,7 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -275,6 +304,7 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   # newer than version 1.2.4, all versions that already have the webinterface
+  echo "* Replacing webinterface.."
   rm -rf /home/master-nafsdm/webinterface
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
@@ -282,6 +312,35 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
+  echo "* Installing required python packages.."
+  pip install -r requirements.txt
+  rm -rf requirements.txt
+
+  # from version 1.3 onwards
+  if [ ! -d "/home/master-nafsdm/slaveAlive" ]; then
+    mkdir /home/master-nafsdm/slaveAlive
+  fi
+  chown -R master-nafsdm:master-nafsdm /home/master-nafsdm/slaveAlive
+
+  echo "* Update completed. Nothing to do or change!"
+
+elif [ "$MY_VERSION" == "1.3-stable" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/master-nafsdm/pythondaemon
+  rm -rf /home/master-nafsdm/nafsdmctl
+  cp nafsdm/master-nafsdm/pythondaemon /home/master-nafsdm/pythondaemon -R
+  cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
+
+  # newer than version 1.2.4, all versions that already have the webinterface
+  echo "* Replacing webinterface.."
+  rm -rf /home/master-nafsdm/webinterface
+  cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
+  cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+  chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
+  chmod +x /home/master-nafsdm/webinterface/start.sh
+
+  # newer than version 1.2.4
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -302,6 +361,7 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   # newer than version 1.2.4, all versions that already have the webinterface
+  echo "* Replacing webinterface.."
   rm -rf /home/master-nafsdm/webinterface
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
@@ -309,6 +369,7 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # newer than version 1.2.4
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -337,6 +398,9 @@ else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1
 fi
+
+DATE="`date`"
+echo "* Finished @ $DATE"
 
 rm -rf /tmp/nafsdm
 exit 0

@@ -6,6 +6,7 @@
 
 import logging
 from configDir import __configDir__ as configDir
+from exitDaemon import *
 import ConfigParser
 
 class Config(object):
@@ -34,8 +35,7 @@ class Config(object):
         except Exception:
             logging.exception("Could not read config. Please check if your config is setup properly.")
             logging.critical("Exiting due to previous error.")
-            quit(1)
-
+            gracefulExit(1)
 
 def getConfig():
     config = Config(configDir)
