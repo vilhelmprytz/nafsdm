@@ -123,14 +123,14 @@ def main():
         else:
             os.makedirs("/home/slave-nafsdm/temp")
 
-    # prestart checks pass
-    logging.info("Pre-start checks completed")
-
     # get config
     config = getConfig()
 
     # check for updates
     checkUpdate(config, None)
+
+    # prestart checks pass
+    logging.info("Pre-start checks completed")
 
     # run the daemon itself
     runDaemon(config)
