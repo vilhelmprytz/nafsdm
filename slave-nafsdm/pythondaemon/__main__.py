@@ -123,6 +123,9 @@ def main():
         else:
             os.makedirs("/home/slave-nafsdm/temp")
 
+    # prestart checks pass
+    logging.info("Pre-start checks completed")
+
     # get config
     config = getConfig()
 
