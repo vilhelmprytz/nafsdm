@@ -8,6 +8,3 @@ Type=simple
 User=root
 ExecStart=/home/slave-nafsdm/start.py
 Restart=on-abort
-
-[Install]
-WantedBy=multi-user.target

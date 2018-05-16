@@ -3,6 +3,7 @@ Version 1.3.1 (Status: DEVELOPMENT)
 * Slaves now check if another nafsdm-slave process is running before boot
 * Fix issue #22
 * (minor): Slaves properly catch SIGINT and SIGTERM to exit gracefully
+* (minor): Updated nafsdm-slave systemd service to only start after internet connection is available
 * (minor): CHANGELOG is now included in install
 
 Version 1.3 (Status: RELEASED)
