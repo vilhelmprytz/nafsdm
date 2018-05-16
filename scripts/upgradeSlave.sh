@@ -26,7 +26,7 @@ OPERATINGSYS="$1"
 
 if [ "$OPERATINGSYS" == "centos" ]; then
   echo "* Installing required packages for CentOS.."
-  yum install curl wget git -y
+  yum install curl wget git python-devel -y
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
   echo "* Installing required packages for Debian/Ubuntu.."
   apt-get install curl wget git -y

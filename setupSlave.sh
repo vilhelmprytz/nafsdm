@@ -28,7 +28,7 @@ read OPERATINGSYS
 if [ "$OPERATINGSYS" == "centos" ]; then
   echo "* Installing packages.."
   yum update -y
-  yum install python curl wget -y
+  yum install python curl wget python-devel -y
 
   # centos does not have pip in it's repos
   curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
