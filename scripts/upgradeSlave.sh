@@ -14,14 +14,21 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-echo "* Welcome to nafsdm slave upgrade script!"
+DATE="`date`"
+
+echo "###################################################################"
+echo "* nafsdm-slave upgrade script script"
+echo "* date: $DATE"
+echo "###################################################################"
 
 # set OPERATINGSYS first
 OPERATINGSYS="$1"
 
 if [ "$OPERATINGSYS" == "centos" ]; then
+  echo "* Installing required packages for CentOS.."
   yum install curl wget git -y
 elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
+  echo "* Installing required packages for Debian/Ubuntu.."
   apt-get install curl wget git -y
 else
   echo "* Invalid OS. Quit."
@@ -100,31 +107,37 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   #mv /home/slave-nafsdm/config.conf /home/slave-nafsdm/config-legacy.conf
   #cp nafsdm/slave-nafsdm/config.conf /home/slave-nafsdm/config.conf
 
+  echo "* Fixing configuration.."
   awk 'NR==1 {$0="[nafsdm]"} 1' /home/slave-nafsdm/config.conf > /home/slave-nafsdm/config.conf.temp
   rm -rf /home/slave-nafsdm/config.conf
   mv /home/slave-nafsdm/config.conf.temp /home/slave-nafsdm/config.conf
 
   # 1.2 > forward (enable on boot file)
+  echo "* Replacing systemd service.."
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   /usr/bin/env systemctl enable nafsdm-slave
   systemctl daemon-reload
 
   # 1.2.2 > forward (replace start)
+  echo "* Replacing python-start file.."
   rm -rf /home/slave-nafsdm/start.py
   cp nafsdm/slave-nafsdm/start.py /home/slave-nafsdm/start.py -R
   chmod +x /home/slave-nafsdm/start.py
 
   # add nafscli (released in version 1.2.5)
+  echo "* Install nafscli.."
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
   # add new development section to config file (versions after 1.2.5) & added new options section
+  echo "* Adding new section to configuration.."
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   # install from req file (released in version 1.3.1)
+  echo "* "
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -137,26 +150,31 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
   # 1.2 > forward (enable on boot file)
+  echo "* Replacing systemd service.."
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   /usr/bin/env systemctl enable nafsdm-slave
   systemctl daemon-reload
 
   # 1.2.2 > forward (replace start)
+  echo "* Replacing python-start file.."
   rm -rf /home/slave-nafsdm/start.py
   cp nafsdm/slave-nafsdm/start.py /home/slave-nafsdm/start.py -R
   chmod +x /home/slave-nafsdm/start.py
 
   # add nafscli (released in version 1.2.5)
+  echo "* Install nafscli.."
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
   # add new development section to config file (versions after 1.2.5) & added new options section
+  echo "* Adding new section to configuration.."
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   # install from req file (released in version 1.3.1)
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -169,26 +187,31 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
   # 1.2 > forward (enable on boot file)
+  echo "* Replacing systemd service.."
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   /usr/bin/env systemctl enable nafsdm-slave
   systemctl daemon-reload
 
   # 1.2.2 > forward (replace start)
+  echo "* Replacing python-start file.."
   rm -rf /home/slave-nafsdm/start.py
   cp nafsdm/slave-nafsdm/start.py /home/slave-nafsdm/start.py -R
   chmod +x /home/slave-nafsdm/start.py
 
   # add nafscli (released in version 1.2.5)
+  echo "* Install nafscli.."
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
   # add new development section to config file (versions after 1.2.5) & added new options section
+  echo "* Adding new section to configuration.."
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   # install from req file (released in version 1.3.1)
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
@@ -201,24 +224,29 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
   # 1.2.2 > forward (replace start)
+  echo "* Replacing python-start file.."
   rm -rf /home/slave-nafsdm/start.py
   cp nafsdm/slave-nafsdm/start.py /home/slave-nafsdm/start.py -R
   chmod +x /home/slave-nafsdm/start.py
 
   # add nafscli (released in version 1.2.5)
+  echo "* Install nafscli.."
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
   # add new development section to config file (versions after 1.2.5) & added new options section
+  echo "* Adding new section to configuration.."
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   # install from req file (released in version 1.3.1)
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
   # as of 1.3.1, replace systemd file
+  echo "* Replacing systemd service.."
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   systemctl daemon-reload
@@ -232,19 +260,23 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
   # add nafscli (released in version 1.2.5)
+  echo "* Install nafscli.."
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
   # add new development section to config file (versions after 1.2.5) & added new options section
+  echo "* Adding new section to configuration.."
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   # install from req file (released in version 1.3.1)
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
   # as of 1.3.1, replace systemd file
+  echo "* Replacing systemd service.."
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   systemctl daemon-reload
@@ -258,19 +290,23 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
   # add nafscli (released in version 1.2.5)
+  echo "* Install nafscli.."
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
   # add new development section to config file (versions after 1.2.5) & added new options section
+  echo "* Adding new section to configuration.."
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   # install from req file (released in version 1.3.1)
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
   # as of 1.3.1, replace systemd file
+  echo "* Replacing systemd service.."
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   systemctl daemon-reload
@@ -284,19 +320,23 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
   # add nafscli (released in version 1.2.5)
+  echo "* Install nafscli.."
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
   cp nafsdm/systemconfigs/nafscli /usr/bin/nafscli
   chmod +x /usr/bin/nafscli
 
   # add new development section to config file (versions after 1.2.5) & added new options section
+  echo "* Adding new section to configuration.."
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   # install from req file (released in version 1.3.1)
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
   # as of 1.3.1, replace systemd file
+  echo "* Replacing systemd service.."
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   systemctl daemon-reload
@@ -310,18 +350,22 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
   # nafscli reinstall (delete and copy) (from version 1.2.5 onwards)
+  echo "* Replacing nafscli.."
   rm -rf /home/slave-nafsdm/nafscli
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
 
   # add new development section to config file (versions after 1.2.5) & added new options section
+  echo "* Adding new section to configuration.."
   echo -e "\n[options]\nupgradeOnStart = False" >> /home/slave-nafsdm/config.conf
   echo -e "\n[development]\ngithub_branch = master\nskipVersionCheck = False\nincrementalCommitVersions = False" >> /home/slave-nafsdm/config.conf
 
   # install from req file (released in version 1.3.1)
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
   # as of 1.3.1, replace systemd file
+  echo "* Replacing systemd service.."
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   systemctl daemon-reload
@@ -335,14 +379,17 @@ elif [ "$MY_VERSION" == "1.3-stable" ]; then
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
   # nafscli reinstall (delete and copy) (from version 1.2.5 onwards)
+  echo "* Replacing nafscli.."
   rm -rf /home/slave-nafsdm/nafscli
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
 
   # install from req file (released in version 1.3.1)
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
   # as of 1.3.1, replace systemd file
+  echo "* Replacing systemd service.."
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   systemctl daemon-reload
@@ -357,6 +404,7 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
 
   # nafscli reinstall (delete and copy) (from version 1.2.5 onwards)
+  echo "* Replacing nafscli.."
   rm -rf /home/slave-nafsdm/nafscli
   cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
 
@@ -375,10 +423,12 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   cd /tmp
 
   # install from req file (released in version 1.3.1)
+  echo "* Installing required python packages.."
   pip install -r requirements.txt
   rm -rf requirements.txt
 
   # always reinstall systemd file
+  echo "* Replacing systemd service.."
   rm -rf /etc/systemd/system/nafsdm-slave.service
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   systemctl daemon-reload
@@ -391,6 +441,9 @@ else
   echo "* Oops - something that shouldn't happen, happend anyways."
   exit 1
 fi
+
+DATE="`date`"
+echo "* Finished @ $DATE"
 
 rm -rf /tmp/nafsdm
 exit 0
