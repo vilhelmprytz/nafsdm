@@ -371,13 +371,15 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
     echo "* Done."
   fi
 
+  # change to /tmp again
+  cd /tmp
+
   # install from req file (released in version 1.3.1)
   pip install -r requirements.txt
   rm -rf requirements.txt
 
   # always reinstall systemd file
   rm -rf /etc/systemd/system/nafsdm-slave.service
-  cd /tmp
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   systemctl daemon-reload
 
