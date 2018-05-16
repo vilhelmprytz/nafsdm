@@ -377,6 +377,7 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
 
   # always reinstall systemd file
   rm -rf /etc/systemd/system/nafsdm-slave.service
+  cd /tmp
   cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
   systemctl daemon-reload
 
