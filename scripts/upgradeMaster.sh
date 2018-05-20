@@ -279,7 +279,7 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   echo "* Replacing webinterface.."
 
   # save password
-  cp /home/master-nafsdm/interfacePassword.txt /tmp/interfacePassword.txt
+  cp /home/master-nafsdm/webinterface/interfacePassword.txt /tmp/interfacePassword.txt
 
   rm -rf /home/master-nafsdm/webinterface
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
@@ -288,8 +288,8 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # add back password
-  rm -rf /home/master-nafsdm/interfacePassword.txt
-  cp /tmp/interfacePassword.txt /home/master-nafsdm/interfacePassword.txt
+  rm -rf /home/master-nafsdm/webinterface/interfacePassword.txt
+  cp /tmp/interfacePassword.txt /home/master-nafsdm/webinterface/interfacePassword.txt
   # webinterface done
 
   # newer than version 1.2.4
@@ -316,7 +316,7 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   echo "* Replacing webinterface.."
 
   # save password
-  cp /home/master-nafsdm/interfacePassword.txt /tmp/interfacePassword.txt
+  cp /home/master-nafsdm/webinterface/interfacePassword.txt /tmp/interfacePassword.txt
 
   rm -rf /home/master-nafsdm/webinterface
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
@@ -325,8 +325,8 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # add back password
-  rm -rf /home/master-nafsdm/interfacePassword.txt
-  cp /tmp/interfacePassword.txt /home/master-nafsdm/interfacePassword.txt
+  rm -rf /home/master-nafsdm/webinterface/interfacePassword.txt
+  cp /tmp/interfacePassword.txt /home/master-nafsdm/webinterface/interfacePassword.txt
   # webinterface done
 
   # newer than version 1.2.4
@@ -353,7 +353,7 @@ elif [ "$MY_VERSION" == "1.3-stable" ]; then
   echo "* Replacing webinterface.."
 
   # save password
-  cp /home/master-nafsdm/interfacePassword.txt /tmp/interfacePassword.txt
+  cp /home/master-nafsdm/webinterface/interfacePassword.txt /tmp/interfacePassword.txt
 
   rm -rf /home/master-nafsdm/webinterface
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
@@ -362,8 +362,8 @@ elif [ "$MY_VERSION" == "1.3-stable" ]; then
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # add back password
-  rm -rf /home/master-nafsdm/interfacePassword.txt
-  cp /tmp/interfacePassword.txt /home/master-nafsdm/interfacePassword.txt
+  rm -rf /home/master-nafsdm/webinterface/interfacePassword.txt
+  cp /tmp/interfacePassword.txt /home/master-nafsdm/webinterface/interfacePassword.txt
   # webinterface done
 
   # newer than version 1.2.4
@@ -391,7 +391,7 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   echo "* Replacing webinterface.."
 
   # save password
-  cp /home/master-nafsdm/interfacePassword.txt /tmp/interfacePassword.txt
+  cp /home/master-nafsdm/webinterface/interfacePassword.txt /tmp/interfacePassword.txt
 
   rm -rf /home/master-nafsdm/webinterface
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
@@ -400,8 +400,8 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   chmod +x /home/master-nafsdm/webinterface/start.sh
 
   # add back password
-  rm -rf /home/master-nafsdm/interfacePassword.txt
-  cp /tmp/interfacePassword.txt /home/master-nafsdm/interfacePassword.txt
+  rm -rf /home/master-nafsdm/webinterface/interfacePassword.txt
+  cp /tmp/interfacePassword.txt /home/master-nafsdm/webinterface/interfacePassword.txt
   # webinterface done
 
   # newer than version 1.2.4
