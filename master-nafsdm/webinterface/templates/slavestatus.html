@@ -1,0 +1,37 @@
+<html>
+<head>
+  <title>nafsdm webinterface - slavestatus</title>
+</head>
+<body>
+  <h1>nafsdm webinterface slavestatus - version {{ version }}</h1>
+  <p>Shows status of all slaves</p> <a href="/"><button>Back</button></a> <a href="/api/slaveFlush"><button>Flush slavestatus</button></a>
+
+  {% if flushSuccess %}
+  <p><font color="green">Successfully flushed slavestatus!</font> <a href="/"><button>Dismiss</button></a></p>
+  {% endif %}
+
+  {% if fail %}
+  <font color="red"><p>Failure during flush process!</p></font>
+  {% endif %}
+
+  <table border="1">
+    <tr>
+      <td>Hostname</td>
+      <td>Latest Connection</td>
+      <td>Latest Connection Date</td>
+      <td>Interval</td>
+    </tr>
+  {% for slave in slaves %}
+    <tr id="{{ slave[0] }}">
+      <td>{{ slave[0] }}</td><!-- Hostname -->
+      <td>{{ slave[1] }}</td><!-- Latest Connection -->
+      <td>{{ slave[2] }}</td><!-- Latest Connection Date -->
+      <td>{{ slave[3] }}</td><!-- Interval -->
+    </tr>
+    {% endif %}
+  {% endfor %}
+  </table>
+
+  <p>Powered by Python and Flask - running version {{ version }}. Page generated at {{ date }}.</p>
+</body>
+</html>

@@ -11,8 +11,10 @@
 # imports
 import logging
 import sys
+import subprocess
 from logPath import logPath
 from database import *
+from connAlive import *
 from time import gmtime, strftime
 
 # flask setup
@@ -124,6 +126,17 @@ def index():
     date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
     return render_template("index.html", domains=domains, add=add, remove=remove, edit=edit, addSuccess=addSuccess, removeSuccess=removeSuccess, editSuccess=editSuccess, fail=fail, version=masterVersion, date=date)
 
+@app.route("/slavestatus")
+@requires_auth
+def slavestatus():
+    flushSuccess = request.args.get("flushSuccess")
+    fail = request.args.get("fail")
+
+    date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+
+    slaves = slaveConnections()
+    return render_template("slavestatus.html", slaves=slaves, flushSuccess=flushSuccess, fail=fail, version=masterVersion, date=date)
+
 ################
 ## API ROUTES ##
 ################
@@ -168,3 +181,11 @@ def api_editDomain():
         return redirect("/?editSuccess=true")
     else:
         return redirect("/?fail=true")
+
+@app.route("/api/slaveFlush")
+@requires_auth
+def api_slaveFlush():
+    if flushSlaveConnections():
+        return redirect("/slavestatus?flushSuccess=true")
+    else:
+        return redirect("/slavestatus?fail=true")
