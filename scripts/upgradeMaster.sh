@@ -277,11 +277,20 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
 
   # newer than version 1.2.4, all versions that already have the webinterface
   echo "* Replacing webinterface.."
+
+  # save password
+  cp /home/master-nafsdm/interfacePassword.txt /tmp/interfacePassword.txt
+
   rm -rf /home/master-nafsdm/webinterface
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
   chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
   chmod +x /home/master-nafsdm/webinterface/start.sh
+
+  # add back password
+  rm -rf /home/master-nafsdm/interfacePassword.txt
+  cp /tmp/interfacePassword.txt /home/master-nafsdm/interfacePassword.txt
+  # webinterface done
 
   # newer than version 1.2.4
   echo "* Installing required python packages.."
@@ -305,11 +314,20 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
 
   # newer than version 1.2.4, all versions that already have the webinterface
   echo "* Replacing webinterface.."
+
+  # save password
+  cp /home/master-nafsdm/interfacePassword.txt /tmp/interfacePassword.txt
+
   rm -rf /home/master-nafsdm/webinterface
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
   chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
   chmod +x /home/master-nafsdm/webinterface/start.sh
+
+  # add back password
+  rm -rf /home/master-nafsdm/interfacePassword.txt
+  cp /tmp/interfacePassword.txt /home/master-nafsdm/interfacePassword.txt
+  # webinterface done
 
   # newer than version 1.2.4
   echo "* Installing required python packages.."
@@ -333,11 +351,20 @@ elif [ "$MY_VERSION" == "1.3-stable" ]; then
 
   # newer than version 1.2.4, all versions that already have the webinterface
   echo "* Replacing webinterface.."
+
+  # save password
+  cp /home/master-nafsdm/interfacePassword.txt /tmp/interfacePassword.txt
+
   rm -rf /home/master-nafsdm/webinterface
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
   chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
   chmod +x /home/master-nafsdm/webinterface/start.sh
+
+  # add back password
+  rm -rf /home/master-nafsdm/interfacePassword.txt
+  cp /tmp/interfacePassword.txt /home/master-nafsdm/interfacePassword.txt
+  # webinterface done
 
   # newer than version 1.2.4
   echo "* Installing required python packages.."
@@ -362,11 +389,20 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
 
   # newer than version 1.2.4, all versions that already have the webinterface
   echo "* Replacing webinterface.."
+
+  # save password
+  cp /home/master-nafsdm/interfacePassword.txt /tmp/interfacePassword.txt
+
   rm -rf /home/master-nafsdm/webinterface
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
   cp nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
   chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
   chmod +x /home/master-nafsdm/webinterface/start.sh
+
+  # add back password
+  rm -rf /home/master-nafsdm/interfacePassword.txt
+  cp /tmp/interfacePassword.txt /home/master-nafsdm/interfacePassword.txt
+  # webinterface done
 
   # newer than version 1.2.4
   echo "* Installing required python packages.."
