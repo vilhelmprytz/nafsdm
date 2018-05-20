@@ -7,7 +7,7 @@
   <p>Shows status of all slaves</p> <a href="/"><button>Back</button></a> <a href="/api/slaveFlush"><button>Flush slavestatus</button></a>
 
   {% if flushSuccess %}
-  <p><font color="green">Successfully flushed slavestatus!</font> <a href="/"><button>Dismiss</button></a></p>
+  <p><font color="green">Successfully flushed slavestatus!</font> <a href="/slavestatus"><button>Dismiss</button></a></p>
   {% endif %}
 
   {% if fail %}
@@ -22,9 +22,17 @@
       <td>Interval</td>
     </tr>
   {% for slave in slaves %}
+    {% if slave[4] %}
+    <tr id="{{ slave[0] }}">
+      <td>[<font color="red"><b>!</b></font>] {{ slave[0] }}</td><!-- Hostname -->
+      <td><font color="red">{{ slave[1] }}</font></td><!-- Latest Connection -->
+      <td>{{ slave[2] }}</td><!-- Latest Connection Date -->
+      <td>{{ slave[3] }}</td><!-- Interval -->
+    </tr>
+    {% else %}
     <tr id="{{ slave[0] }}">
       <td>{{ slave[0] }}</td><!-- Hostname -->
-      <td>{{ slave[1] }}</td><!-- Latest Connection -->
+      <td><font color="green">{{ slave[1] }}</font></td><!-- Latest Connection -->
       <td>{{ slave[2] }}</td><!-- Latest Connection Date -->
       <td>{{ slave[3] }}</td><!-- Interval -->
     </tr>

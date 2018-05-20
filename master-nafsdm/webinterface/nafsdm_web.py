@@ -185,7 +185,7 @@ def api_editDomain():
 @app.route("/api/slaveFlush")
 @requires_auth
 def api_slaveFlush():
-    if flushSlaveConnections():
+    if not flushSlaveConnections():
         return redirect("/slavestatus?flushSuccess=true")
     else:
         return redirect("/slavestatus?fail=true")
