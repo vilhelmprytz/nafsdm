@@ -62,19 +62,19 @@
     <div class="row content">
       <div class="col-sm-2 sidenav">
         <h4>Actions</h4>
-        <a href="/?add=yes"><button>Add new domain</button></a>
+        <a href="/?add=yes"><button type="button" class="btn btn-primary btn-sm">Add new domain</button></a>
       </div>
       <div class="col-sm-8 text-left">
         <h1>nafsdm webinterface - version {{ version }}</h1>
         <!-- if flags -->
         {% if addSuccess %}
-        <p><font color="green">Successfully added domain!</font> <a href="/"><button>Dismiss</button></a></p>
+        <p><font color="green">Successfully added domain!</font> <a href="/"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
         {% endif %}
         {% if removeSuccess %}
-        <p><font color="green">Successfully removed domain!</font> <a href="/"><button>Dismiss</button></a></p>
+        <p><font color="green">Successfully removed domain!</font> <a href="/"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
         {% endif %}
         {% if editSuccess %}
-        <p><font color="green">Successfully edited domain!</font> <a href="/"><button>Dismiss</button></a></p>
+        <p><font color="green">Successfully edited domain!</font> <a href="/"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
         {% endif %}
 
         {% if fail %}
@@ -111,11 +111,11 @@
             </tr>
 
             <tr>
-              <td><input type="submit" value="Submit"></input></td>
+              <td><input class="btn btn-primary btn-sm" type="submit" value="Submit"></input></td>
             </tr>
         </table>
         </form>
-        <p><a href="/"><button>Close</button></a></p>
+        <p><a href="/"><button type="button" class="btn btn-primary btn-sm">Close</button></a></p>
         {% endif %}
         {% if remove %}
         <form action="/api/removeDomain" method="POST">
@@ -127,7 +127,7 @@
             </tr>
 
             <tr>
-              <td><input type="submit" value="Submit"></td>
+              <td><input class="btn btn-primary btn-sm" type="submit" value="Submit"></td>
             </tr>
           </table>
         </form>
@@ -156,7 +156,7 @@
               <td><input type="text" value="{{ domain[3] }}" name="comment"><br></td>
               <td><input type="text" value="{{ domain[4] }}" name="assignedNodes"><br></td>
               <td><input type="text" value="{{ domain[6] }}" name="dnssec"><br></td>
-              <td><input type="submit" value="Submit"></td>
+              <td><input class="btn btn-primary btn-xs" type="submit" value="Submit"></td>
             </form>
           </tr>
           {% else %}
@@ -167,7 +167,7 @@
             <td>{{ domain[3] }}</td><!-- comment -->
             <td>{{ domain[4] }}</td><!-- assignedNodes -->
             <td>{{ domain[5] }}</td><!-- DNSSEC status -->
-            <td><a href="/?edit={{ domain[0] }}#{{ domain[0] }}"><button>Edit</button></a><a href="/api/removeDomain?id={{ domain[0] }}"><button>Remove</button></a></td>
+            <td><a href="/?edit={{ domain[0] }}#{{ domain[0] }}"><button type="button" class="btn btn-primary btn-xs">Edit</button></a><a href="/api/removeDomain?id={{ domain[0] }}"><button type="button" class="btn btn-primary btn-xs">Remove</button></a></td>
           </tr>
           {% endif %}
         {% endfor %}
