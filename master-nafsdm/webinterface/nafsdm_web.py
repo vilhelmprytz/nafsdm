@@ -12,6 +12,8 @@
 import logging
 import sys
 import subprocess
+import os
+import platform
 from versionCheck import *
 from logPath import logPath
 from database import *
@@ -120,8 +122,21 @@ def index():
     else:
         versionMsg = "Unable to detect version (connection issues?)"
 
+    # loadavg
+    try:
+        loadAvg = os.getloadavg()
+    except Exception:
+        loadAvg = "error"
+
+    # get kernel version
+    kernel = platform.platform()
+
+    # Statistics
+    domainsNumber = getStatistics()
+    slavesNumber = int(slaveConnections())
+
     date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    return render_template("index.html", version=masterVersion, date=date, github_branch=github_branch, myVersion=myVersion, devIcMode=devIcMode, versionColor=versionColor, versionMsg=versionMsg)
+    return render_template("index.html", version=masterVersion, date=date, github_branch=github_branch, myVersion=myVersion, devIcMode=devIcMode, versionColor=versionColor, versionMsg=versionMsg, loadAvg=loadAvg, kernel=kernel, domainsNumber=domainsNumber, slavesNumber=slavesNumber)
 
 @app.route("/domains")
 @requires_auth
