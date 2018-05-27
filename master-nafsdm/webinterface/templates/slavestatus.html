@@ -21,7 +21,7 @@
   }
 
   footer {
-  background-color: #555;
+  background-color: #333;
   color: white;
   padding: 15px;
   }
@@ -71,7 +71,7 @@
         <a href="/api/slaveFlush"><button type="button" class="btn btn-primary btn-sm">Flush slavestatus</button></a> <button  type="button" class="btn btn-primary btn-sm" onclick="reloadPage()">Reload page</button>
       </div>
       <div class="col-sm-8 text-left">
-        <h1>nafsdm webinterface slavestatus - version {{ version }}</h1>
+        <h1>nafsdm webinterface slavestatus</h1>
         <!-- if flags -->
         {% if flushSuccess %}
         <p><font color="green">Successfully flushed slavestatus!</font> <a href="/slavestatus"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
