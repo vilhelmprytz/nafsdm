@@ -106,21 +106,22 @@ def index():
         if devIcMode:
             if myVersion == newestVersion:
                 versionColor = "green"
-                versionMsg = "Running the latest incremental commits update - " + myVersion
+                versionMsg = "Running latest incremental commits update - version " + myVersion
             else:
                 versionColor = "red"
-                versionMsg = "Not running the latest incremental commits update (latest version is " + newestVersion + ")"
+                versionMsg = "Not running latest incremental commits update (latest version is " + newestVersion + ")"
         else:
             if myVersion == newestVersion:
                 versionColor = "green"
-                versionMsg = "Running the latest version - " + myVersion
+                versionMsg = "Running latest version - version " + myVersion
             else:
                 versionColor = "red"
-                versionMsg = "Not running the latest version (latest version is " + newestVersion + ")"
+                versionMsg = "Not running latest version (latest version is " + newestVersion + ")"
     else:
         versionMsg = "Unable to detect version (connection issues?)"
-    return render_template("index.html", version=masterVersion, date=date, github_branch=github_branch, myVersion=myVersion, devIcMode=devIcMode, versionColor=versionColor, versionMsg=versionMsg)
+
     date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    return render_template("index.html", version=masterVersion, date=date, github_branch=github_branch, myVersion=myVersion, devIcMode=devIcMode, versionColor=versionColor, versionMsg=versionMsg)
 
 @app.route("/domains")
 @requires_auth
@@ -151,7 +152,7 @@ def domains():
         domains.append(oneDomain)
 
     date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    return render_template("index.html", domains=domains, add=add, remove=remove, edit=edit, addSuccess=addSuccess, removeSuccess=removeSuccess, editSuccess=editSuccess, fail=fail, version=masterVersion, date=date)
+    return render_template("domains.html", domains=domains, add=add, remove=remove, edit=edit, addSuccess=addSuccess, removeSuccess=removeSuccess, editSuccess=editSuccess, fail=fail, version=masterVersion, date=date)
 
 @app.route("/slavestatus")
 @requires_auth

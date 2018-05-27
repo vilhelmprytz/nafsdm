@@ -2,6 +2,7 @@ Version ? (Status: DEVELOPMENT)
 * Fix issue #24 (nafsdm-webinterface password resets on upgrade)
 * Add slavestatus page to nafsdm-webinterface.
 * New bootstrap theme for webinterface
+* New index for webinterface (domains separate page, index has system status/health)
 
 Version 1.3.1 (Status: RELEASED)
 * Bugfix: Slaves reported incorrect date to nafsdmctl slavestatus (minute instead of month under the "latest connection date" section)

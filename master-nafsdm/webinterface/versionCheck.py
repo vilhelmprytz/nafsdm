@@ -12,7 +12,7 @@ import logging
 # import master version
 import sys
 sys.path.insert(0, "/home/master-nafsdm/pythondaemon")
-from version import version as masterVersion
+from version import version as version
 
 github_branch = "master"
 devIcMode = False
@@ -42,17 +42,17 @@ def checkUpdate():
     normalUpdate = False
     doICUpdate = False
     if devIcMode:
-        loggin.info("Development commit update mode.")
+        logging.info("Development commit update mode.")
         response = requests.get("https://api.github.com/repos/mrkakisen/nafsdm/branches/development")
         if (response.status_code == requests.codes.ok):
             data = response.json()
             latestCommit = data["commit"]["sha"][0:7]
             if version.split("-")[0] == latestCommit:
                 logging.info("You're using the latest development commit!")
-                return True, devIcMode, github_branch, version, latestCommit
+                return True, devIcMode, github_branch, version, latestCommit + "-dev"
             else:
                 logging.info("A new update is available (dev commit - my version: " + version + " - latest version: " + latestCommit + "-dev)")
-                return True, devIcMode, github_branch, version, latestCommit
+                return True, devIcMode, github_branch, version, latestCommit + "-dev"
         else:
             logging.critical("Couldn't connect to GitHub! Quitting...")
             return False, devIcMode, github_branch, version, None
