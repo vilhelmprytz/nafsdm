@@ -120,20 +120,31 @@ def index():
                 versionColor = "red"
                 versionMsg = "Not running latest version (latest version is " + newestVersion + ")"
     else:
-        versionMsg = "Unable to detect version (connection issues?)"
+        versionColor = "red"
+        versionMsg = "Unable to establish connection to GitHub (connection issues?)"
 
     # loadavg
     try:
-        loadAvg = os.getloadavg()
+        loadAvg = str(os.getloadavg()[0:4]).split("(")[1].split(")")[0]
     except Exception:
         loadAvg = "error"
 
     # get kernel version
-    kernel = platform.platform()
+    try:
+        kernel = platform.platform()
+    except Exception:
+        kernel = "error"
 
     # Statistics
-    domainsNumber = getStatistics()
-    slavesNumber = int(slaveConnections())
+    try:
+        domainsNumber = str(getStatistics()).split("(")[1].split(",")[0]
+    except Exception:
+        domainsNumber = "error"
+
+    try:
+        slavesNumber = str(len(slaveConnections()))
+    except Exception:
+        slavesNumber = "error"
 
     date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
     return render_template("index.html", version=masterVersion, date=date, github_branch=github_branch, myVersion=myVersion, devIcMode=devIcMode, versionColor=versionColor, versionMsg=versionMsg, loadAvg=loadAvg, kernel=kernel, domainsNumber=domainsNumber, slavesNumber=slavesNumber)

@@ -112,10 +112,11 @@ WHERE id = "''' + domainId + '''";'''
 
 def getStatistics():
     connection, cursor = dbConnection()
-    sql_command="SELECT COUNT(*) FROM domain WITH (NOLOCK)"
+    sql_command = '''SELECT COUNT(*) FROM domain;'''
 
     # execute update
     cursor.execute(sql_command)
+    result = cursor.fetchall()
 
     # close connection
     connection.commit()
