@@ -87,9 +87,15 @@
         <p>Welcome to the nafsdm webinterface! Below you will find an overview of your system status and health.</p>
         <hr>
         <h3>nafsdm status</h3>
-        <p>Version: <strong>{{ myVersion }}</strong></p>
+        {% if parseStatus %}
+        <p>Version: <strong>{{ version }}</strong></p>
         <p>Branch: <strong>{{ github_branch}}</strong> (default is master)</p>
         <font color="{{ versionColor }}"><p>{{ versionMsg }}</font>
+        <i><p>Was last checked at {{ checkDate }}.</p></i>
+        <a href="/?updateCheck=yes"><button type="button" class="btn btn-primary btn-sm">Check for update</button></a>
+        {% else %}
+        <a href="/?updateCheck=yes"><button type="button" class="btn btn-primary btn-sm">Check for update</button></a>
+        {% endif %}
 
         <h3>System status</h3>
         <p>Kernel: <strong>{{ kernel }}</strong></p>

@@ -13,6 +13,7 @@ import logging
 import sys
 import subprocess
 import os
+import os.path
 import platform
 from versionCheck import *
 from logPath import logPath
@@ -73,14 +74,44 @@ def prepNotifications():
         notifications.append(["Node " + slave + " is currently offline!", "red"])
 
     # new update
-    status, devIcMode, github_branch, myVersion, newestVersion = checkUpdate()
-    if status:
-        if myVersion != newestVersion:
-            notifications.append(["A new update is available!", "yellow"])
+    parseStatus, versionColor, versionMsg, github_branch, checkDate, isLatest = parseTempFiles()
+    if parseStatus:
+        if != isLatest:
+            notifications.append(["A new update is available!", "red"])
 
     # other notifications will also be added here
 
     return notifications
+
+# for tmp files
+def parseTempFiles():
+    if os.path.isfile(".tmpVersionColor") and os.path.isfile(".tmpVersionMsg") and os.path.isfile(".tmpBranch") and os.path.isfile(".tmpDate") and os.path.isfile(".tmpIsLatest"):
+        f = open(".tmpVersionColor")
+        versionColor = f.read()
+        f.close()
+
+        f = open(".tmpVersionMsg")
+        versionMsg = f.read()
+        f.close()
+
+        f = open(".tmpBranch")
+        github_branch = f.read()
+        f.close()
+
+        f = open(".tmpDate")
+        checkDate = f.read()
+        f.close()
+
+        f = open(".tmpIsLatest")
+        isLatest = f.read()
+        if "True" in isLatest:
+            isLatest = True
+        else:
+            isLatest = False
+
+        return True, versionColor, versionMsg, github_branch, checkDate, isLatest
+    else:
+        return False, None, None, None, None, None
 
 # setup logging
 logger = logging.getLogger()
@@ -122,25 +153,63 @@ def error_500(e):
 @app.route("/")
 @requires_auth
 def index():
-    status, devIcMode, github_branch, myVersion, newestVersion = checkUpdate()
-    if status:
-        if devIcMode:
-            if myVersion == newestVersion:
-                versionColor = "green"
-                versionMsg = "Running latest incremental commits update - version " + myVersion
+    updateCheck = request.args.get("updateCheck")
+    if updateCheck:
+        status, devIcMode, github_branch, myVersion, newestVersion = checkUpdate()
+        if status:
+            if devIcMode:
+                if myVersion == newestVersion:
+                    versionColor = "green"
+                    versionMsg = "Running latest incremental commits update - version " + myVersion
+
+                    f = open(".tmpIsLatest", "w")
+                    f.write("True")
+                    f.close()
+                else:
+                    versionColor = "red"
+                    versionMsg = "Not running latest incremental commits update (latest version is " + newestVersion + ")"
+
+                    f = open(".tmpIsLatest", "w")
+                    f.write("False")
+                    f.close()
             else:
-                versionColor = "red"
-                versionMsg = "Not running latest incremental commits update (latest version is " + newestVersion + ")"
+                if myVersion == newestVersion:
+                    versionColor = "green"
+                    versionMsg = "Running latest version - version " + myVersion
+
+                    f = open(".tmpIsLatest", "w")
+                    f.write("True")
+                    f.close()
+                else:
+                    versionColor = "red"
+                    versionMsg = "Not running latest version (latest version is " + newestVersion + ")"
+
+                    f = open(".tmpIsLatest", "w")
+                    f.write("False")
+                    f.close()
         else:
-            if myVersion == newestVersion:
-                versionColor = "green"
-                versionMsg = "Running latest version - version " + myVersion
-            else:
-                versionColor = "red"
-                versionMsg = "Not running latest version (latest version is " + newestVersion + ")"
-    else:
-        versionColor = "red"
-        versionMsg = "Unable to establish connection to GitHub (connection issues?)"
+            versionColor = "red"
+            versionMsg = "Unable to establish connection to GitHub (connection issues?)"
+
+            f = open(".tmpIsLatest", "w")
+            f.write("True")
+            f.close()
+
+        f = open(".tmpVersionColor", "w")
+        f.write(versionColor)
+        f.close()
+
+        f = open(".tmpVersionMsg", "w")
+        f.write(versionMsg)
+        f.close()
+
+        f = open(".tmpBranch", "w")
+        f.write(github_branch)
+        f.close()
+
+        f = open(".tmpDate", "w")
+        f.write(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+        f.close()
 
     # loadavg
     try:
@@ -168,8 +237,10 @@ def index():
     # notifications
     notifications = prepNotifications()
 
+    parseStatus, versionColor, versionMsg, github_branch, checkDate, isLatest = parseTempFiles()
+
     date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    return render_template("index.html", notifications=notifications, version=masterVersion, date=date, github_branch=github_branch, myVersion=myVersion, devIcMode=devIcMode, versionColor=versionColor, versionMsg=versionMsg, loadAvg=loadAvg, kernel=kernel, domainsNumber=domainsNumber, slavesNumber=slavesNumber)
+    return render_template("index.html", notifications=notifications, version=masterVersion, date=date, github_branch=github_branch, versionColor=versionColor, versionMsg=versionMsg, loadAvg=loadAvg, kernel=kernel, domainsNumber=domainsNumber, slavesNumber=slavesNumber, updateCheck=updateCheck, parseStatus=parseStatus, checkDate=checkDate)
 
 @app.route("/domains")
 @requires_auth
