@@ -19,7 +19,7 @@ from versionCheck import *
 from logPath import logPath
 from database import *
 from connAlive import *
-from time import gmtime, strftime
+from time import strftime
 
 # flask setup
 from flask import Flask
@@ -76,7 +76,7 @@ def prepNotifications():
     # new update
     parseStatus, versionColor, versionMsg, github_branch, checkDate, isLatest = parseTempFiles()
     if parseStatus:
-        if != isLatest:
+        if isLatest != True:
             notifications.append(["A new update is available!", "red"])
 
     # other notifications will also be added here
@@ -139,12 +139,12 @@ logging.info("Welcome to nafsdm-master webinterface!")
 ####################
 @app.errorhandler(404)
 def error_404(e):
-    date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    date = strftime("%Y-%m-%d %H:%M:%S")
     return render_template("404.html", version=masterVersion, date=date), 404
 
 @app.errorhandler(500)
 def error_500(e):
-    date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    date = strftime("%Y-%m-%d %H:%M:%S")
     return render_template("500.html", version=masterVersion, date=date), 500
 
 #################
@@ -208,8 +208,10 @@ def index():
         f.close()
 
         f = open(".tmpDate", "w")
-        f.write(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+        f.write(strftime("%Y-%m-%d %H:%M:%S"))
         f.close()
+
+        return redirect("/")
 
     # loadavg
     try:
@@ -239,7 +241,7 @@ def index():
 
     parseStatus, versionColor, versionMsg, github_branch, checkDate, isLatest = parseTempFiles()
 
-    date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    date = strftime("%Y-%m-%d %H:%M:%S")
     return render_template("index.html", notifications=notifications, version=masterVersion, date=date, github_branch=github_branch, versionColor=versionColor, versionMsg=versionMsg, loadAvg=loadAvg, kernel=kernel, domainsNumber=domainsNumber, slavesNumber=slavesNumber, updateCheck=updateCheck, parseStatus=parseStatus, checkDate=checkDate)
 
 @app.route("/domains")
@@ -273,7 +275,7 @@ def domains():
     # notifications
     notifications = prepNotifications()
 
-    date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    date = strftime("%Y-%m-%d %H:%M:%S")
     return render_template("domains.html", notifications=notifications, domains=domains, add=add, remove=remove, edit=edit, addSuccess=addSuccess, removeSuccess=removeSuccess, editSuccess=editSuccess, fail=fail, version=masterVersion, date=date)
 
 @app.route("/slavestatus")
@@ -282,7 +284,7 @@ def slavestatus():
     flushSuccess = request.args.get("flushSuccess")
     fail = request.args.get("fail")
 
-    date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    date = strftime("%Y-%m-%d %H:%M:%S")
 
     # notifications
     notifications = prepNotifications()
