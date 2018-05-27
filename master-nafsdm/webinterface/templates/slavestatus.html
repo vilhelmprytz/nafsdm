@@ -3,8 +3,14 @@
   <title>nafsdm webinterface - slavestatus</title>
 </head>
 <body>
+  <!-- reload page -->
+  <script>
+    function reloadPage() {
+      location.reload();
+    }
+  </script>
   <h1>nafsdm webinterface slavestatus - version {{ version }}</h1>
-  <p>Shows status of all slaves</p> <a href="/"><button>Back</button></a> <a href="/api/slaveFlush"><button>Flush slavestatus</button></a>
+  <p>Shows status of all slaves</p> <a href="/"><button>Back</button></a> <a href="/api/slaveFlush"><button>Flush slavestatus</button></a> <button onclick="reloadPage()">Reload page</button>
 
   {% if flushSuccess %}
   <p><font color="green">Successfully flushed slavestatus!</font> <a href="/slavestatus"><button>Dismiss</button></a></p>
