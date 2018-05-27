@@ -86,11 +86,13 @@ logging.info("Welcome to nafsdm-master webinterface!")
 ####################
 @app.errorhandler(404)
 def error_404(e):
-    return render_template("404.html"), 404
+    date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    return render_template("404.html", version=masterVersion, date=date), 404
 
 @app.errorhandler(500)
 def error_500(e):
-    return render_template("500.html"), 500
+    date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    return render_template("500.html", version=masterVersion, date=date), 500
 
 #################
 ## MAIN ROUTES ##
