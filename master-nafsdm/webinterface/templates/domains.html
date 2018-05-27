@@ -1,0 +1,183 @@
+<html>
+<head>
+  <title>nafsdm webinterface - domains</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+  .navbar {
+  margin-bottom: 0;
+  border-radius: 0;
+  }
+
+  .row.content {height: 146%}
+
+  .sidenav {
+  padding-top: 20px;
+  background-color: #f1f1f1;
+  height: 100%;
+  }
+
+  footer {
+  background-color: #333;
+  color: white;
+  padding: 15px;
+  }
+
+  @media screen and (max-width: 767px) {
+  .sidenav {
+    height: auto;
+    padding: 15px;
+  }
+  .row.content {height:auto;}
+  }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">nafsdm</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li class="active"><a href="/domains">Domains</a></li>
+          <li><a href="/slavestatus">Slavestatus</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid text-center">
+    <div class="row content">
+      <div class="col-sm-2 sidenav">
+        <h4>Actions</h4>
+        <a href="/?add=yes"><button type="button" class="btn btn-primary btn-sm">Add new domain</button></a>
+      </div>
+      <div class="col-sm-8 text-left">
+        <h1>nafsdm webinterface - domains</h1>
+        <!-- if flags -->
+        {% if addSuccess %}
+        <p><font color="green">Successfully added domain!</font> <a href="/domains"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
+        {% endif %}
+        {% if removeSuccess %}
+        <p><font color="green">Successfully removed domain!</font> <a href="/domains"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
+        {% endif %}
+        {% if editSuccess %}
+        <p><font color="green">Successfully edited domain!</font> <a href="/domains"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
+        {% endif %}
+
+        {% if fail %}
+        <font color="red"><p>Failure during add process or domain removal process!</p></font>
+        {% endif %}
+
+        {% if add %}
+        <form action="/api/newDomain" method="POST">
+          <table class="table table-bordered">
+
+            <tr>
+              <td>Domain name:</td>
+              <td><input type="text" placeholder="Domain" name="domain"><br></td>
+            </tr>
+
+            <tr>
+              <td>Master IP:</td>
+              <td><input type="text" placeholder="0.0.0.0" name="masterIP"><br></td>
+            </tr>
+
+            <tr>
+              <td>Comment:</td>
+              <td><input type="text" placeholder="BestDomain" name="comment"><br></td>
+            </tr>
+
+            <tr>
+              <td>Assigned Nodes (dot seperated):</td>
+              <td><input type="text" placeholder="dns1.dns2" name="assignedNodes"><br></td>
+            </tr>
+
+            <tr>
+              <td>DNSSEC status (yes/no):</td>
+              <td><input type="text" placeholder="yes" name="dnssec"><br></td>
+            </tr>
+        </table>
+        <input class="btn btn-primary btn-sm" type="submit" value="Submit"></input>
+        </form>
+        <p><a href="/domains"><button type="button" class="btn btn-primary btn-sm">Close</button></a></p>
+        {% endif %}
+        {% if remove %}
+        <form action="/api/removeDomain" method="POST">
+          <table class="table table-bordered">
+
+            <tr>
+              <td>Domain name:</td>
+              <td><input type="text" placeholder="Domain" name="domain"><br></td>
+            </tr>
+
+            <tr>
+              <td><input class="btn btn-primary btn-sm" type="submit" value="Submit"></td>
+            </tr>
+          </table>
+        </form>
+        {% endif %}
+        <!-- end if flags -->
+        <hr>
+        <h3>Domains list</h1>
+        <!-- domains list table -->
+        <table class="table table-bordered">
+          <tr>
+            <td>ID</td>
+            <td>Domain</td>
+            <td>Master IP</td>
+            <td>Comment</td>
+            <td>Assigned Nodes</td>
+            <td>DNSSEC status</td>
+            <td>Domain Action</td>
+          </tr>
+        {% for domain in domains %}
+          {% if edit is eq(domain[0]) %}
+          <tr id="{{ domain[0] }}">
+            <form action="/api/editDomain" method="POST">
+              <td>{{ domain[0] }}</td><!-- id --> <input type="hidden" name="id" value="{{ domain[0] }}">
+              <td>{{ domain[1] }}</td><!-- domain --> <input type="hidden" name="domain" value="{{ domain[1] }}">
+              <td><input type="text" value="{{ domain[2] }}" name="masterIP"><br></td>
+              <td><input type="text" value="{{ domain[3] }}" name="comment"><br></td>
+              <td><input type="text" value="{{ domain[4] }}" name="assignedNodes"><br></td>
+              <td><input type="text" value="{{ domain[6] }}" name="dnssec"><br></td>
+              <td><input class="btn btn-primary btn-xs" type="submit" value="Submit"></td>
+            </form>
+          </tr>
+          {% else %}
+          <tr id="{{ domain[0] }}">
+            <td>{{ domain[0] }}</td><!-- id -->
+            <td>{{ domain[1] }}</td><!-- domain -->
+            <td>{{ domain[2] }}</td><!-- masterIP -->
+            <td>{{ domain[3] }}</td><!-- comment -->
+            <td>{{ domain[4] }}</td><!-- assignedNodes -->
+            <td>{{ domain[5] }}</td><!-- DNSSEC status -->
+            <td><a href="/domains?edit={{ domain[0] }}#{{ domain[0] }}"><button type="button" class="btn btn-primary btn-xs">Edit</button></a><a href="/api/removeDomain?id={{ domain[0] }}"><button type="button" class="btn btn-primary btn-xs">Remove</button></a></td>
+          </tr>
+          {% endif %}
+        {% endfor %}
+        </table>
+        <!-- end domains list table -->
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="container-fluid text-center">
+    <p>Powered by Python and Flask - running version {{ version }}. Page generated at {{ date }}.</p>
+  </footer>
+</body>
+</html>

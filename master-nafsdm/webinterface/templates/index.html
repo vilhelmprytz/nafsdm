@@ -49,6 +49,7 @@
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li class="active"><a href="/">Home</a></li>
+          <li><a href="/domains">Domains</a></li>
           <li><a href="/slavestatus">Slavestatus</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -62,114 +63,15 @@
     <div class="row content">
       <div class="col-sm-2 sidenav">
         <h4>Actions</h4>
-        <a href="/?add=yes"><button type="button" class="btn btn-primary btn-sm">Add new domain</button></a>
       </div>
       <div class="col-sm-8 text-left">
         <h1>nafsdm webinterface</h1>
-        <!-- if flags -->
-        {% if addSuccess %}
-        <p><font color="green">Successfully added domain!</font> <a href="/"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
-        {% endif %}
-        {% if removeSuccess %}
-        <p><font color="green">Successfully removed domain!</font> <a href="/"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
-        {% endif %}
-        {% if editSuccess %}
-        <p><font color="green">Successfully edited domain!</font> <a href="/"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
-        {% endif %}
-
-        {% if fail %}
-        <font color="red"><p>Failure during add process or domain removal process!</p></font>
-        {% endif %}
-
-        {% if add %}
-        <form action="/api/newDomain" method="POST">
-          <table class="table table-bordered">
-
-            <tr>
-              <td>Domain name:</td>
-              <td><input type="text" placeholder="Domain" name="domain"><br></td>
-            </tr>
-
-            <tr>
-              <td>Master IP:</td>
-              <td><input type="text" placeholder="0.0.0.0" name="masterIP"><br></td>
-            </tr>
-
-            <tr>
-              <td>Comment:</td>
-              <td><input type="text" placeholder="BestDomain" name="comment"><br></td>
-            </tr>
-
-            <tr>
-              <td>Assigned Nodes (dot seperated):</td>
-              <td><input type="text" placeholder="dns1.dns2" name="assignedNodes"><br></td>
-            </tr>
-
-            <tr>
-              <td>DNSSEC status (yes/no):</td>
-              <td><input type="text" placeholder="yes" name="dnssec"><br></td>
-            </tr>
-        </table>
-        <input class="btn btn-primary btn-sm" type="submit" value="Submit"></input>
-        </form>
-        <p><a href="/"><button type="button" class="btn btn-primary btn-sm">Close</button></a></p>
-        {% endif %}
-        {% if remove %}
-        <form action="/api/removeDomain" method="POST">
-          <table class="table table-bordered">
-
-            <tr>
-              <td>Domain name:</td>
-              <td><input type="text" placeholder="Domain" name="domain"><br></td>
-            </tr>
-
-            <tr>
-              <td><input class="btn btn-primary btn-sm" type="submit" value="Submit"></td>
-            </tr>
-          </table>
-        </form>
-        {% endif %}
-        <!-- end if flags -->
+        <p>Welcome to the nafsdm webinterface! Below you will find an overview of your system status and health.</p>
         <hr>
-        <h3>Domains list</h1>
-        <!-- domains list table -->
-        <table class="table table-bordered">
-          <tr>
-            <td>ID</td>
-            <td>Domain</td>
-            <td>Master IP</td>
-            <td>Comment</td>
-            <td>Assigned Nodes</td>
-            <td>DNSSEC status</td>
-            <td>Domain Action</td>
-          </tr>
-        {% for domain in domains %}
-          {% if edit is eq(domain[0]) %}
-          <tr id="{{ domain[0] }}">
-            <form action="/api/editDomain" method="POST">
-              <td>{{ domain[0] }}</td><!-- id --> <input type="hidden" name="id" value="{{ domain[0] }}">
-              <td>{{ domain[1] }}</td><!-- domain --> <input type="hidden" name="domain" value="{{ domain[1] }}">
-              <td><input type="text" value="{{ domain[2] }}" name="masterIP"><br></td>
-              <td><input type="text" value="{{ domain[3] }}" name="comment"><br></td>
-              <td><input type="text" value="{{ domain[4] }}" name="assignedNodes"><br></td>
-              <td><input type="text" value="{{ domain[6] }}" name="dnssec"><br></td>
-              <td><input class="btn btn-primary btn-xs" type="submit" value="Submit"></td>
-            </form>
-          </tr>
-          {% else %}
-          <tr id="{{ domain[0] }}">
-            <td>{{ domain[0] }}</td><!-- id -->
-            <td>{{ domain[1] }}</td><!-- domain -->
-            <td>{{ domain[2] }}</td><!-- masterIP -->
-            <td>{{ domain[3] }}</td><!-- comment -->
-            <td>{{ domain[4] }}</td><!-- assignedNodes -->
-            <td>{{ domain[5] }}</td><!-- DNSSEC status -->
-            <td><a href="/?edit={{ domain[0] }}#{{ domain[0] }}"><button type="button" class="btn btn-primary btn-xs">Edit</button></a><a href="/api/removeDomain?id={{ domain[0] }}"><button type="button" class="btn btn-primary btn-xs">Remove</button></a></td>
-          </tr>
-          {% endif %}
-        {% endfor %}
-        </table>
-        <!-- end domains list table -->
+        <h3>System status</h3>
+        <p>Version: <strong>{{ myVersion }}</strong></p>
+        <p>Branch: <strong>{{ github_branch}}</strong> (default is master)</p>
+        <font color="{{ versionColor }}"><p>{{ versionMsg }}</font>
       </div>
 
     </div>

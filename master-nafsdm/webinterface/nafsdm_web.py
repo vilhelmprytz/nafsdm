@@ -12,6 +12,7 @@
 import logging
 import sys
 import subprocess
+from versionCheck import *
 from logPath import logPath
 from database import *
 from connAlive import *
@@ -100,6 +101,30 @@ def error_500(e):
 @app.route("/")
 @requires_auth
 def index():
+    status, devIcMode, github_branch, myVersion, newestVersion = checkUpdate()
+    if status:
+        if devIcMode:
+            if myVersion == newestVersion:
+                versionColor = "green"
+                versionMsg = "Running the latest incremental commits update - " + myVersion
+            else:
+                versionColor = "red"
+                versionMsg = "Not running the latest incremental commits update (latest version is " + newestVersion + ")"
+        else:
+            if myVersion == newestVersion:
+                versionColor = "green"
+                versionMsg = "Running the latest version - " + myVersion
+            else:
+                versionColor = "red"
+                versionMsg = "Not running the latest version (latest version is " + newestVersion + ")"
+    else:
+        versionMsg = "Unable to detect version (connection issues?)"
+    return render_template("index.html", version=masterVersion, date=date, github_branch=github_branch, myVersion=myVersion, devIcMode=devIcMode, versionColor=versionColor, versionMsg=versionMsg)
+    date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+
+@app.route("/domains")
+@requires_auth
+def domains():
     # get args
     remove = request.args.get("remove")
     add = request.args.get("add")
@@ -153,7 +178,7 @@ def api_newDomain():
 
     addDomain(domain, masterIP, comment, assignedNodes, dnssec)
 
-    return redirect("/?addSuccess=true")
+    return redirect("/domains?addSuccess=true")
 
 @app.route("/api/removeDomain")
 @requires_auth
@@ -163,9 +188,9 @@ def api_removeDomain():
     status = removeDomain(domainId)
 
     if status == True:
-        return redirect("/?removeSuccess=true")
+        return redirect("/domains?removeSuccess=true")
     else:
-        return redirect("/?fail=true")
+        return redirect("/domains?fail=true")
 
 @app.route("/api/editDomain", methods=["POST"])
 @requires_auth
@@ -180,9 +205,9 @@ def api_editDomain():
     status = editDomain(domainId, domain, masterIP, comment, assignedNodes, dnssec)
 
     if status == True:
-        return redirect("/?editSuccess=true")
+        return redirect("/domains?editSuccess=true")
     else:
-        return redirect("/?fail=true")
+        return redirect("/domains?fail=true")
 
 @app.route("/api/slaveFlush")
 @requires_auth
