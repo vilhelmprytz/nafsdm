@@ -62,6 +62,17 @@
   <div class="container-fluid text-center">
     <div class="row content">
       <div class="col-sm-2 sidenav">
+        <h4>Notifications</h4>
+        {% if notifications %}
+          {% for notification in notifications %}
+          <font color="{{ notification[1] }}"><p>{{ notification[0] }}</p></font>
+          {% endfor %}
+        {% else %}
+        <p>You have no notifications!</p>
+        {% endif %}
+
+        <br>
+        
         <h4>Actions</h4>
         <a href="/domains?add=yes"><button type="button" class="btn btn-primary btn-sm">Add new domain</button></a>
       </div>

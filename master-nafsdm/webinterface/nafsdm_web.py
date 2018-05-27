@@ -63,6 +63,25 @@ def requires_auth(f):
         return f(*args, **kwargs)
     return decorated
 
+# for notifications sidebar
+def prepNotifications():
+    # all notifications
+    notifications = []
+    # down slaves
+    downSlaves = listDownSlaves()
+    for slave in downSlaves:
+        notifications.append(["Node " + slave + " is currently offline!", "red"])
+
+    # new update
+    status, devIcMode, github_branch, myVersion, newestVersion = checkUpdate()
+    if status:
+        if myVersion != newestVersion:
+            notifications.append(["A new update is available!", "yellow"])
+
+    # other notifications will also be added here
+
+    return notifications
+
 # setup logging
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -146,8 +165,11 @@ def index():
     except Exception:
         slavesNumber = "error"
 
+    # notifications
+    notifications = prepNotifications()
+
     date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    return render_template("index.html", version=masterVersion, date=date, github_branch=github_branch, myVersion=myVersion, devIcMode=devIcMode, versionColor=versionColor, versionMsg=versionMsg, loadAvg=loadAvg, kernel=kernel, domainsNumber=domainsNumber, slavesNumber=slavesNumber)
+    return render_template("index.html", notifications=notifications, version=masterVersion, date=date, github_branch=github_branch, myVersion=myVersion, devIcMode=devIcMode, versionColor=versionColor, versionMsg=versionMsg, loadAvg=loadAvg, kernel=kernel, domainsNumber=domainsNumber, slavesNumber=slavesNumber)
 
 @app.route("/domains")
 @requires_auth
@@ -177,8 +199,11 @@ def domains():
             oneDomain = [domain[0], domain[1], domain[2], domain[3], domain[4], domain[5], domain[5]]
         domains.append(oneDomain)
 
+    # notifications
+    notifications = prepNotifications()
+
     date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    return render_template("domains.html", domains=domains, add=add, remove=remove, edit=edit, addSuccess=addSuccess, removeSuccess=removeSuccess, editSuccess=editSuccess, fail=fail, version=masterVersion, date=date)
+    return render_template("domains.html", notifications=notifications, domains=domains, add=add, remove=remove, edit=edit, addSuccess=addSuccess, removeSuccess=removeSuccess, editSuccess=editSuccess, fail=fail, version=masterVersion, date=date)
 
 @app.route("/slavestatus")
 @requires_auth
@@ -188,8 +213,11 @@ def slavestatus():
 
     date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
+    # notifications
+    notifications = prepNotifications()
+
     slaves = slaveConnections()
-    return render_template("slavestatus.html", slaves=slaves, flushSuccess=flushSuccess, fail=fail, version=masterVersion, date=date)
+    return render_template("slavestatus.html", notifications=notifications, slaves=slaves, flushSuccess=flushSuccess, fail=fail, version=masterVersion, date=date)
 
 ################
 ## API ROUTES ##

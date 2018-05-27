@@ -62,3 +62,15 @@ def flushSlaveConnections():
             someFail = True
 
     return someFail
+
+# returns list of slaves considered down
+def listDownSlaves():
+    slaveConnectionsList = slaveConnections()
+
+    downSlaves = []
+
+    for slave in slaveConnectionsList:
+        if slave[4]:
+            downSlaves.append(slave[0])
+
+    return downSlaves
