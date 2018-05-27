@@ -94,6 +94,8 @@
         <i><p>Was last checked at {{ checkDate }}.</p></i>
         <a href="/?updateCheck=yes"><button type="button" class="btn btn-primary btn-sm">Check for update</button></a>
         {% else %}
+        <p>Version: <strong>{{ version }}</strong></p>
+        <i><p>You have not performed update check since upgrade or install.</p></i>
         <a href="/?updateCheck=yes"><button type="button" class="btn btn-primary btn-sm">Check for update</button></a>
         {% endif %}
 
