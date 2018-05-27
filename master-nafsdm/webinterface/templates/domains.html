@@ -72,7 +72,7 @@
         {% endif %}
 
         <br>
-        
+
         <h4>Actions</h4>
         <a href="/domains?add=yes"><button type="button" class="btn btn-primary btn-sm">Add new domain</button></a>
       </div>
@@ -165,7 +165,7 @@
               <td><input type="text" value="{{ domain[3] }}" name="comment"><br></td>
               <td><input type="text" value="{{ domain[4] }}" name="assignedNodes"><br></td>
               <td><input type="text" value="{{ domain[6] }}" name="dnssec"><br></td>
-              <td><input class="btn btn-primary btn-xs" type="submit" value="Submit"></td>
+              <td><input class="btn btn-primary btn-xs" type="submit" value="Submit"><a href="/domains"><span style="margin-left:1em"><button class="btn btn-primary btn-xs">Cancel</button></span></a></td>
             </form>
           </tr>
           {% else %}
@@ -176,7 +176,7 @@
             <td>{{ domain[3] }}</td><!-- comment -->
             <td>{{ domain[4] }}</td><!-- assignedNodes -->
             <td>{{ domain[5] }}</td><!-- DNSSEC status -->
-            <td><a href="/domains?edit={{ domain[0] }}#{{ domain[0] }}"><button type="button" class="btn btn-primary btn-xs">Edit</button></a><a href="/api/removeDomain?id={{ domain[0] }}"><button type="button" class="btn btn-primary btn-xs">Remove</button></a></td>
+            <td><a href="/domains?edit={{ domain[0] }}#{{ domain[0] }}"><button type="button" class="btn btn-primary btn-xs">Edit</button></a><a href="/api/removeDomain?id={{ domain[0] }}"><span style="margin-left:1em"><button type="button" class="btn btn-primary btn-xs">Remove</button></a></span></td>
           </tr>
           {% endif %}
         {% endfor %}
