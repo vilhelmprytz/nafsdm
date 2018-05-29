@@ -24,7 +24,10 @@
           <table class="table table-bordered">
             <tr>
               <td>Github Branch</td>
-              <td><input type="text" value="{{ github_branch }}" name="github_branch"><br></td>
+              <td><select name="github_branch">
+                <option value="{{ github_branch }}">{{ github_branch }}</option>
+                <option value="{{ github_branchOpp }}">{{ github_branchOpp }}</option>
+              </select></td>
             </tr>
             <tr>
               <td>Development Incremental Commits Mode</td>

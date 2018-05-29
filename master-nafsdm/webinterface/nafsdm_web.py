@@ -176,6 +176,8 @@ def writeTxtConfig(github_branch, devStatus, devIcMode):
         if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt"):
             os.remove("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt")
 
+    return True
+
 # setup logging
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -364,6 +366,7 @@ def slavestatus():
 @requires_auth
 def settings():
     success = request.args.get("success")
+    fail = request.args.get("fail")
 
     date = strftime("%Y-%m-%d %H:%M:%S")
 
@@ -384,7 +387,16 @@ def settings():
     else:
         devIcModeOpp = True
 
-    return render_template("settings.html", notifications=notifications, version=masterVersion, date=date, github_branch=github_branch, devStatus=devStatus, devStatusOpp=devStatusOpp, devIcMode = devIcMode, devIcModeOpp=devIcModeOpp, success=success)
+    if "master" in github_branch:
+        github_branch = "master"
+        github_branchOpp = "development"
+    elif "development" in github_branch:
+        github_branch = "development"
+        github_branchOpp = "master"
+    else:
+        github_branchOpp = "error"
+
+    return render_template("settings.html", notifications=notifications, version=masterVersion, date=date, github_branch=github_branch, github_branchOpp=github_branchOpp, devStatus=devStatus, devStatusOpp=devStatusOpp, devIcMode = devIcMode, devIcModeOpp=devIcModeOpp, success=success, fail=fail)
 
 ################
 ## API ROUTES ##
