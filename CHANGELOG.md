@@ -3,7 +3,8 @@ Version ? (Status: DEVELOPMENT)
 * Add slavestatus page to nafsdm-webinterface.
 * New bootstrap theme for webinterface
 * New index for webinterface (domains has now separate page - index has system status/health, like nafsdm version, kernel version and some statistics)
-* (minor): Master upgrader restart webinterface only if it is enabled and is active 
+* (minor): Master upgrader restart webinterface only if it is enabled and is active
+* (minor): Move error pages to separate folder
 
 Version 1.3.1 (Status: RELEASED)
 * Bugfix: Slaves reported incorrect date to nafsdmctl slavestatus (minute instead of month under the "latest connection date" section)
