@@ -21,7 +21,7 @@
         <hr>
         <h3>nafsdm-master upgrade options</h3>
         <form action="/api/settingsUpdate" method="POST">
-          <table>
+          <table class="table table-bordered">
             <tr>
               <td>Github Branch</td>
               <td><input type="text" value="{{ github_branch }}" name="github_branch"><br></td>
@@ -42,7 +42,7 @@
             </tr>
           </table>
           <br>
-        <input type="submit" value="Save">
+        <input class="btn btn-primary btn-sm" type="submit" value="Save">
         </form>
 
 {% endblock %}

@@ -173,7 +173,7 @@ def writeTxtConfig(github_branch, devStatus, devIcMode):
         f.write("True")
         f.close()
     else:
-        if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt", "w")
+        if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt"):
             os.remove("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt")
 
 # setup logging
@@ -434,12 +434,12 @@ def api_slaveFlush():
     else:
         return redirect("/slavestatus?fail=true")
 
-@app.route("/api/settingsUpdate")
+@app.route("/api/settingsUpdate", methods=["POST"])
 @requires_auth
 def api_settingsUpdate():
-    github_branch = request.form["ssid"]
-    devIcMode = request.form["password"]
-    devStatus = request.form["frequency"]
+    github_branch = request.form["github_branch"]
+    devIcMode = request.form["devIcMode"]
+    devStatus = request.form["devStatus"]
 
     if writeTxtConfig(github_branch, devStatus, devIcMode):
         return redirect("/settings?success=true")
