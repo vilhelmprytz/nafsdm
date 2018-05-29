@@ -148,7 +148,7 @@ def parseTxtConfig():
         else:
             devIcMode = False
 
-        return github_branch, devStatus, devIcMode
+    return github_branch, devStatus, devIcMode
 
 # write new .txt config files
 def writeTxtConfig(github_branch, devStatus, devIcMode):
@@ -398,6 +398,17 @@ def settings():
 
     return render_template("settings.html", notifications=notifications, version=masterVersion, date=date, github_branch=github_branch, github_branchOpp=github_branchOpp, devStatus=devStatus, devStatusOpp=devStatusOpp, devIcMode = devIcMode, devIcModeOpp=devIcModeOpp, success=success, fail=fail)
 
+@app.route("/logviewer")
+@requires_auth
+def logviewer():
+    date = strftime("%Y-%m-%d %H:%M:%S")
+
+    # notifications
+    notifications = prepNotifications()
+
+    slaves = slaveConnections()
+    return render_template("logviewer.html", notifications=notifications, version=masterVersion, date=date)
+
 ################
 ## API ROUTES ##
 ################
@@ -462,3 +473,12 @@ def api_settingsUpdate():
         return redirect("/settings?success=true")
     else:
         return redirect("/settings?fail=true")
+
+@app.route("/api/logviewer")
+@requires_auth
+def api_logviewer():
+     f = open("/home/master-nafsdm/webinterface_log.log")
+     log = f.read()
+     f.close()
+
+     return "<pre>" + log + "</pre>"
