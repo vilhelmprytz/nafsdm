@@ -18,13 +18,14 @@
         <font color="{{ versionColor }}"><p>{{ versionMsg }}</font>
         <i><p>Was last checked at {{ checkDate }}.</p></i>
         <a href="/?updateCheck=yes"><button type="button" class="btn btn-primary btn-sm">Check for update</button></a>
-        <p>View webinterface log</p>
-        <a href="/logviewer"><button type="button" class="btn btn-primary btn-sm">logviewer</button></a>
         {% else %}
         <p>Version: <strong>{{ version }}</strong></p>
         <i><p>You have not performed update check since upgrade or install.</p></i>
         <a href="/?updateCheck=yes"><button type="button" class="btn btn-primary btn-sm">Check for update</button></a>
         {% endif %}
+        <br>
+        <p>View webinterface log</p>
+        <a href="/logviewer"><button type="button" class="btn btn-primary btn-sm">Logviewer</button></a>
 
         <h3>System status</h3>
         <p>Kernel: <strong>{{ kernel }}</strong></p>
