@@ -210,6 +210,11 @@ def error_500(e):
     date = strftime("%Y-%m-%d %H:%M:%S")
     return render_template("errors/500.html", version=masterVersion, date=date), 500
 
+@app.errorhandler(400)
+def error_400(e):
+    date = strftime("%Y-%m-%d %H:%M:%S")
+    return render_template("errors/400.html", version=masterVersion, date=date), 400
+
 #################
 ## MAIN ROUTES ##
 #################
