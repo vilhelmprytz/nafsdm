@@ -481,4 +481,6 @@ def api_logviewer():
      log = f.read()
      f.close()
 
-     return "<pre>" + log + "</pre>"
+     return '''<script>function scrollBottom() {window.scrollTo(0, 99999);}
+if (document.addEventListener) document.addEventListener("DOMContentLoaded", scrollBottom, false)
+else if (window.attachEvent) window.attachEvent("onload", scrollBottom);</script><pre>''' + log + '</pre>'
