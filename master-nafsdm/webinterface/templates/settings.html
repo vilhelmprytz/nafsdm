@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block title %} - settings{% endblock %}
+{% block navbar %}
+          <li><a href="/">Home</a></li>
+          <li><a href="/domains">Domains</a></li>
+          <li><a href="/slavestatus">Slavestatus</a></li>
+          <li class="active"><a href="/settings">Settings</a></li>
+{% endblock %}
+{% block actions %}<button type="button" class="btn btn-primary btn-sm" onclick="reloadPage()">Reload page</button>{% endblock %}
+{% block content %}
+        <h1>nafsdm webinterface - settings</h1>
+        <p>Configurable options for the master.</p>
+        <!-- if flags -->
+        {% if success %}
+        <p><font color="green">Successfully saved configuration!</font> <a href="/settings"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
+        {% endif %}
+        {% if fail %}
+        <p><font color="red">Unable to save configuration, please check logs!</font> <a href="/settings"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
+        {% endif %}
+        <!-- end if flags -->
+        <hr>
+        <h3>nafsdm-master upgrade options</h3>
+        <form action="/api/settingsUpdate" method="POST">
+          <table>
+            <tr>
+              <td>Github Branch</td>
+              <td><input type="text" value="{{ github_branch }}" name="github_branch"><br></td>
+            </tr>
+            <tr>
+              <td>Development Incremental Commits Mode</td>
+              <td><select name="devIcMode">
+                <option value="{{ devIcMode }}">{{ devIcMode }}</option>
+                <option value="{{ devIcModeOpp }}">{{ devIcModeOpp }}</option>
+              </select></td>
+            </tr>
+            <tr>
+              <td>Development Status Mode (skip version check)</td>
+              <td><select name="devStatus">
+                <option value="{{ devStatus }}">{{ devStatus }}</option>
+                <option value="{{ devStatusOpp }}">{{ devStatusOpp }}</option>
+              </select></td>
+            </tr>
+          </table>
+          <br>
+        <input type="submit" value="Save">
+        </form>
+
+{% endblock %}

@@ -113,6 +113,69 @@ def parseTempFiles():
     else:
         return False, None, None, None, None, None
 
+# parse some .txt config files
+def parseTxtConfig():
+    github_branch = "master"
+    devStatus = False
+    devIcMode = False
+
+    # dev function for specifing branch
+    if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_github_branch.txt"):
+        f = open("/home/master-nafsdm/pythondaemon/dev_github_branch.txt")
+        branchRaw = f.read()
+        f.close()
+
+        if "development" in branchRaw:
+            github_branch = "development"
+
+    # dev mode, disables auto updater
+    if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_devmode.txt"):
+        f = open("/home/master-nafsdm/pythondaemon/dev_devmode.txt")
+        devStatusRaw = f.read()
+        f.close()
+        if "True" in devStatusRaw:
+            devStatus = True
+        else:
+            devStatus = False
+
+    # dev ic mode
+    if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt"):
+        f = open("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt")
+        devIcModeRaw = f.read()
+        f.close()
+        if "True" in devIcModeRaw:
+            devIcMode = True
+        else:
+            devIcMode = False
+
+        return github_branch, devStatus, devIcMode
+
+# write new .txt config files
+def writeTxtConfig(github_branch, devStatus, devIcMode):
+    if github_branch == "master":
+        if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_github_branch.txt"):
+            os.remove("/home/master-nafsdm/pythondaemon/dev_github_branch.txt")
+    else:
+        f = open("/home/master-nafsdm/pythondaemon/dev_github_branch.txt", "w")
+        f.write(github_branch)
+        f.close()
+
+    if devStatus == "True":
+        f = open("/home/master-nafsdm/pythondaemon/dev_devmode.txt", "w")
+        f.write("True")
+        f.close()
+    else:
+        if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_devmode.txt"):
+            os.remove("/home/master-nafsdm/pythondaemon/dev_devmode.txt")
+
+    if devIcMode == "True":
+        f = open("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt", "w")
+        f.write("True")
+        f.close()
+    else:
+        if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt", "w")
+            os.remove("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt")
+
 # setup logging
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -292,6 +355,32 @@ def slavestatus():
     slaves = slaveConnections()
     return render_template("slavestatus.html", notifications=notifications, slaves=slaves, flushSuccess=flushSuccess, fail=fail, version=masterVersion, date=date)
 
+@app.route("/settings")
+@requires_auth
+def settings():
+    success = request.args.get("success")
+
+    date = strftime("%Y-%m-%d %H:%M:%S")
+
+    # notifications
+    notifications = prepNotifications()
+
+    # get current status of all files
+    github_branch, devStatus, devIcMode = parseTxtConfig()
+
+    # get two values of the True/False values
+    if devStatus:
+        devStatusOpp = False
+    else:
+        devStatusOpp = True
+
+    if devIcMode:
+        devIcModeOpp = False
+    else:
+        devIcModeOpp = True
+
+    return render_template("settings.html", notifications=notifications, version=masterVersion, date=date, github_branch=github_branch, devStatus=devStatus, devStatusOpp=devStatusOpp, devIcMode = devIcMode, devIcModeOpp=devIcModeOpp, success=success)
+
 ################
 ## API ROUTES ##
 ################
@@ -344,3 +433,15 @@ def api_slaveFlush():
         return redirect("/slavestatus?flushSuccess=true")
     else:
         return redirect("/slavestatus?fail=true")
+
+@app.route("/api/settingsUpdate")
+@requires_auth
+def api_settingsUpdate():
+    github_branch = request.form["ssid"]
+    devIcMode = request.form["password"]
+    devStatus = request.form["frequency"]
+
+    if writeTxtConfig(github_branch, devStatus, devIcMode):
+        return redirect("/settings?success=true")
+    else:
+        return redirect("/settings?fail=true")

@@ -4,10 +4,12 @@
           <li><a href="/">Home</a></li>
           <li><a href="/domains">Domains</a></li>
           <li class="active"><a href="/slavestatus">Slavestatus</a></li>
+          <li><a href="/settings">Settings</a></li>
 {% endblock %}
 {% block actions %}<a href="/api/slaveFlush"><button type="button" class="btn btn-primary btn-sm">Flush slavestatus</button></a> <button type="button" class="btn btn-primary btn-sm" onclick="reloadPage()">Reload page</button>{% endblock %}
 {% block content %}
         <h1>nafsdm webinterface - slavestatus</h1>
+        <p>List of slaves connected to this master.</p>
         <!-- if flags -->
         {% if flushSuccess %}
         <p><font color="green">Successfully flushed slavestatus!</font> <a href="/slavestatus"><button type="button" class="btn btn-primary btn-sm">Dismiss</button></a></p>
