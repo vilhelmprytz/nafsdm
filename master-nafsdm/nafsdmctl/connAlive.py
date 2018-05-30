@@ -26,7 +26,7 @@ def timeAgo(filename):
 
     return fullString, epochAgo
 
-def slaveConnections(bcolors):
+def slaveConnections(colorStatus, bcolors):
     slaveConnections = []
     fileList = [f for f in listdir("/home/master-nafsdm/slaveAlive") if isfile(join("/home/master-nafsdm/slaveAlive", f))]
 
@@ -43,9 +43,15 @@ def slaveConnections(bcolors):
             timeAgoString, epochAgo = timeAgo("/home/master-nafsdm/slaveAlive/" + file)
 
             if int(epochAgo) > int(interval)+5:
-                slaveConnections.append(["[" + bcolors.FAIL + "!" + bcolors.ENDC + "] " + file.split(".")[0], bcolors.FAIL + timeAgoString + bcolors.ENDC, slaveDate, interval])
+                if colorStatus:
+                    slaveConnections.append(["[" + bcolors.FAIL + "!" + bcolors.ENDC + "] " + file.split(".")[0], bcolors.FAIL + timeAgoString + bcolors.ENDC, slaveDate, interval])
+                else:
+                    slaveConnections.append(["[!] " + file.split(".")[0], timeAgoString, slaveDate, interval])
             else:
-                slaveConnections.append([file.split(".")[0], bcolors.OKGREEN + timeAgoString + bcolors.ENDC, slaveDate, interval])
+                if colorStatus:
+                    slaveConnections.append([file.split(".")[0], bcolors.OKGREEN + timeAgoString + bcolors.ENDC, slaveDate, interval])
+                else:
+                    slaveConnections.append([file.split(".")[0], timeAgoString, slaveDate, interval])
 
     return slaveConnections
 

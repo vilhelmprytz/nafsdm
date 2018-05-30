@@ -46,6 +46,10 @@ if config.dev_incrementalCommitVersions == "True" or config.dev_incrementalCommi
 else:
     devICMode = False
 
+# print debug
+if debug:
+    print("debug is enabled")
+
 # functions
 def errorPrint(message):
     print("nafscli: " + bcolors.FAIL + message + bcolors.ENDC)
@@ -114,6 +118,8 @@ def fetchVersion():
 def checkVersion(currentVersion):
     if devICMode:
         response = requests.get("https://api.github.com/repos/mrkakisen/nafsdm/branches/development")
+        if debug:
+            print(response)
         if (response.status_code == requests.codes.ok):
             data = response.json()
             latestCommit = data["commit"]["sha"][0:7]
@@ -165,23 +171,31 @@ def stopDaemon():
 # the CLI can communicate with the daemon by setting a new CLI state
 def setCLIState(newState):
     if checkStatus()[0]:
-        try:
-            f = open("/home/slave-nafsdm/pythondaemon/cli_state", "w")
-        except Exception:
-            errorPrint("could not set CLI state")
+        writeCLIState(newState)
+    else:
+        if debug:
+            print("slave is inactive, but debug is enabled (setting state anyways)")
+            writeCLIState(newState)
+        else:
+            errorPrint("daemon is not running, cannot set CLI state")
             exit(1)
+            return False
 
-        f.write(newState)
-        f.close()
+# write CLI state
+def writeCLIState(newState):
+    try:
+        f = open("/home/slave-nafsdm/pythondaemon/cli_state", "w")
+    except Exception:
+        errorPrint("could not set CLI state")
+        exit(1)
+
+    f.write(newState)
+    f.close()
 
         return True
-    else:
-        errorPrint("daemon is not running, cannot set CLI state")
-        exit(1)
-        return False
 # debug print
 if debug:
-    print("Debugg: " + str(sys.argv))
+    print("Debug SYS.argv: " + str(sys.argv))
 
 # syntax print
 if len(sys.argv) < 2:
@@ -231,7 +245,9 @@ elif sys.argv[1] == "log":
     print("nafscli: " + bcolors.WARNING + "press CTRL+C to exit logviewer" + bcolors.ENDC)
 
     # supress all traceback info
-    sys.tracebacklimit = 0
+    if not debug:
+        sys.tracebacklimit = 0
+
     try:
         output = subprocess.call(["tail", "-f", "/home/slave-nafsdm/log.log"])
     except Exception:
@@ -239,7 +255,8 @@ elif sys.argv[1] == "log":
         exit(1)
 
     # back to default value
-    sys.tracebacklimit = 1000
+    if not debug:
+        sys.tracebacklimit = 1000
 
 elif sys.argv[1] == "start":
     if checkStatus()[0]:

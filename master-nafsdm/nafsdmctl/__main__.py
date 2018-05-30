@@ -40,6 +40,10 @@ class bcolors: # (thanks to https://stackoverflow.com/a/287944/8321546)
         self.FAIL = ''
         self.ENDC = ''
 
+# print debug if debug is enabled
+if debug:
+    print("debug mode is enableds")
+
 # functions
 def signal_handler(signal, frame):
     print("CTRL+C - quitting.")
@@ -58,6 +62,7 @@ def printSyntax():
     print("\n" + bcolors.BOLD + bcolors.FAIL + "nafsdm control " + bcolors.ENDC + "for master daemon" + "\n")
     print("Commands:")
     print(bcolors.BOLD + " slavestatus [flush]" + bcolors.ENDC + "                                                 Shows connection status of all slaves.")
+    print(bcolors.BOLD + " slavestatus [raw]" + bcolors.ENDC + "                                                   Prints slavestatus in raw format.")
     print(bcolors.BOLD + " add [domain.tld] [masterIP] [comment] [nodes.nodes] [dnssec.no/yes]" + bcolors.ENDC + " Add a new domain")
     print(bcolors.BOLD + " removedomain [domain]" + bcolors.ENDC + "                                               Remove a record by domain")
     print(bcolors.BOLD + " removeid [id]" + bcolors.ENDC + "                                                       Remove a record by ID")
@@ -126,7 +131,10 @@ def restartWebinterface():
 # slave connection status
 def printSlaveConnections():
     # get slave connection status
-    slaveConn = slaveConnections(bcolors)
+    slaveConn = slaveConnections(True, bcolors)
+
+    if debug:
+        print(slaveConn)
 
     # print a fancy table using tabulate
     headers = [bcolors.BOLD + "hostname", "latest connection", "latest connection date", "interval" + bcolors.ENDC]
@@ -293,6 +301,9 @@ elif (sys.argv[1] == "slavestatus"):
                 successPrint("flush successful")
             else:
                 errorPrint("flush failed")
+        elif sys.argv[2] == "raw":
+            slaveConn = slaveConnections(False, bcolors)
+            print(slaveConn)
         else:
             errorPrint("invalid argument")
             printSyntax()
