@@ -181,6 +181,8 @@ def setCLIState(newState):
             exit(1)
             return False
 
+    return True
+
 # write CLI state
 def writeCLIState(newState):
     try:
@@ -192,8 +194,6 @@ def writeCLIState(newState):
     f.write(newState)
     f.close()
 
-    return True
-    
 # debug print
 if debug:
     print("Debug SYS.argv: " + str(sys.argv))
