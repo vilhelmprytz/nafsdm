@@ -7,7 +7,7 @@ Version ? (Status: DEVELOPMENT)
 * (minor): Master upgrader restart webinterface only if it is enabled and is active
 * (minor): Move error pages to separate folder
 * (minor): Debug mode more useful in nafscli & nafsdmctl
-* (minor): Raw print function for nafsdmctl slavestatus
+* (minor): Raw print function for nafsdmctl slavestatus & nafsdmctl list
 
 Version 1.3.1 (Status: RELEASED)
 * Bugfix: Slaves reported incorrect date to nafsdmctl slavestatus (minute instead of month under the "latest connection date" section)

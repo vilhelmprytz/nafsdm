@@ -200,6 +200,14 @@ elif (sys.argv[1] == "removeid"):
         printSyntax()
         exit(1)
 elif (sys.argv[1] == "list"):
+    if len(sys.argv) < 3:
+        colorStatus = True
+    else:
+        if sys.argv[2] == "raw":
+            colorStatus = False
+        else:
+            printSyntax()
+            exit(1)
     # get domains
     domainsRaw = listDomains()
 
@@ -209,15 +217,27 @@ elif (sys.argv[1] == "list"):
     for row in domainsRaw:
         if row != None:
             if row[5] == "y":
-                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.OKGREEN + "yes" + bcolors.ENDC])
+                if colorStatus:
+                    printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.OKGREEN + "yes" + bcolors.ENDC])
+                else:
+                    printTable.append([str(row[0]), row[1], row[2], row[3], row[4], "yes"])
             elif row[5] == "n":
-                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.FAIL + "no" + bcolors.ENDC])
+                if colorStatus:
+                    printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.FAIL + "no" + bcolors.ENDC])
+                else:
+                    printTable.append([str(row[0]), row[1], row[2], row[3], row[4], "no"])
+
             else:
                 printTable.append([str(row[0]), row[1], row[2], row[3], row[4], row[5]])
 
-    # print a fancy table using tabulate
-    headers = [bcolors.BOLD + "id", "domain", "master IP", "comment", "slaves", "DNSSEC status" + bcolors.ENDC]
-    print tabulate(printTable, headers, tablefmt="fancy_grid")
+    if colorStatus:
+        # print a fancy table using tabulate
+        headers = [bcolors.BOLD + "id", "domain", "master IP", "comment", "slaves", "DNSSEC status" + bcolors.ENDC]
+        print tabulate(printTable, headers, tablefmt="fancy_grid")
+    else:
+        for domain in printTable:
+            print(domain[0] + " - " + domain[1] + " - " + domain[2] + " - " + domain[3] + " - " + domain[4] + " - " + domain[5])
+
 
 
 elif (sys.argv[1] == "edit"):
@@ -303,8 +323,8 @@ elif (sys.argv[1] == "slavestatus"):
                 errorPrint("flush failed")
         elif sys.argv[2] == "raw":
             slaveConn = slaveConnections(False, bcolors)
-            print(slaveConn)
-        else:
+            for slave in slaveConn:
+                print(slave[0] + " - " + slave[1] + " - " + slave[3] + " - " + slave[3])
             errorPrint("invalid argument")
             printSyntax()
             exit(1)

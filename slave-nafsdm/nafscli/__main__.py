@@ -192,7 +192,8 @@ def writeCLIState(newState):
     f.write(newState)
     f.close()
 
-        return True
+    return True
+    
 # debug print
 if debug:
     print("Debug SYS.argv: " + str(sys.argv))
