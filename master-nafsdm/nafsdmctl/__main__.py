@@ -61,13 +61,14 @@ def printSyntax():
     print("Usage: nafsdmctl [COMMAND] [ARG] ...")
     print("\n" + bcolors.BOLD + bcolors.FAIL + "nafsdm control " + bcolors.ENDC + "for master daemon" + "\n")
     print("Commands:")
-    print(bcolors.BOLD + " slavestatus [flush]" + bcolors.ENDC + "                                                 Shows connection status of all slaves.")
-    print(bcolors.BOLD + " slavestatus [raw]" + bcolors.ENDC + "                                                   Prints slavestatus in raw format.")
+    print(bcolors.BOLD + " slavestatus [flush]" + bcolors.ENDC + "                                                 Shows connection status of all slaves")
+    print(bcolors.BOLD + " slavestatus [raw]" + bcolors.ENDC + "                                                   Prints slavestatus in raw format (no color)")
     print(bcolors.BOLD + " add [domain.tld] [masterIP] [comment] [nodes.nodes] [dnssec.no/yes]" + bcolors.ENDC + " Add a new domain")
     print(bcolors.BOLD + " removedomain [domain]" + bcolors.ENDC + "                                               Remove a record by domain")
     print(bcolors.BOLD + " removeid [id]" + bcolors.ENDC + "                                                       Remove a record by ID")
     print(bcolors.BOLD + " edit [domain]" + bcolors.ENDC + "                                                       Edit a domain")
     print(bcolors.BOLD + " list" + bcolors.ENDC + "                                                                List all domains")
+    print(bcolors.BOLD + " list [raw]" + bcolors.ENDC + "                                                          List all domains in raw format (no color)")
     print("\n" + "nafsdm webinterface commands:")
     print(bcolors.BOLD + " webinterface status" + bcolors.ENDC + "                                                 Shows status of webinterface")
     print(bcolors.BOLD + " webinterface start" + bcolors.ENDC + "                                                  Start the nafsdm-webinterface")
@@ -323,8 +324,12 @@ elif (sys.argv[1] == "slavestatus"):
                 errorPrint("flush failed")
         elif sys.argv[2] == "raw":
             slaveConn = slaveConnections(False, bcolors)
+            if debug:
+                print("DEBUG how many slaveconn: " + str(len(slaveConn)))
             for slave in slaveConn:
-                print(slave[0] + " - " + slave[1] + " - " + slave[3] + " - " + slave[3])
+                if not len(slave) < 4:
+                    print(slave[0] + " - " + slave[1] + " - " + slave[2].split("\n")[0] + " - " + slave[3].split("\n")[0])
+        else:
             errorPrint("invalid argument")
             printSyntax()
             exit(1)
