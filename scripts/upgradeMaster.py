@@ -10,8 +10,12 @@ import subprocess
 import os.path
 import sys
 
+# by default, path is manager
+managerPath = "manager"
+
 # import version (has changed in 1.4, we need to check which folder the uses has their version in)
-if os.path.isfile("/home/master-nafsdm/pythondaemon"):
+if os.path.exists("/home/master-nafsdm/pythondaemon"):
+    managerPath = "pythondaemon"
     sys.path.insert(0, "/home/master-nafsdm/pythondaemon")
     from version import version
 else:
@@ -20,7 +24,7 @@ else:
 
 def initUpgrade(github_branch="master", dev_ic_mode=False):
     try:
-        output = subprocess.check_output(["/bin/bash", "/home/master-nafsdm/manager/tempUpgrade/temp_upgrade.sh", github_branch, str(dev_ic_mode)])
+        output = subprocess.check_output(["/bin/bash", "/home/master-nafsdm/" + managerPath + "/tempUpgrade/temp_upgrade.sh", github_branch, str(dev_ic_mode)])
     except subprocess.CalledProcessError as grepexc:
         # we want grepexc to determine the exit code (if it's an issue or just unsupported version)
         exit_code = grepexc.returncode

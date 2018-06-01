@@ -108,7 +108,7 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   rm -rf /home/master-nafsdm/daemon
   cp nafsdm/master-nafsdm/manager /home/master-nafsdm/manager -R
-  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon
+  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   chmod +x /home/master-nafsdm/daemon/start.py
@@ -134,7 +134,7 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
-  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.servic
+  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
 
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
@@ -147,7 +147,7 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   rm -rf /home/master-nafsdm/daemon
   cp nafsdm/master-nafsdm/manager /home/master-nafsdm/manager -R
-  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon
+  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   chmod +x /home/master-nafsdm/daemon/start.py
@@ -173,7 +173,7 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
-  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.servic
+  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
 
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
@@ -186,7 +186,7 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   rm -rf /home/master-nafsdm/daemon
   cp nafsdm/master-nafsdm/manager /home/master-nafsdm/manager -R
-  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon
+  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   chmod +x /home/master-nafsdm/daemon/start.py
@@ -212,7 +212,7 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
-  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.servic
+  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
 
   echo "* Update completed. Nothing to do or change!"
@@ -223,7 +223,7 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   rm -rf /home/master-nafsdm/daemon
   cp nafsdm/master-nafsdm/manager /home/master-nafsdm/manager -R
-  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon
+  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   chmod +x /home/master-nafsdm/daemon/start.py
@@ -249,7 +249,7 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
-  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.servic
+  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
 
   echo "* Update completed. Nothing to do or change!"
@@ -260,7 +260,7 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   rm -rf /home/master-nafsdm/daemon
   cp nafsdm/master-nafsdm/manager /home/master-nafsdm/manager -R
-  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon
+  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   chmod +x /home/master-nafsdm/daemon/start.py
@@ -286,7 +286,7 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
-  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.servic
+  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
 
   echo "* Update completed. Nothing to do or change!"
@@ -297,7 +297,7 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   rm -rf /home/master-nafsdm/daemon
   cp nafsdm/master-nafsdm/manager /home/master-nafsdm/manager -R
-  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon
+  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   chmod +x /home/master-nafsdm/daemon/start.py
@@ -323,7 +323,7 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
-  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.servic
+  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
 
   echo "* Update completed. Nothing to do or change!"
@@ -334,7 +334,7 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   rm -rf /home/master-nafsdm/daemon
   cp nafsdm/master-nafsdm/manager /home/master-nafsdm/manager -R
-  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon
+  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   chmod +x /home/master-nafsdm/daemon/start.py
@@ -370,7 +370,7 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
-  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.servic
+  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
 
   echo "* Update completed. Nothing to do or change!"
@@ -381,7 +381,7 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   rm -rf /home/master-nafsdm/daemon
   cp nafsdm/master-nafsdm/manager /home/master-nafsdm/manager -R
-  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon
+  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   chmod +x /home/master-nafsdm/daemon/start.py
@@ -417,7 +417,7 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
-  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.servic
+  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
 
   echo "* Update completed. Nothing to do or change!"
@@ -428,7 +428,7 @@ elif [ "$MY_VERSION" == "1.3-stable" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   rm -rf /home/master-nafsdm/daemon
   cp nafsdm/master-nafsdm/manager /home/master-nafsdm/manager -R
-  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon
+  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   chmod +x /home/master-nafsdm/daemon/start.py
@@ -464,7 +464,7 @@ elif [ "$MY_VERSION" == "1.3-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
-  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.servic
+  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
 
   echo "* Update completed. Nothing to do or change!"
@@ -476,7 +476,7 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   rm -rf /home/master-nafsdm/nafsdmctl
   rm -rf /home/master-nafsdm/daemon
   cp nafsdm/master-nafsdm/manager /home/master-nafsdm/manager -R
-  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon
+  cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
   chmod +x /home/master-nafsdm/daemon/start.py
@@ -512,7 +512,7 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
-  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.servic
+  cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
 
   # dev set version
