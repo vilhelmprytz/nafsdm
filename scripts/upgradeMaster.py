@@ -7,11 +7,16 @@
 
 # imports
 import subprocess
-
-# import version
+import os.path
 import sys
-sys.path.insert(0, "/home/master-nafsdm/manager")
-from version import version
+
+# import version (has changed in 1.4, we need to check which folder the uses has their version in)
+if os.path.isfile("/home/master-nafsdm/pythondaemon")
+    sys.path.insert(0, "/home/master-nafsdm/pythondaemon")
+    from version import version
+else:
+    sys.path.insert(0, "/home/master-nafsdm/manager")
+    from version import version
 
 def initUpgrade(github_branch="master", dev_ic_mode=False):
     try:
