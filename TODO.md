@@ -2,7 +2,12 @@
 (remove completely from list when finished/solved)
 
 ## High Priority
-* nafsdmctl webinterface enable and disable
+* make sure to delete pythondaemon on all versions prior to 1.4
+* rename the nafsdm-master executable to nafsdm-manager everywhere
+* migrate SQL file to new format on update
+* update wikis and all readme's/howto's
+* nafsdmctl zone editor
+* editor for zones managed by nafsdm inside of webinterface
 
 ## Lower Priority
 * rework the master

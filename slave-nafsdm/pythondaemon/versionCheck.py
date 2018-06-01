@@ -74,6 +74,10 @@ def checkUpdate(config, mode):
             if upgradeOnStart or mode == "cli":
                 if (os.path.exists("/home/slave-nafsdm/tempUpgrade")):
                     logging.warning("Temp upgrade folder already exists!")
+                    # shortcut to make the shit importable
+                    f = open("/home/slave-nafsdm/pythondaemon/tempUpgrade/__init__.py", "w")
+                    f.write(" ")
+                    f.close()
                 else:
                     os.makedirs("/home/slave-nafsdm/pythondaemon/tempUpgrade")
                     # shortcut to make the shit importable

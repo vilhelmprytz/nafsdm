@@ -134,10 +134,11 @@ cp /tmp/nafsdm/$GITHUB_DIR /home -R
 cp /tmp/nafsdm/LICENSE $HOME_DIR/LICENSE
 
 cp /tmp/nafsdm/systemconfigs/nafsdmctl /usr/bin/nafsdmctl
-cp /tmp/nafsdm/systemconfigs/nafsdm-master /usr/bin/nafsdm-master
+cp /tmp/nafsdm/systemconfigs/nafsdm-manager /usr/bin/nafsdm-manager
 
 # nafsdm webinterface
 cp /tmp/nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nnafsdm-daemon.servic
 chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
 chmod +x /home/master-nafsdm/webinterface/start.sh
 
@@ -145,15 +146,18 @@ chmod +x /home/master-nafsdm/webinterface/start.sh
 cp /tmp/nafsdm/CHANGELOG.md $HOME_DIR/changelog.txt
 
 chmod +x /usr/bin/nafsdmctl
-chmod +x /usr/bin/nafsdm-master
+chmod +x /usr/bin/nafsdm-manager
+
+# enable systemd service
+/usr/bin/env systemctl enable nafsdm-daemon
 
 # dev set version
 if [ "$DEV_IC_CONFIRM" == "y" ]; then
   cd /tmp/nafsdm
   COMMIT_HASH=$(git log -n 1 development | sed -n '1p' | cut -c8-14)
-  echo "version = \"$COMMIT_HASH-dev\"" > /home/master-nafsdm/pythondaemon/version.py
-  echo "True" > /home/master-nafsdm/pythondaemon/dev_ic_mode.txt
-  echo "development" > /home/master-nafsdm/pythondaemon/dev_github_branch.txt
+  echo "version = \"$COMMIT_HASH-dev\"" > /home/master-nafsdm/manager/version.py
+  echo "True" > /home/master-nafsdm/manager/dev_ic_mode.txt
+  echo "development" > /home/master-nafsdm/manager/dev_github_branch.txt
 fi
 
 echo "* Installed. Cleanup.."

@@ -28,7 +28,7 @@ from functools import wraps
 
 # import master version
 import sys
-sys.path.insert(0, "/home/master-nafsdm/pythondaemon")
+sys.path.insert(0, "/home/master-nafsdm/manager")
 from version import version as masterVersion
 
 
@@ -120,8 +120,8 @@ def parseTxtConfig():
     devIcMode = False
 
     # dev function for specifing branch
-    if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_github_branch.txt"):
-        f = open("/home/master-nafsdm/pythondaemon/dev_github_branch.txt")
+    if os.path.isfile("/home/master-nafsdm/manager/dev_github_branch.txt"):
+        f = open("/home/master-nafsdm/manager/dev_github_branch.txt")
         branchRaw = f.read()
         f.close()
 
@@ -129,8 +129,8 @@ def parseTxtConfig():
             github_branch = "development"
 
     # dev mode, disables auto updater
-    if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_devmode.txt"):
-        f = open("/home/master-nafsdm/pythondaemon/dev_devmode.txt")
+    if os.path.isfile("/home/master-nafsdm/manager/dev_devmode.txt"):
+        f = open("/home/master-nafsdm/manager/dev_devmode.txt")
         devStatusRaw = f.read()
         f.close()
         if "True" in devStatusRaw:
@@ -139,8 +139,8 @@ def parseTxtConfig():
             devStatus = False
 
     # dev ic mode
-    if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt"):
-        f = open("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt")
+    if os.path.isfile("/home/master-nafsdm/manager/dev_ic_mode.txt"):
+        f = open("/home/master-nafsdm/manager/dev_ic_mode.txt")
         devIcModeRaw = f.read()
         f.close()
         if "True" in devIcModeRaw:
@@ -153,28 +153,28 @@ def parseTxtConfig():
 # write new .txt config files
 def writeTxtConfig(github_branch, devStatus, devIcMode):
     if github_branch == "master":
-        if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_github_branch.txt"):
-            os.remove("/home/master-nafsdm/pythondaemon/dev_github_branch.txt")
+        if os.path.isfile("/home/master-nafsdm/manager/dev_github_branch.txt"):
+            os.remove("/home/master-nafsdm/manager/dev_github_branch.txt")
     else:
-        f = open("/home/master-nafsdm/pythondaemon/dev_github_branch.txt", "w")
+        f = open("/home/master-nafsdm/manager/dev_github_branch.txt", "w")
         f.write(github_branch)
         f.close()
 
     if devStatus == "True":
-        f = open("/home/master-nafsdm/pythondaemon/dev_devmode.txt", "w")
+        f = open("/home/master-nafsdm/manager/dev_devmode.txt", "w")
         f.write("True")
         f.close()
     else:
-        if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_devmode.txt"):
-            os.remove("/home/master-nafsdm/pythondaemon/dev_devmode.txt")
+        if os.path.isfile("/home/master-nafsdm/manager/dev_devmode.txt"):
+            os.remove("/home/master-nafsdm/manager/dev_devmode.txt")
 
     if devIcMode == "True":
-        f = open("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt", "w")
+        f = open("/home/master-nafsdm/manager/dev_ic_mode.txt", "w")
         f.write("True")
         f.close()
     else:
-        if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt"):
-            os.remove("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt")
+        if os.path.isfile("/home/master-nafsdm/manager/dev_ic_mode.txt"):
+            os.remove("/home/master-nafsdm/manager/dev_ic_mode.txt")
 
     return True
 

@@ -11,6 +11,7 @@ import os.path
 from tabulate import tabulate
 from db import *
 from connAlive import slaveConnections, flushSlaveConnections
+from zone import *
 import subprocess
 import time
 
@@ -42,7 +43,7 @@ class bcolors: # (thanks to https://stackoverflow.com/a/287944/8321546)
 
 # print debug if debug is enabled
 if debug:
-    print("debug mode is enableds")
+    print("debug mode is enabled")
 
 # functions
 def signal_handler(signal, frame):
@@ -74,6 +75,14 @@ def printSyntax():
     print(bcolors.BOLD + " webinterface start" + bcolors.ENDC + "                                                  Start the nafsdm-webinterface")
     print(bcolors.BOLD + " webinterface stop" + bcolors.ENDC + "                                                   Start the nafsdm-webinterface")
     print(bcolors.BOLD + " webinterface restart" + bcolors.ENDC + "                                                Start the nafsdm-webinterface")
+    print("\n" + "nafsdm daemon commands:")
+    print(bcolors.BOLD + " daemon status" + bcolors.ENDC + "                                                       Shows status of daemon")
+    print(bcolors.BOLD + " daemon start" + bcolors.ENDC + "                                                        Start the nafsdm-daemon")
+    print(bcolors.BOLD + " daemon stop" + bcolors.ENDC + "                                                         Start the nafsdm-daemon")
+    print(bcolors.BOLD + " daemon restart" + bcolors.ENDC + "                                                      Start the nafsdm-daemon")
+    print("\n" + "nafsdm zone commands:")
+    print(bcolors.BOLD + " zone activate [domain]" + bcolors.ENDC + "                                              Activate zone management for a specific domain")
+    print(bcolors.BOLD + " zone edit [domain]" + bcolors.ENDC + "                                                  Edit the zone of a domain")
 
 # webinterface control commands
 def webinterfaceStatus():
@@ -125,6 +134,60 @@ def restartWebinterface():
         output = subprocess.check_output(["/bin/systemctl", "restart", "nafsdm-webinterface.service"])
     except Exception:
         errorPrint("an error occured during webinterface restart")
+        exit(1)
+
+    return True
+
+# daemon control commands
+def daemonStatus():
+    try:
+        output = subprocess.check_output(["/bin/systemctl", "status", "nafsdm-daemon.service"])
+    except Exception, e:
+        outputSaved = str(e.output)
+        if debug:
+            print("DEBUG - output from systemctl status nafsdm-daemon")
+            print(outputSaved)
+        for line in outputSaved.split("\n"):
+            if "Active:" in line:
+                if "active (running)" in line:
+                    return True
+                else:
+                    return False
+        errorPrint("an error occured during status check")
+        exit(1)
+
+    for line in output.split("\n"):
+        if "Active:" in line:
+            if "active (running)" in line:
+                return True
+    # systemd should give us 'Active: active (running)' if it's running, otherwise it's not
+    return False
+
+def startDaemon():
+    # simple start command to systemd
+    try:
+        output = subprocess.check_output(["/bin/systemctl", "start", "nafsdm-daemon.service"])
+    except Exception:
+        errorPrint("an error occured during daemon start")
+        exit(1)
+
+    return True
+def stopDaemon():
+    # simple stop command to systemd
+    try:
+        output = subprocess.check_output(["/bin/systemctl", "stop", "nafsdm-daemon.service"])
+    except Exception:
+        errorPrint("an error occured during daemon stop")
+        exit(1)
+
+    return True
+
+def restartDaemon():
+    # we'll send a simple restart command to systemd
+    try:
+        output = subprocess.check_output(["/bin/systemctl", "restart", "nafsdm-daemon.service"])
+    except Exception:
+        errorPrint("an error occured during daemon restart")
         exit(1)
 
     return True
@@ -217,27 +280,40 @@ elif (sys.argv[1] == "list"):
 
     for row in domainsRaw:
         if row != None:
+            if str(row[6]) == "0":
+                if colorStatus:
+                    zoneManaged = bcolors.OKGREEN + "yes" + bcolors.ENDC
+                else:
+                    zoneManaged = "yes"
+            else:
+                if colorStatus:
+                    zoneManaged = bcolors.FAIL + "no" + bcolors.ENDC
+                else:
+                    zoneManaged = "no"
+
             if row[5] == "y":
                 if colorStatus:
-                    printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.OKGREEN + "yes" + bcolors.ENDC])
+                    printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.OKGREEN + "yes" + bcolors.ENDC, zoneManaged])
                 else:
-                    printTable.append([str(row[0]), row[1], row[2], row[3], row[4], "yes"])
+                    printTable.append([str(row[0]), row[1], row[2], row[3], row[4], "yes", zoneManaged])
             elif row[5] == "n":
                 if colorStatus:
-                    printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.FAIL + "no" + bcolors.ENDC])
+                    printTable.append([str(row[0]), row[1], row[2], row[3], row[4], bcolors.FAIL + "no" + bcolors.ENDC, zoneManaged])
                 else:
-                    printTable.append([str(row[0]), row[1], row[2], row[3], row[4], "no"])
+                    printTable.append([str(row[0]), row[1], row[2], row[3], row[4], "no", zoneManaged])
 
             else:
-                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], row[5]])
+                printTable.append([str(row[0]), row[1], row[2], row[3], row[4], row[5], zoneManaged])
 
     if colorStatus:
         # print a fancy table using tabulate
-        headers = [bcolors.BOLD + "id", "domain", "master IP", "comment", "slaves", "DNSSEC status" + bcolors.ENDC]
+        headers = [bcolors.BOLD + "id", "domain", "master IP", "comment", "slaves", "DNSSEC status", "Zone Managed" + bcolors.ENDC]
         print tabulate(printTable, headers, tablefmt="fancy_grid")
     else:
         for domain in printTable:
-            print(domain[0] + " - " + domain[1] + " - " + domain[2] + " - " + domain[3] + " - " + domain[4] + " - " + domain[5])
+            print("id - domainName - masterIP - comment - slaves - DNSSEC status - Zone Managed")
+            print("\n")
+            print(domain[0] + " - " + domain[1] + " - " + domain[2] + " - " + domain[3] + " - " + domain[4] + " - " + domain[5] + " - " + domain[6])
 
 
 
@@ -311,6 +387,47 @@ elif (sys.argv[1] == "webinterface"):
                 successPrint("webinterface restarted")
         else:
             errorPrint("invalid webinterface argument")
+            printSyntax()
+            exit(1)
+elif (sys.argv[1] == "daemon"):
+    if len(sys.argv) < 3:
+        errorPrint("not enough arguments")
+        printSyntax()
+        exit(1)
+    else:
+        if sys.argv[2] == "status":
+            if daemonStatus():
+                print("status: " + bcolors.GREENBG + "running" + bcolors.ENDC)
+            else:
+                print("status: " + bcolors.REDBG + "not running" + bcolors.ENDC)
+        elif sys.argv[2] == "start":
+            if daemonStatus():
+                errorPrint("daemon is already running")
+            else:
+                if startDaemon():
+                    successPrint("daemon started")
+        elif sys.argv[2] == "stop":
+            if stopDaemon():
+                successPrint("daemon stopped")
+        elif sys.argv[2] == "restart":
+            if restartDaemon():
+                successPrint("daemon restarted")
+        else:
+            errorPrint("invalid daemon argument")
+            printSyntax()
+            exit(1)
+elif (sys.argv[1] == "zone"):
+    if len(sys.argv) < 4:
+        errorPrint("not enough arguments")
+        printSyntax()
+        exit(1)
+    else:
+        if sys.argv[2] == "activate":
+            zoneActivate(sys.argv[3])
+        elif sys.argv[2] == "edit":
+            zoneEdit(sys.argv[3])
+        else:
+            errorPrint("invalid zone argument")
             printSyntax()
             exit(1)
 elif (sys.argv[1] == "slavestatus"):

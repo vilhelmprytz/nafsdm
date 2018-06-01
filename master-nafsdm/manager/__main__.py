@@ -12,7 +12,7 @@ from version import version
 from versionCheck import checkUpdate
 
 log("*******************************************************")
-log("master-nafsdm - running version " + version)
+log("master-nafsdm manager - running version " + version)
 log("*******************************************************")
 
 log("Performing pre-start checks..")
@@ -23,7 +23,7 @@ if not os.path.isfile("/home/master-nafsdm/.ssh/nafsdm_rsa"):
     setupSSH()
 
 # check for upgrade script
-if os.path.isfile("/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh"):
+if os.path.isfile("/home/master-nafsdm/manager/tempUpgrade/temp_upgrade.sh"):
     log("Upgrade script found. Please change the data file and remove upgrade script!")
     exit(1)
 
@@ -59,6 +59,19 @@ if not os.path.isfile("/home/master-nafsdm/data/domains.sql"):
 if not os.path.exists("/home/master-nafsdm/slaveAlive"):
     log("Creating slaveAlive directory..")
     os.makedirs("/home/master-nafsdm/slaveAlive")
+
+if numberColumns() != 7:
+    # this is an upgrade to 1.4-stable from prior versions
+    if numberColumns() == 6:
+        # we need to alter the table to add the new column
+        updateTable()
+
+        # set the new column to just 0
+        setAllValues("zoneManaged", 0)
+    else:
+        log("Invalid amount of columns in database.")
+        log("Is the database corrupt?")
+        exot(1)
 
 
 # check for new update

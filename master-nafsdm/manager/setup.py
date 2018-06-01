@@ -41,7 +41,8 @@ domain VARCHAR(255),
 masterIP VARCHAR(15),
 comment TEXT,
 assignedNodes TEXT,
-dnssec CHAR(1));"""
+dnssec CHAR(1),
+zoneManaged INTEGER(1));"""
 
     # execute the command
     cursor.execute(create_table_cmd)
@@ -96,3 +97,63 @@ VALUES (NULL, "{domain}", "{masterIP}", "{comment}", "{assignedNodes}", "{dnssec
     os.remove("/home/master-nafsdm/data/domains.txt")
 
     log("Done.")
+
+# returns int of how many columns in the domains table
+def numberColumns():
+    # open up sql connection
+    connection = sqlite3.connect("/home/master-nafsdm/data/domains.sql")
+    cursor = connection.cursor()
+
+    sql_command = """SELECT COUNT(*)
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE table_name = 'domain'"""
+    # execute
+    cursor.ececute(sql_command)
+
+    # result
+    result = cursor.fetchall()
+
+    # close connection
+    connection.commit()
+    connection.close()
+
+    return int(result)
+
+# add the new column added in 1.4
+def updateTable():
+    log("Updating table to work with 1.4-stable format.")
+
+    # open up sql connection
+    connection = sqlite3.connect("/home/master-nafsdm/data/domains.sql")
+    cursor = connection.cursor()
+
+    sql_command = """ALTER TABLE domain
+ADD zoneManaged INTEGER(1);"""
+    # execute
+    cursor.ececute(sql_command)
+
+    # close connection
+    connection.commit()
+    connection.close()
+
+    log("Table altering completed.")
+
+
+# set a certain value of any column to ALL domains (used after table alterings)
+def setAllValues(column, value):
+    log("Updating all rows in table on column " + str(column) + " to value " + str(value))
+
+    # open up sql connection
+    connection = sqlite3.connect("/home/master-nafsdm/data/domains.sql")
+    cursor = connection.cursor()
+
+    sql_command = """UPDATE domain
+SET """ + str(column) + """='""" + str(value) + """';"""
+    # execute
+    cursor.ececute(sql_command)
+
+    # close connection
+    connection.commit()
+    connection.close()
+
+    log("Update completed.")

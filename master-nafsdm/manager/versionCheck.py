@@ -17,8 +17,8 @@ doICUpdate = False
 normalUpdate = False
 
 # dev function for specifing branch
-if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_github_branch.txt"):
-    f = open("/home/master-nafsdm/pythondaemon/dev_github_branch.txt")
+if os.path.isfile("/home/master-nafsdm/manager/dev_github_branch.txt"):
+    f = open("/home/master-nafsdm/manager/dev_github_branch.txt")
     branchRaw = f.read()
     f.close()
 
@@ -26,8 +26,8 @@ if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_github_branch.txt"):
         github_branch = "development"
 
 # dev mode, disables auto updater
-if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_devmode.txt"):
-    f = open("/home/master-nafsdm/pythondaemon/dev_devmode.txt")
+if os.path.isfile("/home/master-nafsdm/manager/dev_devmode.txt"):
+    f = open("/home/master-nafsdm/manager/dev_devmode.txt")
     devStatusRaw = f.read()
     f.close()
     if "True" in devStatusRaw:
@@ -36,8 +36,8 @@ if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_devmode.txt"):
         devStatus = False
 
 # dev ic mode
-if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt"):
-    f = open("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt")
+if os.path.isfile("/home/master-nafsdm/manager/dev_ic_mode.txt"):
+    f = open("/home/master-nafsdm/manager/dev_ic_mode.txt")
     devIcModeRaw = f.read()
     f.close()
     if "True" in devIcModeRaw:
@@ -79,32 +79,36 @@ def checkUpdate():
                     normalUpdate = True
 
         if normalUpdate == True or doICUpdate == True:
-            if (os.path.exists("/home/master-nafsdm/tempUpgrade")):
+            if (os.path.exists("/home/master-nafsdm/manager/tempUpgrade")):
                 log("WARN: folder already exists?")
-            else:
-                os.makedirs("/home/master-nafsdm/pythondaemon/tempUpgrade")
                 # shortcut to make the shit importable
-                f = open("/home/master-nafsdm/pythondaemon/tempUpgrade/__init__.py", "w")
+                f = open("/home/master-nafsdm/manager/tempUpgrade/__init__.py", "w")
+                f.write(" ")
+                f.close()
+            else:
+                os.makedirs("/home/master-nafsdm/manager/tempUpgrade")
+                # shortcut to make the shit importable
+                f = open("/home/master-nafsdm/manager/tempUpgrade/__init__.py", "w")
                 f.write(" ")
                 f.close()
 
             url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/scripts/upgradeMaster.sh")
             r = requests.get(url)
             if (r.status_code == requests.codes.ok):
-                f = open("/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh", "w")
+                f = open("/home/master-nafsdm/manager/tempUpgrade/temp_upgrade.sh", "w")
                 f.write(r.content)
                 f.close()
                 import subprocess
-                outputNull = subprocess.check_output(["chmod", "+x", "/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh"])
+                outputNull = subprocess.check_output(["chmod", "+x", "/home/master-nafsdm/manager/tempUpgrade/temp_upgrade.sh"])
 
                 url = ("https://raw.githubusercontent.com/MrKaKisen/nafsdm/" + github_branch + "/scripts/upgradeMaster.py")
                 r = requests.get(url)
                 if (r.status_code == requests.codes.ok):
-                    f = open("/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py", "w")
+                    f = open("/home/master-nafsdm/manager/tempUpgrade/temp_upgrade.py", "w")
                     f.write(r.content)
                     f.close()
                     import subprocess
-                    outputNull = subprocess.check_output(["chmod", "+x", "/home/master-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.py"])
+                    outputNull = subprocess.check_output(["chmod", "+x", "/home/master-nafsdm/manager/tempUpgrade/temp_upgrade.py"])
 
                     from tempUpgrade.temp_upgrade import initUpgrade
                     if doICUpdate:

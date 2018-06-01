@@ -10,7 +10,7 @@ if [ "$CONFIRM" == "y" ]; then
 
   echo "* Enabled!"
   echo "* Please read the README.md before using."
-  echo "* Start the webinterface with 'systemctl start nafsdm-webinterface'."
+  echo "* Start the webinterface with 'nafsdmctl webinterface start'."
 else
   echo "* Aborting.."
   exit 1

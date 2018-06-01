@@ -11,7 +11,7 @@ import logging
 
 # import master version
 import sys
-sys.path.insert(0, "/home/master-nafsdm/pythondaemon")
+sys.path.insert(0, "/home/master-nafsdm/manager")
 from version import version as version
 
 github_branch = "master"
@@ -20,8 +20,8 @@ doICUpdate = False
 normalUpdate = False
 
 # dev function for specifing branch
-if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_github_branch.txt"):
-    f = open("/home/master-nafsdm/pythondaemon/dev_github_branch.txt")
+if os.path.isfile("/home/master-nafsdm/manager/dev_github_branch.txt"):
+    f = open("/home/master-nafsdm/manager/dev_github_branch.txt")
     branchRaw = f.read()
     f.close()
 
@@ -29,8 +29,8 @@ if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_github_branch.txt"):
         github_branch = "development"
 
 # dev ic mode
-if os.path.isfile("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt"):
-    f = open("/home/master-nafsdm/pythondaemon/dev_ic_mode.txt")
+if os.path.isfile("/home/master-nafsdm/manager/dev_ic_mode.txt"):
+    f = open("/home/master-nafsdm/manager/dev_ic_mode.txt")
     devIcModeRaw = f.read()
     f.close()
     if "True" in devIcModeRaw:

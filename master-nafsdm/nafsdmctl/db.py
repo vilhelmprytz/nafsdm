@@ -22,8 +22,8 @@ def addDomain(sysArg):
     connection, cursor = dbConnection()
 
     format_str = """
-INSERT INTO domain (id, domain, masterIP, comment, assignedNodes, dnssec)
-VALUES (NULL, "{domain}", "{masterIP}", "{comment}", "{assignedNodes}", "{dnssec}");"""
+INSERT INTO domain (id, domain, masterIP, comment, assignedNodes, dnssec, zoneManaged)
+VALUES (NULL, "{domain}", "{masterIP}", "{comment}", "{assignedNodes}", "{dnssec}", 0);"""
 
     if sysArg[6] == "dnssec.no":
         dnssec = "n"
@@ -131,3 +131,23 @@ WHERE domain = "''' + domain + '''";'''
     connection.close()
 
     return True
+
+# update a certain column on certain domain
+def setIntValue(row, column, value):
+    log("Updating all rows in table on column " + str(column) + " to value " + str(value))
+
+    # open up sql connection
+    connection = sqlite3.connect("/home/master-nafsdm/data/domains.sql")
+    cursor = connection.cursor()
+
+    sql_command = """UPDATE domain
+SET """ + str(column) + """ = """ + str(value) + """
+WHERE domain = '""" + row + """';"""
+    # execute
+    cursor.ececute(sql_command)
+
+    # close connection
+    connection.commit()
+    connection.close()
+
+    log("Update completed.")

@@ -1,0 +1,11 @@
+[Unit]
+Description=nafsdm-daemon
+
+[Service]
+Type=simple
+User=root
+ExecStart=/home/master-nafsdm/daemon/start.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

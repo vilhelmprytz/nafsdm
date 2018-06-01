@@ -2,3 +2,5 @@ requests
 flask
 gunicorn
 tabulate
+psutil
+watchdog

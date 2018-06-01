@@ -1,3 +1,3 @@
 #!/usr/bin/env python
 
-from pythondaemon import __main__
+from manager import __main__
