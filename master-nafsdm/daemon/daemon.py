@@ -8,7 +8,8 @@
 import logging
 import time
 import os.path
-from gracefulExit import *
+import signal
+from exitDaemon import *
 from db import *
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -26,39 +27,45 @@ def updateConfiguration(config):
     # get all domains from configuration
     domainsRaw = listDomains()
 
-    domainsUpdated = 0
+    domainsAdded = 0
     for row in domainsRaw:
         if row != None:
             if str(row[6]) == "1":
-                domainsUpdated = domainsUpdated + 1
-                createEmptyZone(config, row)
+                createEmptyZone(config, row, domainsAdded)
 
-    return domainsUpdated
+    return domainsAdded
 
 # create zone file if empty
-def createEmptyZone(config, row):
-    if not os.path.isfile(config.master_zonePath + "/id" + str(row[0]) + ".zone")
-        f = open(config.master_zonePath + "/id" + str(row[0]) + ".zone")
+def createEmptyZone(config, row, domainsAdded):
+    if not os.path.isfile(config.master_zonePath + "/id" + str(row[0]) + ".zone"):
+        domainsAdded = domainsAdded + 1
+        f = open(config.master_zonePath + "/id" + str(row[0]) + ".zone", "w")
         f.write("""$TTL 3H
 @   IN SOA  """ + config.master_hostname + """. """ + config.master_abuseAddress + """. (
                 0   ; serial
                 14400  ; refresh
                 3600  ; retry
                 1W  ; expire
-                3H )    ; minimum"""
+                3H )    ; minimum""")
         f.close()
 
-        logging.info("New domain " + str(row[1]) " with ID " + str(row[0]) + " added!")
+        logging.info("New domain " + str(row[1]) + " with ID " + str(row[0]) + " added!")
 
 # run daemon function (main function)
 def runDaemon(config):
+    # run the updateConfiguration once before start
+    logging.info("Updating configuration on-start..")
+    domainsAdded = updateConfiguration(config)
+    logging.info("Configuration update completed.")
+    logging.info(str(domainsAdded) + " new domains was added into the system.")
+
     # watchdog is used to capture the file change event
     class MyHandler(FileSystemEventHandler):
         def on_modified(self, event):
             logging.info("Update detected - updating configuration..")
-            domainsUpdated = updateConfiguration()
+            domainsAdded = updateConfiguration(config)
             logging.info("Configuration update completed.")
-            logging.info(str(domainsUpdated) + " new domains was added into the system.")
+            logging.info(str(domainsAdded) + " new domains was added into the system.")
 
     event_handler = MyHandler()
     observer = Observer()

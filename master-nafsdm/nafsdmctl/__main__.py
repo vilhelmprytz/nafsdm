@@ -280,7 +280,10 @@ elif (sys.argv[1] == "list"):
 
     for row in domainsRaw:
         if row != None:
-            if str(row[6]) == "0":
+            # debug print for the values
+            if debug:
+                print("DEBUG (row): " + str(row))
+            if row[6] == 1:
                 if colorStatus:
                     zoneManaged = bcolors.OKGREEN + "yes" + bcolors.ENDC
                 else:
@@ -312,7 +315,7 @@ elif (sys.argv[1] == "list"):
     else:
         for domain in printTable:
             print("id - domainName - masterIP - comment - slaves - DNSSEC status - Zone Managed")
-            print("\n")
+            print("")
             print(domain[0] + " - " + domain[1] + " - " + domain[2] + " - " + domain[3] + " - " + domain[4] + " - " + domain[5] + " - " + domain[6])
 
 

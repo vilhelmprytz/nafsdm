@@ -138,7 +138,6 @@ cp /tmp/nafsdm/systemconfigs/nafsdm-manager /usr/bin/nafsdm-manager
 
 # nafsdm webinterface
 cp /tmp/nafsdm/systemconfigs/nafsdm-webinterface.service /home/master-nafsdm/webinterface/nafsdm-webinterface.service
-cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nnafsdm-daemon.servic
 chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
 chmod +x /home/master-nafsdm/webinterface/start.sh
 
@@ -147,8 +146,10 @@ cp /tmp/nafsdm/CHANGELOG.md $HOME_DIR/changelog.txt
 
 chmod +x /usr/bin/nafsdmctl
 chmod +x /usr/bin/nafsdm-manager
+chmod +x /home/matser-nafsdm/startDaemon.py
 
 # enable systemd service
+cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nnafsdm-daemon.service
 /usr/bin/env systemctl enable nafsdm-daemon
 
 # dev set version

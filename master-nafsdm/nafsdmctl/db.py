@@ -134,8 +134,6 @@ WHERE domain = "''' + domain + '''";'''
 
 # update a certain column on certain domain
 def setIntValue(row, column, value):
-    log("Updating all rows in table on column " + str(column) + " to value " + str(value))
-
     # open up sql connection
     connection = sqlite3.connect("/home/master-nafsdm/data/domains.sql")
     cursor = connection.cursor()
@@ -144,10 +142,8 @@ def setIntValue(row, column, value):
 SET """ + str(column) + """ = """ + str(value) + """
 WHERE domain = '""" + row + """';"""
     # execute
-    cursor.ececute(sql_command)
+    cursor.execute(sql_command)
 
     # close connection
     connection.commit()
     connection.close()
-
-    log("Update completed.")

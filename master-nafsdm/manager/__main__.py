@@ -6,7 +6,7 @@
 
 # imports
 import os.path
-from setup import setupSSH, migrateData, setupDatabase
+from setup import *
 from daemonlog import log
 from version import version
 from versionCheck import checkUpdate

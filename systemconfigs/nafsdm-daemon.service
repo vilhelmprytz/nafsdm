@@ -4,7 +4,7 @@ Description=nafsdm-daemon
 [Service]
 Type=simple
 User=root
-ExecStart=/home/master-nafsdm/daemon/start.py
+ExecStart=/home/master-nafsdm/startDaemon.py
 Restart=on-abort
 
 [Install]

@@ -111,8 +111,6 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  chmod +x /home/master-nafsdm/daemon/start.py
-
   # newer than version 1.2.4
   echo "* Installing webinterface.."
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
@@ -134,8 +132,10 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
+  cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
+  chmod +x /home/master-nafsdm/startDaemon.py
 
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
@@ -150,8 +150,6 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  chmod +x /home/master-nafsdm/daemon/start.py
-
   # newer than version 1.2.4
   echo "* Installing webinterface.."
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
@@ -173,8 +171,10 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
+  cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
+  chmod +x /home/master-nafsdm/startDaemon.py
 
   echo "* Upgrade completed. Note: before you start all slaves, update the /home/master-nafsdm/data/domains.txt to use the new DNSSEC support!"
   echo "* After the list of slaves in the config, add a space and this: 'dnssec.yes' (without colons). Replace yes with no if the domain does not use dnssec."
@@ -189,8 +189,6 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  chmod +x /home/master-nafsdm/daemon/start.py
-
   # newer than version 1.2.4
   echo "* Installing webinterface.."
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
@@ -212,8 +210,10 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
+  cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
+  chmod +x /home/master-nafsdm/startDaemon.py
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -226,8 +226,6 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  chmod +x /home/master-nafsdm/daemon/start.py
-
   # newer than version 1.2.4
   echo "* Installing webinterface.."
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
@@ -249,8 +247,10 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
+  cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
+  chmod +x /home/master-nafsdm/startDaemon.py
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -263,8 +263,6 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  chmod +x /home/master-nafsdm/daemon/start.py
-
   # newer than version 1.2.4
   echo "* Installing webinterface.."
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
@@ -286,8 +284,10 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
+  cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
+  chmod +x /home/master-nafsdm/startDaemon.py
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -300,8 +300,6 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  chmod +x /home/master-nafsdm/daemon/start.py
-
   # newer than version 1.2.4
   echo "* Installing webinterface.."
   cp nafsdm/master-nafsdm/webinterface /home/master-nafsdm/webinterface -R
@@ -323,8 +321,10 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
+  cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
+  chmod +x /home/master-nafsdm/startDaemon.py
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -337,8 +337,6 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  chmod +x /home/master-nafsdm/daemon/start.py
-
   # newer than version 1.2.4, all versions that already have the webinterface
   echo "* Replacing webinterface.."
 
@@ -353,7 +351,7 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
 
   # add back password
   rm -rf /home/master-nafsdm/webinterface/interfacePassword.txt
-  cp /tmp/interfacePassword.txt /home/master-nafsdm/webinterface/interfacePassword.txt
+  mv /tmp/interfacePassword.txt /home/master-nafsdm/webinterface/interfacePassword.txt
   # webinterface done
 
   # newer than version 1.2.4
@@ -370,8 +368,10 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
+  cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
+  chmod +x /home/master-nafsdm/startDaemon.py
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -384,8 +384,6 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  chmod +x /home/master-nafsdm/daemon/start.py
-
   # newer than version 1.2.4, all versions that already have the webinterface
   echo "* Replacing webinterface.."
 
@@ -400,7 +398,7 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
 
   # add back password
   rm -rf /home/master-nafsdm/webinterface/interfacePassword.txt
-  cp /tmp/interfacePassword.txt /home/master-nafsdm/webinterface/interfacePassword.txt
+  mv /tmp/interfacePassword.txt /home/master-nafsdm/webinterface/interfacePassword.txt
   # webinterface done
 
   # newer than version 1.2.4
@@ -417,8 +415,10 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
+  cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
+  chmod +x /home/master-nafsdm/startDaemon.py
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -431,8 +431,6 @@ elif [ "$MY_VERSION" == "1.3-stable" ]; then
   cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  chmod +x /home/master-nafsdm/daemon/start.py
-
   # newer than version 1.2.4, all versions that already have the webinterface
   echo "* Replacing webinterface.."
 
@@ -447,7 +445,7 @@ elif [ "$MY_VERSION" == "1.3-stable" ]; then
 
   # add back password
   rm -rf /home/master-nafsdm/webinterface/interfacePassword.txt
-  cp /tmp/interfacePassword.txt /home/master-nafsdm/webinterface/interfacePassword.txt
+  mv /tmp/interfacePassword.txt /home/master-nafsdm/webinterface/interfacePassword.txt
   # webinterface done
 
   # newer than version 1.2.4
@@ -464,8 +462,10 @@ elif [ "$MY_VERSION" == "1.3-stable" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
+  cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
+  chmod +x /home/master-nafsdm/startDaemon.py
 
   echo "* Update completed. Nothing to do or change!"
 
@@ -479,8 +479,6 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   cp nafsdm/master-nafsdm/daemon /home/master-nafsdm/daemon -R
   cp nafsdm/master-nafsdm/nafsdmctl /home/master-nafsdm/nafsdmctl -R
 
-  chmod +x /home/master-nafsdm/daemon/start.py
-
   # newer than version 1.2.4, all versions that already have the webinterface
   echo "* Replacing webinterface.."
 
@@ -495,7 +493,7 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
 
   # add back password
   rm -rf /home/master-nafsdm/webinterface/interfacePassword.txt
-  cp /tmp/interfacePassword.txt /home/master-nafsdm/webinterface/interfacePassword.txt
+  mv /tmp/interfacePassword.txt /home/master-nafsdm/webinterface/interfacePassword.txt
   # webinterface done
 
   # newer than version 1.2.4
@@ -512,8 +510,10 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   # for versions prior to 1.4
   rm -rf /home/master-nafsdm/pythondaemon
   mv /usr/bin/nafsdm-master /usr/bin/nafsdm-manager
+  cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   /usr/bin/env systemctl enable nafsdm-daemon
+  chmod +x /home/master-nafsdm/startDaemon.py
 
   # dev set version
   if [ "$DEV_IC_MODE" == "True" ]; then

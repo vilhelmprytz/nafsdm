@@ -11,6 +11,8 @@ import os.path
 import psutil
 from exitDaemon import *
 from daemon import *
+from getConfig import *
+from versionCheck import *
 
 # get version info
 import sys
@@ -47,7 +49,7 @@ def preChecks(config):
             logging.warning("Invalid PID found - nafsdm will boot anyways")
 
             # remove the file
-            os.remove("/home/slave-nafsdm/slave.pid")
+            os.remove("/home/master-nafsdm/daemon.pid")
 
             # writePID function
             writePID()

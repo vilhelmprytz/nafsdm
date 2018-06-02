@@ -104,11 +104,10 @@ def numberColumns():
     connection = sqlite3.connect("/home/master-nafsdm/data/domains.sql")
     cursor = connection.cursor()
 
-    sql_command = """SELECT COUNT(*)
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE table_name = 'domain'"""
+    sql_command = """pragma table_info(domain);"""
+
     # execute
-    cursor.ececute(sql_command)
+    cursor.execute(sql_command)
 
     # result
     result = cursor.fetchall()
@@ -117,7 +116,7 @@ WHERE table_name = 'domain'"""
     connection.commit()
     connection.close()
 
-    return int(result)
+    return len(result)
 
 # add the new column added in 1.4
 def updateTable():
@@ -130,7 +129,7 @@ def updateTable():
     sql_command = """ALTER TABLE domain
 ADD zoneManaged INTEGER(1);"""
     # execute
-    cursor.ececute(sql_command)
+    cursor.execute(sql_command)
 
     # close connection
     connection.commit()
@@ -150,7 +149,7 @@ def setAllValues(column, value):
     sql_command = """UPDATE domain
 SET """ + str(column) + """='""" + str(value) + """';"""
     # execute
-    cursor.ececute(sql_command)
+    cursor.execute(sql_command)
 
     # close connection
     connection.commit()

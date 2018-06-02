@@ -7,6 +7,7 @@
 import logging
 from exitDaemon import *
 import ConfigParser
+from configDir import configDir
 
 class Config(object):
     import ConfigParser
@@ -19,6 +20,7 @@ class Config(object):
             self.type = parser.get("nafsdm_daemon", "type")
             self.check_interval = parser.get("nafsdm_daemon", "check_interval")
             self.master_bindPath = parser.get("nafsdm_daemon", "master_bindPath")
+            self.master_zonePath = parser.get("nafsdm_daemon", "master_zonePath")
             self.master_hostname = parser.get("nafsdm_daemon", "master_hostname")
             self.master_abuseAddress = parser.get("nafsdm_daemon", "master_abuseAddress")
 

@@ -19,7 +19,8 @@ if [ "$CONFIRM" == "y" ]; then
   rm -rf /usr/bin/nafsdm-manager
   userdel master-nafsdm
 
-  rm -rf /home/master-nafsdm/webinterface/nafsdm-webinterface.service
+  rm -rf /etc/systemd/system/nafsdm-webinterface.service
+  rm -rf /etc/systemd/system/nafsdm-daemon.service
 
   echo "* Uninstalled!"
 else
