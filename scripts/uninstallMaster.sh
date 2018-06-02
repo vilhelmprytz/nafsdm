@@ -15,6 +15,8 @@ if [ "$CONFIRM" == "y" ]; then
   rm -rf /home/master-nafsdm
   rm -rf /usr/bin/nafsdmctl
   rm -rf /usr/bin/nafsdm-master
+  # as of version 1.4-stable, nafsdm-master is renamed to nafsdm-manager
+  rm -rf /usr/bin/nafsdm-manager
   userdel master-nafsdm
 
   rm -rf /home/master-nafsdm/webinterface/nafsdm-webinterface.service
