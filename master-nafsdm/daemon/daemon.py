@@ -61,10 +61,10 @@ def rewriteConfig(config):
     for row in domainsRaw:
         if row != None:
             if str(row[6]) == "1":
-                f.write("""zone """" + row[1] + """" IN {
+                f.write('''zone "''' + row[1] + '''" IN {
         type master;
-        file """" + config.master_zonePath + "/id" + row[0] + ".zone" + """";
-};""")
+        file "''' + config.master_zonePath + "/id" + row[0] + ".zone" + '''";
+};''')
 
     f.close()
 
