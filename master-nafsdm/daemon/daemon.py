@@ -31,14 +31,15 @@ def updateConfiguration(config):
     for row in domainsRaw:
         if row != None:
             if str(row[6]) == "1":
-                domainsAdded = createEmptyZone(config, row, domainsAdded)
+                if createEmptyZone(config, row):
+                    domainsAdded = domainsAdded+1
+
 
     return domainsAdded
 
 # create zone file if empty
-def createEmptyZone(config, row, domainsAdded):
+def createEmptyZone(config, row):
     if not os.path.isfile(config.master_zonePath + "/id" + str(row[0]) + ".zone"):
-        domainsAdded = domainsAdded + 1
         f = open(config.master_zonePath + "/id" + str(row[0]) + ".zone", "w")
         f.write("""$TTL 3H
 @   IN SOA  """ + config.master_hostname + """. """ + config.master_abuseAddress + """. (
@@ -51,20 +52,23 @@ def createEmptyZone(config, row, domainsAdded):
 
         logging.info("New domain " + str(row[1]) + " with ID " + str(row[0]) + " added!")
 
-        return domainsAdded
+        return True
 
 # recreate the bind config in case of domain additions
 def rewriteConfig(config):
+    if os.path.isfile(config.master_bindPath):
+        os.remove(config.master_bindPath)
+        
     domainsRaw = listDomains()
 
     f = open(config.master_bindPath, "a")
     for row in domainsRaw:
         if row != None:
             if str(row[6]) == "1":
-                f.write('''zone "''' + row[1] + '''" IN {
+                f.write('''zone "''' + str(row[1]) + '''" IN {
         type master;
-        file "''' + config.master_zonePath + "/id" + row[0] + ".zone" + '''";
-};''')
+        file "''' + config.master_zonePath + "/id" + str(row[0]) + ".zone" + '''";
+};\n''')
 
     f.close()
 
@@ -83,6 +87,16 @@ def runDaemon(config):
     logging.info("Configuration update completed.")
     logging.info(str(domainsAdded) + " new domains was added into the system.")
 
+    logging.info("Rewriting bind configuration..")
+    if rewriteConfig(config):
+        logging.info("Bind configuration update succesful!")
+        retryError = False
+    else:
+        logging.error("Unable to perform configuration update!")
+        logging.error("daemon will retry on next update")
+
+        retryError = True
+
     # watchdog is used to capture the file change event
     class MyHandler(FileSystemEventHandler):
         def on_modified(self, event):
@@ -92,9 +106,9 @@ def runDaemon(config):
             logging.info(str(domainsAdded) + " new domains was added into the system.")
 
             # if new domains were added into the system
-            if domainsAdded != 0 or retryError = True:
+            if domainsAdded != 0 or retryError == True:
                 logging.info("Rewriting bind configuration..")
-                if rewriteConfig():
+                if rewriteConfig(config):
                     logging.info("Bind configuration update succesful!")
                     retryError = False
                 else:

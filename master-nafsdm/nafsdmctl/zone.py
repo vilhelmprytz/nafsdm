@@ -19,7 +19,7 @@ def zoneEdit(id):
     config = getConfig()
 
     try:
-        output = subprocess.check_output(["/usr/bin/editor", config.master_zonePath + "/id" + str(id) + ".zone"])
+        output = subprocess.call(["/usr/bin/editor", config.master_zonePath + "/id" + str(id) + ".zone"])
     except Exception:
         return False
 
