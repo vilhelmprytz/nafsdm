@@ -535,6 +535,10 @@ else
   exit 1
 fi
 
+# restart nafsdm-master daemon (to apply updates)
+echo "* Restarting nafsdm-master daemon.."
+systemctl restart nafsdm-daemon
+
 # restart webinterface if it exists, and is active
 echo "* Restart webinterface if it is enabled and if it is active."
 [ -f /etc/systemd/system/nafsdm-webinterface.service ] && systemctl is-active --quiet nafsdm-webinterface && systemctl restart nafsdm-webinterface

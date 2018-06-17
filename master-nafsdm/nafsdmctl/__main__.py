@@ -313,9 +313,9 @@ elif (sys.argv[1] == "list"):
         headers = [bcolors.BOLD + "id", "domain", "master IP", "comment", "slaves", "DNSSEC status", "Zone Managed" + bcolors.ENDC]
         print tabulate(printTable, headers, tablefmt="fancy_grid")
     else:
+        print("id - domainName - masterIP - comment - slaves - DNSSEC status - Zone Managed")
+        print("")
         for domain in printTable:
-            print("id - domainName - masterIP - comment - slaves - DNSSEC status - Zone Managed")
-            print("")
             print(domain[0] + " - " + domain[1] + " - " + domain[2] + " - " + domain[3] + " - " + domain[4] + " - " + domain[5] + " - " + domain[6])
 
 

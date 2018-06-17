@@ -8,6 +8,7 @@
 * update wikis and all readme's/howto's
 * nafsdmctl zone editor
 * editor for zones managed by nafsdm inside of webinterface
+* remove domains no longer managed by nafsdm-daemon
 
 ## Lower Priority
 * rework the master
