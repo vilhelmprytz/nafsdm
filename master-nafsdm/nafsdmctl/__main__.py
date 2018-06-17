@@ -82,7 +82,7 @@ def printSyntax():
     print(bcolors.BOLD + " daemon restart" + bcolors.ENDC + "                                                      Start the nafsdm-daemon")
     print("\n" + "nafsdm zone commands:")
     print(bcolors.BOLD + " zone activate [domain]" + bcolors.ENDC + "                                              Activate zone management for a specific domain")
-    print(bcolors.BOLD + " zone edit [domain]" + bcolors.ENDC + "                                                  Edit the zone of a domain")
+    print(bcolors.BOLD + " zone edit [id]" + bcolors.ENDC + "                                                      Edit the zone of a domain")
 
 # webinterface control commands
 def webinterfaceStatus():
@@ -428,7 +428,15 @@ elif (sys.argv[1] == "zone"):
         if sys.argv[2] == "activate":
             zoneActivate(sys.argv[3])
         elif sys.argv[2] == "edit":
-            zoneEdit(sys.argv[3])
+            if zoneEdit(sys.argv[3]):
+                successPrint("edit succesful")
+                print("nafsdmctl: reloading bind")
+                if zoneReload():
+                    successPrint("reload succesful")
+                else:
+                    errorPrint("reload failed")
+            else:
+                errorPrint("edit failed")
         else:
             errorPrint("invalid zone argument")
             printSyntax()
