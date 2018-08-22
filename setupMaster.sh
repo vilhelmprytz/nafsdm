@@ -9,6 +9,15 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
+# check for python
+PYTHONPATH="$(which python)"
+if [ -z "$PYTHONPATH" ]; then
+    echo "* Python is required in order for this script to work."
+    echo "* install using apt on Debian/Ubuntu or yum on CentOS"
+    exit 1
+fi
+
+# variables
 CLONE_URL="https://github.com/MrKaKisen/nafsdm.git"
 CLONE_BRANCH="development"
 DL_URL="https://github.com/MrKaKisen/nafsdm/archive/"
@@ -17,15 +26,74 @@ GITHUB_DIR="master-nafsdm"
 HOME_DIR="/home/master-nafsdm"
 USER="master-nafsdm"
 
+# visual functions
+function print_error {
+  COLOR_RED='\033[0;31m'
+  COLOR_NC='\033[0m'
+
+  echo ""
+  echo -e "* ${COLOR_RED}ERROR${COLOR_NC}: $1"
+  echo ""
+}
+
+# os detection
+function detect_distro {
+  echo "$(python -c 'import platform ; print platform.dist()[0]')" | awk '{print tolower($0)}'
+}
+
+function detect_os_version {
+  echo "$(python -c 'import platform ; print platform.dist()[1].split(".")[0]')"
+}
+
+function check_os_comp {
+  if [ "$OS" == "ubuntu" ]; then
+    if [ "$OS_VERSION" == "16" ]; then
+      SUPPORTED=true
+    elif [ "$OS_VERSION" == "18" ]; then
+      SUPPORTED=true
+    else
+      SUPPORTED=false
+    fi
+  elif [ "$OS" == "debian" ]; then
+    if [ "$OS_VERSION" == "9" ]; then
+      SUPPORTED=true
+    else
+      SUPPORTED=false
+    fi
+  elif [ "$OS" == "centos" ]; then
+    if [ "$OS_VERSION" == "7" ]; then
+      SUPPORTED=true
+    else
+      SUPPORTED=false
+    fi
+  else
+    SUPPORTED=false
+  fi
+
+  # exit if not supported
+  if [ "$SUPPORTED" == true ]; then
+    echo "* $OS $OS_VERSION is supported."
+  else
+    echo "* $OS $OS_VERSION is not supported"
+    print_error "Unsupported OS"
+    exit 1
+  fi
+}
+
 echo "###################################################################"
 echo "* nafsdm-master installation script"
 echo "* note: this installer will not upgrade your installation"
 echo "###################################################################"
-echo "* Please enter your operating system name ('debian', 'ubuntu' and 'centos' only supported)"
-echo -n "* Operating system: "
-read OPERATINGSYS
+echo "* Detecting operating system."
+OS=$(detect_distro);
+OS_VERSION=$(detect_os_version);
+echo "* Running $OS version $OS_VERSION."
 
-if [ "$OPERATINGSYS" == "centos" ]; then
+echo "###################################################################"
+# checks if the system is compatible
+check_os_comp
+
+if [ "$OS" == "centos" ]; then
   echo "* Installing packages.."
   yum update -y
   yum install python curl wget -y
@@ -40,7 +108,7 @@ if [ "$OPERATINGSYS" == "centos" ]; then
 
   pip install -r requirements.txt
   rm -rf requirements.txt
-elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
+elif [[ "$OS" == "debian" ]] || [[ "$OS" == "ubuntu" ]] ; then
   echo "* Installing packages.."
   apt-get update -y
   apt-get install python python-pip curl wget -y
@@ -51,7 +119,7 @@ elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; th
   pip install -r requirements.txt
   rm -rf requirements.txt
 else
-  echo "* Invalid operating system. Only 'debian', 'ubuntu' and 'centos' supported."
+  print_error "Invalid operating system. Only 'debian', 'ubuntu' and 'centos' supported."
   exit 1
 fi
 
@@ -66,12 +134,12 @@ echo -n "* Enable? (y/n): "
 read DEV_IC_CONFIRM
 
 if [ "$DEV_IC_CONFIRM" == "y" ]; then
-  if [ "$OPERATINGSYS" == "centos" ]; then
+  if [ "$OS" == "centos" ]; then
     yum install git -y
-  elif [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
+  elif [[ "$OS" == "debian" ]] || [[ "$OS" == "ubuntu" ]] ; then
     apt-get install git -y
   else
-    echo "* Invalid operating system."
+    print_error "Invalid operating system."
     exit 1
   fi
 
@@ -123,7 +191,7 @@ cd /tmp
 
 useradd $USER
 # debian and ubuntu doesn't create its home dir automatically, unlike centos
-if [[ "$OPERATINGSYS" == "debian" ]] || [[ "$OPERATINGSYS" == "ubuntu" ]] ; then
+if [[ "$OS" == "debian" ]] || [[ "$OS" == "ubuntu" ]] ; then
   mkdir $HOME_DIR
 fi
 mkdir $HOME_DIR/.ssh
@@ -146,11 +214,11 @@ cp /tmp/nafsdm/CHANGELOG.md $HOME_DIR/changelog.txt
 
 chmod +x /usr/bin/nafsdmctl
 chmod +x /usr/bin/nafsdm-manager
-chmod +x /home/matser-nafsdm/startDaemon.py
+chmod +x /home/master-nafsdm/startDaemon.py
 
 # enable systemd service
-cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nnafsdm-daemon.service
-/usr/bin/env systemctl enable nafsdm-daemon
+#cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
+#/usr/bin/env systemctl enable nafsdm-daemon
 
 # dev set version
 if [ "$DEV_IC_CONFIRM" == "y" ]; then
@@ -161,11 +229,14 @@ if [ "$DEV_IC_CONFIRM" == "y" ]; then
   echo "development" > /home/master-nafsdm/manager/dev_github_branch.txt
 fi
 
+# and actually start the daemon
+#/usrbin/env systemctl start nafsdm-daemon
+
 echo "* Installed. Cleanup.."
 
 rm /tmp/nafsdm -rf
 echo "###################################################################"
 echo "* nafsdm-master installation complete"
-echo "* To continue, please run 'nafsdm-master' for first time setup."
+echo "* To continue, please run 'nafsdm-manager' for first time setup."
 echo "* Thank you for using nafsdm!"
 echo "###################################################################"

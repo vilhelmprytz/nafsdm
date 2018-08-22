@@ -11,7 +11,7 @@ Before installing nafsdm, make sure you have at least one bind master and one sl
 nafsdm is tested to work on the following operating systems:
 
 * Debian 8, 9 (7 should work fine)
-* Ubuntu 16.04.2 (old versions like 14.04 should also work fine, but may lack systemd)
+* Ubuntu 16.04, 18.04 (old versions like 14.04 are not supported anymore)
 * CentOS 7
 
 nafsdm currently works with:
