@@ -41,8 +41,8 @@ domain VARCHAR(255),
 masterIP VARCHAR(15),
 comment TEXT,
 assignedNodes TEXT,
-dnssec CHAR(1),
-zoneManaged INTEGER(1));"""
+dnssec CHAR(1));"""
+# zoneManaged INTEGER(1));""" (excluded from release 1.4)
 
     # execute the command
     cursor.execute(create_table_cmd)

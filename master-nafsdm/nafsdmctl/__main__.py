@@ -80,9 +80,14 @@ def printSyntax():
     print(bcolors.BOLD + " daemon start" + bcolors.ENDC + "                                                        Start the nafsdm-daemon")
     print(bcolors.BOLD + " daemon stop" + bcolors.ENDC + "                                                         Start the nafsdm-daemon")
     print(bcolors.BOLD + " daemon restart" + bcolors.ENDC + "                                                      Start the nafsdm-daemon")
-    print("\n" + "nafsdm zone commands:")
-    print(bcolors.BOLD + " zone activate [domain]" + bcolors.ENDC + "                                              Activate zone management for a specific domain")
-    print(bcolors.BOLD + " zone edit [id]" + bcolors.ENDC + "                                                      Edit the zone of a domain")
+
+    #############################################
+    ## THIS HAS BEEN EXCLUDED FROM RELEASE 1.4 ##
+    #############################################
+
+    #print("\n" + "nafsdm zone commands:")
+    #print(bcolors.BOLD + " zone activate [domain]" + bcolors.ENDC + "                                              Activate zone management for a specific domain")
+    #print(bcolors.BOLD + " zone edit [id]" + bcolors.ENDC + "                                                      Edit the zone of a domain")
 
 # webinterface control commands
 def webinterfaceStatus():
@@ -426,8 +431,12 @@ elif (sys.argv[1] == "zone"):
         exit(1)
     else:
         if sys.argv[2] == "activate":
-            zoneActivate(sys.argv[3])
+            #zoneActivate(sys.argv[3])
+            errorPrint("excluded from 1.4 release")
+            exit(1)
         elif sys.argv[2] == "edit":
+            errorPrint("excluded from 1.4 release")
+            exit(1)
             if zoneEdit(sys.argv[3]):
                 successPrint("edit succesful")
                 print("nafsdmctl: reloading bind")

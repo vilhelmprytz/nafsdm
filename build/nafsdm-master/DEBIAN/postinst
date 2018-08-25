@@ -1,0 +1,16 @@
+#!/bin/bash
+
+REQ_URL="https://raw.githubusercontent.com/MrKaKisen/nafsdm/master/scripts/requirements_master.txt"
+
+useradd master-nafsdm
+chown -R master-nafsdm:master-nafsdm /home/master-nafsdm/.ssh
+chown -R master-nafsdm:master-nafsdm /home/master-nafsdm/slaveAlive
+chmod +x /home/master-nafsdm/webinterface/enableInterface.sh
+chmod +x /home/master-nafsdm/webinterface/start.sh
+chmod +x /usr/bin/nafsdmctl
+chmod +x /usr/bin/nafsdm-master
+
+cd /tmp
+wget -O requirements.txt $REQ_URL
+pip install -r requirements.txt
+rm -rf requirements.txt

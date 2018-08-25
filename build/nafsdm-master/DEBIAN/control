@@ -1,0 +1,5 @@
+Package: nafsdm-master
+Version: 1.4-stable
+Maintainer: Vilhelm Prytz
+Architecture: all
+Description: Master package for nafsdm
