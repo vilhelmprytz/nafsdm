@@ -138,6 +138,8 @@ if [ "$MY_VERSION" == "1.0.1-stable" ]; then
   cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   cp /tmp/nafsdm/master-nafsdm/config.conf /home/master-nafsdm/config.conf
+  rm -rf /home/master-nafsdm/start.py
+  cp /tmp/nafsdm/master-nafsdm/start.py /home/master-nafsdm/start.py
   /usr/bin/env systemctl enable nafsdm-daemon
   chmod +x /home/master-nafsdm/startDaemon.py
 
@@ -178,6 +180,8 @@ elif [ "$MY_VERSION" == "1.1-stable" ]; then
   cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   cp /tmp/nafsdm/master-nafsdm/config.conf /home/master-nafsdm/config.conf
+  rm -rf /home/master-nafsdm/start.py
+  cp /tmp/nafsdm/master-nafsdm/start.py /home/master-nafsdm/start.py
   /usr/bin/env systemctl enable nafsdm-daemon
   chmod +x /home/master-nafsdm/startDaemon.py
 
@@ -218,6 +222,8 @@ elif [ "$MY_VERSION" == "1.2-stable" ]; then
   cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   cp /tmp/nafsdm/master-nafsdm/config.conf /home/master-nafsdm/config.conf
+  rm -rf /home/master-nafsdm/start.py
+  cp /tmp/nafsdm/master-nafsdm/start.py /home/master-nafsdm/start.py
   /usr/bin/env systemctl enable nafsdm-daemon
   chmod +x /home/master-nafsdm/startDaemon.py
 
@@ -256,6 +262,8 @@ elif [ "$MY_VERSION" == "1.2.1-stable" ]; then
   cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   cp /tmp/nafsdm/master-nafsdm/config.conf /home/master-nafsdm/config.conf
+  rm -rf /home/master-nafsdm/start.py
+  cp /tmp/nafsdm/master-nafsdm/start.py /home/master-nafsdm/start.py
   /usr/bin/env systemctl enable nafsdm-daemon
   chmod +x /home/master-nafsdm/startDaemon.py
 
@@ -294,6 +302,8 @@ elif [ "$MY_VERSION" == "1.2.2-stable" ]; then
   cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   cp /tmp/nafsdm/master-nafsdm/config.conf /home/master-nafsdm/config.conf
+  rm -rf /home/master-nafsdm/start.py
+  cp /tmp/nafsdm/master-nafsdm/start.py /home/master-nafsdm/start.py
   /usr/bin/env systemctl enable nafsdm-daemon
   chmod +x /home/master-nafsdm/startDaemon.py
 
@@ -332,6 +342,8 @@ elif [ "$MY_VERSION" == "1.2.3-stable" ]; then
   cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   cp /tmp/nafsdm/master-nafsdm/config.conf /home/master-nafsdm/config.conf
+  rm -rf /home/master-nafsdm/start.py
+  cp /tmp/nafsdm/master-nafsdm/start.py /home/master-nafsdm/start.py
   /usr/bin/env systemctl enable nafsdm-daemon
   chmod +x /home/master-nafsdm/startDaemon.py
 
@@ -380,6 +392,8 @@ elif [ "$MY_VERSION" == "1.2.4-stable" ]; then
   cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   cp /tmp/nafsdm/master-nafsdm/config.conf /home/master-nafsdm/config.conf
+  rm -rf /home/master-nafsdm/start.py
+  cp /tmp/nafsdm/master-nafsdm/start.py /home/master-nafsdm/start.py
   /usr/bin/env systemctl enable nafsdm-daemon
   chmod +x /home/master-nafsdm/startDaemon.py
 
@@ -428,6 +442,8 @@ elif [ "$MY_VERSION" == "1.2.5-stable" ]; then
   cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   cp /tmp/nafsdm/master-nafsdm/config.conf /home/master-nafsdm/config.conf
+  rm -rf /home/master-nafsdm/start.py
+  cp /tmp/nafsdm/master-nafsdm/start.py /home/master-nafsdm/start.py
   /usr/bin/env systemctl enable nafsdm-daemon
   chmod +x /home/master-nafsdm/startDaemon.py
 
@@ -476,6 +492,8 @@ elif [ "$MY_VERSION" == "1.3-stable" ]; then
   cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   cp /tmp/nafsdm/master-nafsdm/config.conf /home/master-nafsdm/config.conf
+  rm -rf /home/master-nafsdm/start.py
+  cp /tmp/nafsdm/master-nafsdm/start.py /home/master-nafsdm/start.py
   /usr/bin/env systemctl enable nafsdm-daemon
   chmod +x /home/master-nafsdm/startDaemon.py
 
@@ -524,6 +542,8 @@ elif [ "$MY_VERSION" == "1.3.1-stable" ]; then
   cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   cp /tmp/nafsdm/master-nafsdm/config.conf /home/master-nafsdm/config.conf
+  rm -rf /home/master-nafsdm/start.py
+  cp /tmp/nafsdm/master-nafsdm/start.py /home/master-nafsdm/start.py
   /usr/bin/env systemctl enable nafsdm-daemon
   chmod +x /home/master-nafsdm/startDaemon.py
 
@@ -573,6 +593,8 @@ elif [ "$MY_VERSION" == "dev_release" ]; then
   cp /tmp/nafsdm/master-nafsdm/startDaemon.py /home/master-nafsdm/startDaemon.py
   cp /tmp/nafsdm/systemconfigs/nafsdm-daemon.service /etc/systemd/system/nafsdm-daemon.service
   # does not copy over the config as these updates are incremental and should already have the config in place
+  rm -rf /home/master-nafsdm/start.py
+  cp /tmp/nafsdm/master-nafsdm/start.py /home/master-nafsdm/start.py
   /usr/bin/env systemctl enable nafsdm-daemon
   chmod +x /home/master-nafsdm/startDaemon.py
 
