@@ -1,5 +1,7 @@
 # nafsdm
-**Current status: STABLE, version 1.3.1-stable**
+**:warning: Current status: DEPRECATED, version 1.3.1-stable**
+
+:warning: **nafsdm is no longer maintained and will not recieve any future updates! Use at your own risk.**
 
 Manages DNS nodes and makes sure domains are saved in the slaves configs. Runs on Python and SSH.
 
