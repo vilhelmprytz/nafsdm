@@ -132,6 +132,9 @@ def main():
     # prestart checks pass
     logging.info("Pre-start checks completed")
 
+    # deprecation
+    logging.warning("DEPRECATION 1.3.2-stable is the final release of nafsdm. Use it at your own risk.")
+
     # run the daemon itself
     runDaemon(config)
 

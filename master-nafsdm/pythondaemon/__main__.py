@@ -65,3 +65,5 @@ if not os.path.exists("/home/master-nafsdm/slaveAlive"):
 checkUpdate()
 
 log("nafsdm-master is now ready.")
+
+log("DEPRECATION WARNING: 1.3.2-stable is the final release of nafsdm. Use it at your own risk.")

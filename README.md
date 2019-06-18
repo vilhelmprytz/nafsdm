@@ -1,5 +1,5 @@
 # nafsdm
-**:warning: Current status: DEPRECATED, version 1.3.1-stable**
+**:warning: Current status: DEPRECATED, version 1.3.2-stable**
 
 :warning: **nafsdm is no longer maintained and will not recieve any future updates! Use at your own risk.**
 

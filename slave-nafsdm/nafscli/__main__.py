@@ -254,3 +254,5 @@ elif sys.argv[1] == "stop":
 
 else:
     print("nafscli: " + bcolors.FAIL + "no such command '" + bcolors.BOLD + sys.argv[1] + "'" + bcolors.ENDC)
+
+errorPrint("DEPRECATION WARNING: 1.3.2-stable is the final release of nafsdm. Use it at your own risk.")

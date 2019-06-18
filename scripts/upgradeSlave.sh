@@ -70,6 +70,9 @@ elif [ "$MY_VERSION_RAW" == 'version = "1.2.5-stable"' ]; then
 elif [ "$MY_VERSION_RAW" == 'version = "1.3-stable"' ]; then
   echo "* Detected version 1.3-stable - supported by this upgrade script."
   MY_VERSION="1.3-stable"
+elif [ "$MY_VERSION_RAW" == 'version = "1.3.1-stable"' ]; then
+  echo "* Detected version 1.3.1-stable - supported by this upgrade script."
+  MY_VERSION="1.3.1-stable"
 else
   if [ "$DEV_IC_MODE" == "False" ]; then
     echo "* Your version is not supported (dev versions and 1.0 is not supported)."
@@ -396,6 +399,31 @@ elif [ "$MY_VERSION" == "1.3-stable" ]; then
 
   echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
   rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
+
+elif [ "$MY_VERSION" == "1.3.1-stable" ]; then
+  echo "* Replacing python files.."
+  rm -rf /home/slave-nafsdm/pythondaemon
+  cp nafsdm/slave-nafsdm/pythondaemon /home/slave-nafsdm/pythondaemon -R
+
+  # nafscli reinstall (delete and copy) (from version 1.2.5 onwards)
+  echo "* Replacing nafscli.."
+  rm -rf /home/slave-nafsdm/nafscli
+  cp nafsdm/slave-nafsdm/nafscli /home/slave-nafsdm/nafscli -R
+
+  # install from req file (released in version 1.3.1)
+  echo "* Installing required python packages.."
+  pip install -r requirements.txt
+  rm -rf requirements.txt
+
+  # as of 1.3.1, replace systemd file
+  echo "* Replacing systemd service.."
+  rm -rf /etc/systemd/system/nafsdm-slave.service
+  cp nafsdm/systemconfigs/nafsdm-slave.service /etc/systemd/system/nafsdm-slave.service
+  systemctl daemon-reload
+
+  echo "* Upgrade completed. You can now start nafsdm-slave again (make sure master is also upgraded!)-"
+  rm -rf /home/slave-nafsdm/pythondaemon/tempUpgrade/temp_upgrade.sh
+
 
 # for dev versions
 elif [ "$MY_VERSION" == "dev_release" ]; then

@@ -300,3 +300,5 @@ elif (sys.argv[1] == "slavestatus"):
 else:
     printSyntax()
     exit(1)
+
+errorPrint("DEPRECATION WARNING: 1.3.2-stable is the final release of nafsdm. Use it at your own risk.")
